@@ -1,0 +1,47 @@
+.sale-banner {
+  background-color: black;
+  color: white;
+  justify-content: center;
+  padding: 10px 0;
+  word-spacing: 2px;
+
+  .shop-link {
+    color: white;
+    margin-left: 20px;
+    font-weight: 600;
+  }
+}
+
+.brand-logo {
+  color: var(--text-color);
+  font-size: 28px;
+  text-decoration: none;
+}
+
+.search-bar {
+  flex: 1;
+  padding: 10px 15px;
+  background: #f5f5f5;
+  border-radius: 4px;
+
+  input {
+    flex: 1;
+    border: none;
+    outline: none;
+    background-color: transparent;
+    font-size: 14px;
+  }
+}
+
+  .quantity {
+    position: absolute;
+    top: 3px;
+    right: 0;
+    background: var(--primary-color);
+    border-radius: 50%;
+    width: 18px;
+    height: 18px;
+    font-size: 12px;
+    color: white;
+    padding: 2px 5px;
+  }

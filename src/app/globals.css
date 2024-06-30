@@ -1,3 +1,29 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import url("https://fonts.googleapis.com/css2?family=Italiana&family=Lato:wght@100;300;400;700;900&family=Roboto:wght@100;300;400;500;700;900&display=swap");
+
+:root {
+  --border-color: #dbdbdb;
+
+  --primary-color: #db4444;
+  --text-color: #000000;
+
+  --icon-color: #444242;
+  --gold-star-color: #ffce3e;
+}
+
+* {
+  margin: 0px;
+  padding: 0px;
+  box-sizing: border-box;
+}
+
+.layout-container {
+    padding: 0px 200px;
+}
+
+.no-click {
+  pointer-events: none !important;
+}
+
+.transition {
+  transition: all 0.3s ease-in-out;
+}

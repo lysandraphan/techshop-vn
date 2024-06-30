@@ -1,11 +1,19 @@
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
-import "./globals.css";
 import { AppRouterCacheProvider } from "@mui/material-nextjs/v13-appRouter";
 import { ThemeProvider } from "@mui/material/styles";
 import theme from "../theme";
 
-const inter = Inter({ subsets: ["latin"] });
+// component
+import Header from "@/components/header/header.component";
+
+/// style
+import "./globals.css";
+import { Poppins } from "next/font/google";
+
+const poppins = Poppins({
+  subsets: ["latin"],
+  weight: ["100", "200", "300", "400", "500", "600", "700", "800", "900"],
+});
 
 export const metadata: Metadata = {
   title: "TechShopVN",
@@ -21,7 +29,12 @@ export default function RootLayout({
     <html lang="en">
       <AppRouterCacheProvider>
         <ThemeProvider theme={theme}>
-          <body className={inter.className}>{children}</body>
+          <body className={poppins.className}>
+            <header>
+              <Header />
+            </header>
+            {children}
+          </body>
         </ThemeProvider>
       </AppRouterCacheProvider>
     </html>
