@@ -8,7 +8,7 @@ import Link from "next/link";
 import "./header.styles.scss";
 
 // mui
-import { Inter } from "@next/font/google";
+import { Inter } from "next/font/google";
 import IconButton from "@mui/material/IconButton";
 import SearchIcon from "@mui/icons-material/Search";
 import FavoriteBorderOutlinedIcon from "@mui/icons-material/FavoriteBorderOutlined";
@@ -16,8 +16,6 @@ import ShoppingCartOutlinedIcon from "@mui/icons-material/ShoppingCartOutlined";
 import AccountIcon from "./account-icon/account-icon.component";
 import Stack from "@mui/material/Stack";
 import Container from "@mui/material/Container";
-import List from "@mui/material/List";
-import ListItemIcon from "@mui/material/ListItemIcon";
 import Divider from "@mui/material/Divider";
 import Typography from "@mui/material/Typography";
 
@@ -28,7 +26,7 @@ const inter = Inter({
 
 export default function Header() {
   const isLoggedIn = false; //test
-  const router = useRouter();
+  const history = useRouter();
 
   return (
     <Fragment>
@@ -64,7 +62,7 @@ export default function Header() {
             <IconButton
               color="primary"
               aria-label="cart"
-              onClick={() => router.push("/wishlist")}
+              onClick={() => history.push("/wishlist")}
             >
               <FavoriteBorderOutlinedIcon sx={{ fontSize: 30 }} />
               {isLoggedIn && <span className="quantity">4</span>}
@@ -72,7 +70,7 @@ export default function Header() {
             <IconButton
               color="primary"
               aria-label="cart"
-              onClick={() => router.push("/cart")}
+              onClick={() => history.push("/cart")}
             >
               <ShoppingCartOutlinedIcon sx={{ fontSize: 30 }} />
               {isLoggedIn && <span className="quantity">2</span>}

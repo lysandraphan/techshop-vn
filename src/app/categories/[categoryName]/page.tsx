@@ -5,5 +5,5 @@ export default function Categories({
 }: {
   params: { categoryName: string };
 }) {
-  return <div>Categories {params.categoryName}</div>;
+  return <div> Category: {params.categoryName}</div>;
 }
