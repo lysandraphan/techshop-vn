@@ -1,6 +1,5 @@
 "use client";
 
-import { Fragment } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 
@@ -41,14 +40,17 @@ export default function Header() {
 
       <div className="layout-container">
         <Grid container spacing={2} py={3} alignItems="center">
-          <Grid item sm={2}>
+          {/*-------------------------- Brand Logo --------------------------*/}
+
+          <Grid item md={3}>
             <Link href="/" className={`brand-logo ${inter.className}`}>
               TechShopVn
             </Link>
           </Grid>
 
-          <Grid item sm={8}>
-            <Stack direction="row" ml={2} mr={4} className="search-bar">
+          {/*-------------------------- Search Bar --------------------------*/}
+          <Grid item md={7}>
+            <Stack direction="row" className="search-bar">
               <input type="text" placeholder="What are you looking for?" />
               <IconButton color="primary" onClick={() => {}}>
                 <SearchIcon />
@@ -56,8 +58,9 @@ export default function Header() {
             </Stack>
           </Grid>
 
-          <Grid item sm={2}>
-            <Stack direction="row" spacing={1}>
+          {/*-------------------------- Icon Button Group --------------------------*/}
+          <Grid item md={2}>
+            <Stack direction="row" spacing={1} justifyContent="flex-end">
               <IconButton
                 color="primary"
                 aria-label="cart"
