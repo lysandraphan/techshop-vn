@@ -1,31 +1,20 @@
-import CategorySection from "@/components/category-section/category-section.component";
-
+// style
 import "./page.module.css";
 
-//mui
-import Typography from "@mui/material/Typography";
-import Container from "@mui/material/Container";
-import Box from "@mui/material/Box";
-import Image from "next/image";
-import { Stack } from "@mui/material";
+// component
+import CategorySection from "@/components/category-section/category-section.component";
+import ProductCard from "@/components/product-card/product-card.component";
+import SectionHeader from "@/components/section-header/section-header.component";
 
 export default function Home() {
   return (
-    <Container className="layout-container">
+    <div className="layout-container">
       <CategorySection />
-      <Stack direction="row" mt={5} sx={{ alignItems: "center" }}>
-        <Box
-          sx={{
-            width: 20,
-            height: 45,
-            borderRadius: 1,
-            bgcolor: "secondary.main",
-          }}
-        />
-        <Typography variant="h6" color="secondary" ml={1}>
-          This Month
-        </Typography>
-      </Stack>
-    </Container>
+      <SectionHeader
+        smallHeader="This Month"
+        largeHeader="Best Selling Products"
+      />
+      <ProductCard />
+    </div>
   );
 }

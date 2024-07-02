@@ -5,7 +5,6 @@ import { useRouter } from "next/navigation";
 
 // mui
 import IconButton from "@mui/material/IconButton";
-import Tooltip from "@mui/material/Tooltip";
 import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
 import ListItemText from "@mui/material/ListItemText";
@@ -35,17 +34,15 @@ export default function AccountIcon({ isLoggedIn }: { isLoggedIn: boolean }) {
   return (
     <Fragment>
       {isLoggedIn ? (
-        <Tooltip title="Account settings">
-          <IconButton
-            onClick={handleClick}
-            size="small"
-            aria-controls={open ? "account-menu" : undefined}
-            aria-haspopup="true"
-            aria-expanded={open ? "true" : undefined}
-          >
-            <Avatar sx={{ width: 32, height: 30 }}>T</Avatar>
-          </IconButton>
-        </Tooltip>
+        <IconButton
+          onClick={handleClick}
+          size="small"
+          aria-controls={open ? "account-menu" : undefined}
+          aria-haspopup="true"
+          aria-expanded={open ? "true" : undefined}
+        >
+          <Avatar sx={{ width: 32, height: 30 }}>T</Avatar>
+        </IconButton>
       ) : (
         <IconButton
           color="secondary"
