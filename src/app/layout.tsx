@@ -5,6 +5,7 @@ import theme from "../theme";
 
 // component
 import Header from "@/components/header/header.component";
+import Footer from "@/components/footer/footer.component";
 
 /// style
 import "./globals.css";
@@ -32,6 +33,7 @@ export default function RootLayout({
           <body className={poppins.className}>
             <Header />
             {children}
+            <Footer />
           </body>
         </ThemeProvider>
       </AppRouterCacheProvider>
