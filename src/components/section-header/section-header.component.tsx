@@ -38,7 +38,7 @@ export default function SectionHeader({
         <Button
           variant="contained"
           color="secondary"
-          sx={{ width: "max-content", mb: 2, px: 4, py: 1 }}
+          sx={{ width: "max-content", px: 4, py: 1 }}
         >
           View All
         </Button>

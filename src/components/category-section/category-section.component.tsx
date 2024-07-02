@@ -1,7 +1,9 @@
 "use client";
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import axios from "axios";
+import Image from "next/image";
+import Carousel from "react-material-ui-carousel/dist/components/Carousel";
 
 //mui
 import Stack from "@mui/material/Stack";
@@ -11,9 +13,6 @@ import ListItemText from "@mui/material/ListItemText";
 import ListItemIcon from "@mui/material/ListItemIcon";
 import Divider from "@mui/material/Divider";
 import ChevronRightRoundedIcon from "@mui/icons-material/ChevronRightRounded";
-import Image from "next/image";
-import Carousel from "react-material-ui-carousel/dist/components/Carousel";
-import Container from "@mui/material/Container";
 
 interface CategoryData {
   categoryId: number;
@@ -75,13 +74,13 @@ export default function CategorySection() {
       divider={<Divider flexItem orientation="vertical" sx={{ mr: 5 }} />}
     >
       <MenuList sx={{ mt: 3 }}>
-        {categories.map((category, i) => {
+        {categories?.map((category) => {
           const categoryRoute = category.name
             .toLocaleLowerCase()
             .replace(/ /g, "-");
           return (
             <MenuItem
-              key={i}
+              key={category.categoryId}
               disableGutters
               onClick={() => history.push(`/categories/${categoryRoute}`)}
             >
