@@ -30,9 +30,7 @@ export default function RootLayout({
       <AppRouterCacheProvider>
         <ThemeProvider theme={theme}>
           <body className={poppins.className}>
-            <header>
-              <Header />
-            </header>
+            <Header />
             {children}
           </body>
         </ThemeProvider>
