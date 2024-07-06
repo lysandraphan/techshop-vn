@@ -1,0 +1,9 @@
+/* .react-multi-carousel-list {
+  position: unset !important;
+} */
+
+.carouselItem{
+    padding-right: 80px
+}  
+
+.react-multiple-carousel__arrow { right: 0 !important; } 

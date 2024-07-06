@@ -26,7 +26,14 @@ export default function SectionHeader({
               bgcolor: "secondary.main",
             }}
           />
-          <Typography variant="h6" color="secondary" ml={1} fontSize={15}>
+          <Typography
+            variant="h6"
+            color="secondary"
+            ml={1}
+            fontSize={16}
+            fontWeight={600}
+            sx={{ letterSpacing: 1 }}
+          >
             {smallHeader}
           </Typography>
         </Stack>

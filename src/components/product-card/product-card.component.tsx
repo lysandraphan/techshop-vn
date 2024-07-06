@@ -8,8 +8,10 @@ import Stack from "@mui/material/Stack";
 import Box from "@mui/material/Box";
 import Rating from "@mui/material/Rating";
 import StarRateRoundedIcon from "@mui/icons-material/StarRateRounded";
+import CustomImage from "../custom-image/custom-image.component";
 
 export default function ProductCard({ product }: { product: ProductData }) {
+  // -------------------------- VAR --------------------------s
   const stackSX = {
     transition: "transform ease-in 0.1s",
     willChange: "transform",
@@ -18,23 +20,25 @@ export default function ProductCard({ product }: { product: ProductData }) {
       transform: "translateY(-3px)",
     },
   };
+  // -------------------------- FUNCTION --------------------------
+  function displayPrice(price: number) {
+    return price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+  }
 
+  // -------------------------- MAIN --------------------------
   return (
     <Stack spacing={1} sx={stackSX}>
-      <div style={{ width: "100%", height: 280, position: "relative" }}>
-        <Image src="/product.jpg" alt="product" fill />
-      </div>
-
-      <Typography fontSize={18} fontWeight={500}>
+      <CustomImage src={product.imagePath} alt={product.name} height={200} />
+      <Typography fontSize={16} fontWeight={500}>
         {product.name}
       </Typography>
-      <Typography fontSize={18} color="secondary" fontWeight={500}>
-        ${product.price}
+      <Typography fontSize={16} color="secondary" fontWeight={500}>
+        ${displayPrice(product.price)}
       </Typography>
       <Box
         sx={{
           display: "flex",
-          alignItems: "flex-end",
+          alignItems: "center",
           fontSize: 1,
           mt: 0.7,
         }}
@@ -49,7 +53,7 @@ export default function ProductCard({ product }: { product: ProductData }) {
             <StarRateRoundedIcon style={{ opacity: 0.55 }} fontSize="inherit" />
           }
         />
-        <Box sx={{ ml: 0.7, mb:-0.3, fontSize: 14 }}>(95)</Box>
+        <Box sx={{ ml: 0.7, mb: -0.3, fontSize: 14 }}>(95)</Box>
       </Box>
     </Stack>
   );

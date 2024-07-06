@@ -20,6 +20,8 @@ export interface ProductData {
   quantity: number;
   description: string;
   price: number;
+  ratingScrore: number;
+  rateTotal: number;
   categoryDto: {
     categoryId: number;
     name: string;
@@ -43,8 +45,8 @@ export default function ProductList({ url }: { url: string }) {
   async function getProducts() {
     try {
       setIsLoading(true);
-      const response = await axios.get<ServerData>(url);
-      const result = response.data.items;
+      const response = await axios.get(url);
+      const result = response.data as ProductData[];
       setProducts(result);
       setIsLoading(false);
     } catch (error: any) {
@@ -60,7 +62,7 @@ export default function ProductList({ url }: { url: string }) {
 
   // -------------------------- MAIN --------------------------
   return (
-    <Grid container spacing={4} mt={1}>
+    <Grid container spacing={5} mt={1}>
       {products?.map((product) => (
         <Grid item md={3} key={product.productId}>
           <ProductCard product={product} />

@@ -17,6 +17,7 @@ import Stack from "@mui/material/Stack";
 import Divider from "@mui/material/Divider";
 import Typography from "@mui/material/Typography";
 import Grid from "@mui/material/Grid";
+import Container from "@mui/material/Container";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -38,7 +39,7 @@ export default function Header() {
         </Link>
       </Stack>
 
-      <div className="layout-container">
+      <Container>
         <Grid container spacing={2} py={3} alignItems="center">
           {/*-------------------------- Brand Logo --------------------------*/}
 
@@ -81,7 +82,7 @@ export default function Header() {
             </Stack>
           </Grid>
         </Grid>
-      </div>
+      </Container>
       <Divider />
     </header>
   );
