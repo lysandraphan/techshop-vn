@@ -15,20 +15,20 @@ import CustomImage from "@/components/custom-image/custom-image.component";
 
 // variable
 const carouselResponsive = {
-  superLargeDesktop: {
-    breakpoint: { max: 4000, min: 3000 },
-    items: 6,
+  lg: {
+    breakpoint: { max: 1536, min: 1200 },
+    items: 5,
   },
-  desktop: {
-    breakpoint: { max: 3000, min: 1024 },
+  md: {
+    breakpoint: { max: 1200, min: 900 },
     items: 4,
   },
-  tablet: {
-    breakpoint: { max: 1024, min: 464 },
+  sm: {
+    breakpoint: { max: 900, min: 600 },
     items: 3,
   },
-  mobile: {
-    breakpoint: { max: 464, min: 0 },
+  xs: {
+    breakpoint: { max: 600, min: 0 },
     items: 2,
   },
 };
@@ -76,7 +76,8 @@ export default function BrowseCategorySection({
               <CustomImage
                 src={category.imagePath}
                 alt="banner"
-                height={200}
+                width="80%"
+                height={150}
               />
               <Typography>{category.name}</Typography>
             </Stack>

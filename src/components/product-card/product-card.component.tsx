@@ -28,7 +28,22 @@ export default function ProductCard({ product }: { product: ProductData }) {
   // -------------------------- MAIN --------------------------
   return (
     <Stack spacing={1} sx={stackSX}>
-      <CustomImage src={product.imagePath} alt={product.name} height={200} />
+      <Box
+        sx={{
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+        }}
+        width="inherit"
+        height={200}
+      >
+        <CustomImage
+          src={product.imagePath}
+          alt={product.name}
+          width="60%"
+          height="60%"
+        />
+      </Box>
       <Typography fontSize={16} fontWeight={500}>
         {product.name}
       </Typography>

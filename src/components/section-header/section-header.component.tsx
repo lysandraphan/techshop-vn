@@ -15,9 +15,9 @@ export default function SectionHeader({
   largeHeader,
 }: SectionHeaderProps) {
   return (
-    <Stack direction="row" sx={{ alignItems: "flex-end" }}>
+    <Stack direction="row" alignItems="flex-end">
       <Container disableGutters>
-        <Stack direction="row" mt={10} sx={{ alignItems: "center" }}>
+        <Stack direction="row" mt={10} alignItems="center">
           <Box
             sx={{
               width: 20,

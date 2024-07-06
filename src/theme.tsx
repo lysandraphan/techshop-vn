@@ -1,5 +1,4 @@
-"use client";
-
+"use client"
 import { createTheme } from "@mui/material/styles";
 import { Poppins } from "next/font/google";
 
@@ -14,6 +13,7 @@ const theme = createTheme({
     primary: {
       main: "#000",
       contrastText: "#fff",
+      light: "#f5f5f5",
     },
     secondary: {
       main: "#db4444",

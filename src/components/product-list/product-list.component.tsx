@@ -6,14 +6,6 @@ import axios from "axios";
 import ProductCard from "@/components/product-card/product-card.component";
 import Grid from "@mui/material/Grid";
 
-interface ServerData {
-  currentPage: number;
-  totalPages: number;
-  pageSize: number;
-  totalElements: number;
-  items: ProductData[];
-}
-
 export interface ProductData {
   productId: number;
   name: string;
@@ -64,7 +56,7 @@ export default function ProductList({ url }: { url: string }) {
   return (
     <Grid container spacing={5} mt={1}>
       {products?.map((product) => (
-        <Grid item md={3} key={product.productId}>
+        <Grid item xs={6} sm={4} md={3} key={product.productId}>
           <ProductCard product={product} />
         </Grid>
       ))}

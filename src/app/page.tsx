@@ -98,7 +98,12 @@ export default function Home() {
         largeHeader="Browse By Category"
         categories={categories}
       />
-      <CustomImage src="/banner-3.jpg" alt="banner" height={450} mt={50} />
+      <CustomImage
+        src="/banner-3.jpg"
+        alt="banner"
+        height={450}
+        mt={50}
+      />
       <InfoSection />
     </Container>
   );
