@@ -1,7 +1,10 @@
 import type { Metadata } from "next";
 import { AppRouterCacheProvider } from "@mui/material-nextjs/v13-appRouter";
 import { ThemeProvider } from "@mui/material/styles";
+
+// internal
 import theme from "../theme";
+import StoreProvider from "../redux/StoreProvider";
 
 // component
 import Header from "@/components/header/header.component";
@@ -32,7 +35,7 @@ export default function RootLayout({
         <ThemeProvider theme={theme}>
           <body className={poppins.className}>
             <Header />
-            {children}
+            <StoreProvider>{children}</StoreProvider>
             <Footer />
           </body>
         </ThemeProvider>
