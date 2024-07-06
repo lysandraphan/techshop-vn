@@ -15,7 +15,7 @@ export default function CustomImage({
   width = "100%",
   height,
   mt,
-  mb
+  mb,
 }: CustomImageProps) {
   return (
     <div
@@ -27,7 +27,13 @@ export default function CustomImage({
         position: "relative",
       }}
     >
-      <Image src={src} alt={alt} fill />
+      <Image
+        src={src}
+        alt={alt}
+        sizes="(max-width: 600px) 50vw, 100vw"
+        fill
+        priority
+      />
     </div>
   );
 }
