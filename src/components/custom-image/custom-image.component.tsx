@@ -1,7 +1,7 @@
 import Image from "next/image";
 
 interface CustomImageProps {
-  src: string;
+  src: string | null;
   alt: string;
   width?: string | number;
   height: string | number;
@@ -28,7 +28,7 @@ export default function CustomImage({
       }}
     >
       <Image
-        src={src}
+        src={src === null ? "/no-image.png" : src}
         alt={alt}
         sizes="(max-width: 600px) 50vw, 100vw"
         fill
