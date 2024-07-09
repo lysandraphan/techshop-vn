@@ -24,7 +24,6 @@ export default function Footer() {
         divider={
           <Divider
             flexItem
-            orientation="horizontal"
             sx={{ mt: 3, mb: 3, backgroundColor: "primary.light" }}
           />
         }

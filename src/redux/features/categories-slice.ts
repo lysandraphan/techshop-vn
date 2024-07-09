@@ -1,4 +1,5 @@
-import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
+import { createSlice, createAsyncThunk, PayloadAction } from "@reduxjs/toolkit";
+import { RootState } from "../store";
 
 // -------------------------- INTERFACE --------------------------
 interface CategoriesState {
@@ -62,3 +63,9 @@ export const categories = createSlice({
 });
 
 export default categories.reducer;
+
+// Select Category
+export const selectCategory = (state: RootState, categoryId: number) =>
+  state.categories.categories.find(
+    (category) => category.categoryId === categoryId
+  );

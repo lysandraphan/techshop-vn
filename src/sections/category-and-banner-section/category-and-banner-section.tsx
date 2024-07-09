@@ -1,9 +1,14 @@
+"use client";
+import { useEffect } from "react";
+
 import { useRouter } from "next/navigation";
 import Carousel from "react-material-ui-carousel/dist/components/Carousel";
 
 // internal
-import { useAppSelector } from "@/redux/hooks";
+import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import { getCategoryRoute } from "@/redux/features/categories-slice";
+import { fetchBanners } from "@/redux/features/banners-slice";
+
 
 // mui
 import Stack from "@mui/material/Stack";
@@ -18,7 +23,6 @@ import Box from "@mui/material/Box";
 
 // component
 import CustomImage from "@/components/custom-image/custom-image.component";
-import { fetchBanners } from "@/redux/features/banners-slice";
 
 const CategoryAndBannerSection = () => {
   // -------------------------- VAR --------------------------
@@ -27,6 +31,11 @@ const CategoryAndBannerSection = () => {
   const banners = useAppSelector((state) => state.banners.banners);
 
   const history = useRouter();
+
+  // const dispatch = useAppDispatch();
+  // useEffect(() => {
+  //   dispatch(fetchBanners())
+  // }, []);
 
   // -------------------------- MAIN --------------------------
   if (isLoading)
