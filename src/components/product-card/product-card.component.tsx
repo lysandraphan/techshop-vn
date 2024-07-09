@@ -10,7 +10,15 @@ import Rating from "@mui/material/Rating";
 import StarRateRoundedIcon from "@mui/icons-material/StarRateRounded";
 import CustomImage from "../custom-image/custom-image.component";
 
-export default function ProductCard({ product }: { product: ProductData }) {
+interface ProductCardProps {
+  product: ProductData;
+  isInCategory?: boolean;
+}
+
+export default function ProductCard({
+  product,
+  isInCategory,
+}: ProductCardProps) {
   // -------------------------- VAR --------------------------s
   const stackSX = {
     transition: "transform ease-in 0.1s",
@@ -27,7 +35,14 @@ export default function ProductCard({ product }: { product: ProductData }) {
 
   // -------------------------- MAIN --------------------------
   return (
-    <Stack spacing={1} sx={stackSX}>
+    <Stack
+      spacing={1}
+      sx={stackSX}
+      px={2}
+      pb={2}
+      border={isInCategory ? "2px solid #E4E7E9" : "none"}
+      borderRadius={isInCategory ? 2 : 0}
+    >
       <Box
         sx={{
           display: "flex",
@@ -44,7 +59,17 @@ export default function ProductCard({ product }: { product: ProductData }) {
           height="60%"
         />
       </Box>
-      <Typography fontSize={16} fontWeight={500}>
+      <Typography
+        fontSize={16}
+        fontWeight={500}
+        sx={{
+          overflow: "hidden",
+          textOverflow: "ellipsis",
+          display: "-webkit-box",
+          WebkitLineClamp: "2",
+          WebkitBoxOrient: "vertical",
+        }}
+      >
         {product.name}
       </Typography>
       <Typography fontSize={16} color="secondary" fontWeight={500}>
@@ -60,7 +85,7 @@ export default function ProductCard({ product }: { product: ProductData }) {
       >
         <Rating
           name="text-feedback"
-          value={4.5}
+          value={product.ratingScrore}
           readOnly
           precision={0.5}
           sx={{ fontSize: 20 }}
@@ -68,7 +93,9 @@ export default function ProductCard({ product }: { product: ProductData }) {
             <StarRateRoundedIcon style={{ opacity: 0.55 }} fontSize="inherit" />
           }
         />
-        <Box sx={{ ml: 0.7, mb: -0.3, fontSize: 14 }}>(95)</Box>
+        <Box sx={{ ml: 0.7, mb: -0.3, fontSize: 14 }}>
+          ({product.rateTotal})
+        </Box>
       </Box>
     </Stack>
   );

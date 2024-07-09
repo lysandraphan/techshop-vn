@@ -28,7 +28,12 @@ export interface ProductData {
   imagesPath: [];
 }
 
-export default function ProductList({ url }: { url: string }) {
+interface ProductListProps {
+  url: string;
+  isInCategory?: boolean;
+}
+
+export default function ProductList({ url, isInCategory }: ProductListProps) {
   // -------------------------- STATE --------------------------
   const [products, setProducts] = useState<ProductData[]>([]);
   const [isLoading, setIsLoading] = useState(false);
@@ -38,7 +43,12 @@ export default function ProductList({ url }: { url: string }) {
     try {
       setIsLoading(true);
       const response = await axios.get(url);
-      const result = response.data as ProductData[];
+      let result;
+      if (isInCategory) {
+        result = response.data.items as ProductData[];
+      } else {
+        result = response.data as ProductData[];
+      }
       setProducts(result);
       setIsLoading(false);
     } catch (error: any) {
@@ -54,12 +64,13 @@ export default function ProductList({ url }: { url: string }) {
 
   // -------------------------- MAIN --------------------------
   return (
-    <Grid container spacing={5} mt={1}>
-      {products?.map((product) => (
-        <Grid item xs={6} sm={4} md={3} key={product.productId}>
-          <ProductCard product={product} />
-        </Grid>
-      ))}
+    <Grid container columnSpacing={3} rowSpacing={3} mt={1}>
+      {products &&
+        products?.map((product) => (
+          <Grid item xs={6} sm={4} md={3} key={product.productId}>
+            <ProductCard product={product} isInCategory={isInCategory} />
+          </Grid>
+        ))}
     </Grid>
   );
 }
