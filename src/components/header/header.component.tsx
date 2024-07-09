@@ -75,6 +75,7 @@ export default function Header() {
           <Grid item md={3}>
             <Link
               href="/"
+              component={NextLink}
               fontFamily={inter.style.fontFamily}
               underline="none"
               color="primary"
