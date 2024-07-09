@@ -13,18 +13,28 @@ import ListItemText from "@mui/material/ListItemText";
 import ListItemIcon from "@mui/material/ListItemIcon";
 import Divider from "@mui/material/Divider";
 import ChevronRightRoundedIcon from "@mui/icons-material/ChevronRightRounded";
+import CircularProgress from "@mui/material/CircularProgress";
+import Box from "@mui/material/Box";
 
 // component
 import CustomImage from "@/components/custom-image/custom-image.component";
+import { fetchBanners } from "@/redux/features/banners-slice";
 
-export default function CategoryAndBannerSection() {
+const CategoryAndBannerSection = () => {
   // -------------------------- VAR --------------------------
   const categories = useAppSelector((state) => state.categories.categories);
+  const isLoading = useAppSelector((state) => state.categories.isLoading);
   const banners = useAppSelector((state) => state.banners.banners);
 
   const history = useRouter();
 
   // -------------------------- MAIN --------------------------
+  if (isLoading)
+    return (
+      <Box sx={{ display: "flex", alignItems: "center", justifyContent: "center", p: 5 }}>
+        <CircularProgress />
+      </Box>
+    );
   return (
     <Stack
       direction="row"
@@ -37,7 +47,11 @@ export default function CategoryAndBannerSection() {
               key={category.categoryId}
               disableGutters
               onClick={() =>
-                history.push(`/categories/${getCategoryRoute(category.name)}`)
+                history.push(
+                  `/categories/${getCategoryRoute(category.name)}?id=${
+                    category.categoryId
+                  }`
+                )
               }
             >
               <ListItemText>{category.name}</ListItemText>
@@ -68,4 +82,6 @@ export default function CategoryAndBannerSection() {
       </Carousel>
     </Stack>
   );
-}
+};
+
+export default CategoryAndBannerSection;

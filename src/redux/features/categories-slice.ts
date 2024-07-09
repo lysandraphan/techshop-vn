@@ -52,13 +52,13 @@ export const categories = createSlice({
     });
     builder.addCase(fetchCategories.fulfilled, (state, action) => {
       state.categories = action.payload;
+      state.isLoading = false;
     });
     builder.addCase(fetchCategories.rejected, (state, action) => {
       state.error = action.error;
+      state.isLoading = false;
     });
   },
 });
 
-// export const { fetchCategoriesStart, fetchCategoriesFailed } =
-//   categories.actions;
 export default categories.reducer;

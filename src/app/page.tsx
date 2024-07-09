@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 // internal
 import { useAppDispatch } from "@/redux/hooks";
 import { fetchCategories } from "@/redux/features/categories-slice";
+import { fetchBanners } from "@/redux/features/banners-slice";
 
 // style
 import "./page.module.css";
@@ -19,7 +20,6 @@ import BestSellingSection from "@/sections/best-selling-section/best-selling-sec
 import BrowseCategorySection from "@/sections/browse-category-section/browse-category-section";
 import NewArrivalSection from "@/sections/new-arrival-section/new-arrival-section";
 import InfoSection from "@/sections/info-section/info-section";
-import { fetchBanners } from "@/redux/features/banners-slice";
 
 export default function Home() {
   // -------------------------- VAR --------------------------
@@ -35,7 +35,7 @@ export default function Home() {
   useEffect(() => {
     dispatch(fetchCategories())
     dispatch(fetchBanners())
-  }, [dispatch]);
+  }, []);
 
   // -------------------------- MAIN --------------------------
   return (
