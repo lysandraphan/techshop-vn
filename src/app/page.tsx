@@ -1,6 +1,9 @@
 "use client";
 import { useEffect, useState } from "react";
-import axios from "axios";
+
+// internal
+import { useAppDispatch } from "@/redux/hooks";
+import { fetchCategories } from "@/redux/features/categories-slice";
 
 // style
 import "./page.module.css";
@@ -21,14 +24,10 @@ import InfoSection from "@/sections/info-section/info-section";
 
 export default function Home() {
   // -------------------------- STATE --------------------------
-  const [categories, setCategories] = useState<CategoryData[]>([]);
   const [banners, setBanners] = useState<BannerData[]>([]);
   const [isLoading, setIsLoading] = useState(false);
 
   // -------------------------- VAR --------------------------
-  const categoriesUrl =
-    "https://g5-likelion-ecommerce.onrender.com/categories/public/all";
-
   const bannersUrl =
     "https://g5-likelion-ecommerce.onrender.com/banner-images/public/all";
 
@@ -38,23 +37,9 @@ export default function Home() {
   const newArrivalUrl =
     "https://g5-likelion-ecommerce.onrender.com/product/public/new-arrival";
 
+  const dispatch = useAppDispatch();
+
   // -------------------------- FUNCTION --------------------------
-  async function getCategories() {
-    try {
-      setIsLoading(true);
-      // const response = await axios.get<CategoryData[]>(categoriesUrl);
-      const response = await fetch(`${categoriesUrl}`, {
-        cache: "force-cache",
-      });
-      // const result = response.data;
-      const result = (await response.json()) as CategoryData[];
-      setCategories(result);
-      setIsLoading(false);
-    } catch (error: any) {
-      setIsLoading(false);
-      console.log(error.message);
-    }
-  }
   async function getBanners() {
     try {
       setIsLoading(true);
@@ -74,14 +59,14 @@ export default function Home() {
 
   // -------------------------- EFFECT --------------------------
   useEffect(() => {
-    getCategories();
+    dispatch(fetchCategories())
     getBanners();
-  }, []);
+  }, [dispatch]);
 
   // -------------------------- MAIN --------------------------
   return (
     <Container>
-      <CategoryAndBannerSection categories={categories} banners={banners} />
+      <CategoryAndBannerSection banners={banners} />
       <BestSellingSection
         smallHeader="This Month"
         largeHeader="Best Selling Products"
@@ -96,7 +81,6 @@ export default function Home() {
       <BrowseCategorySection
         smallHeader="Categories"
         largeHeader="Browse By Category"
-        categories={categories}
       />
       <CustomImage src="/banner-3.jpg" alt="banner" height={450} mt={50} />
       <InfoSection />

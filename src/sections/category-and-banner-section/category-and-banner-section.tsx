@@ -2,7 +2,9 @@ import { useRouter } from "next/navigation";
 import Carousel from "react-material-ui-carousel/dist/components/Carousel";
 
 // internal
-import { BannerData, CategoryData } from "@/interface";
+import { BannerData } from "@/interface";
+import { useAppSelector } from "@/redux/hooks";
+import { getCategoryRoute } from "@/redux/features/categories-slice";
 
 // mui
 import Stack from "@mui/material/Stack";
@@ -17,19 +19,14 @@ import ChevronRightRoundedIcon from "@mui/icons-material/ChevronRightRounded";
 import CustomImage from "@/components/custom-image/custom-image.component";
 
 export default function CategoryAndBannerSection({
-  categories,
   banners,
 }: {
-  categories: CategoryData[];
   banners: BannerData[];
 }) {
   // -------------------------- VAR --------------------------
-  const history = useRouter();
+  const categories = useAppSelector((state) => state.categories.categories);
 
-  // -------------------------- FUNCTION --------------------------
-  const getCategoryRoute = (categoryName: string) => {
-    return categoryName.toLocaleLowerCase().replace(/ /g, "-");
-  };
+  const history = useRouter();
 
   // -------------------------- MAIN --------------------------
   return (
@@ -38,7 +35,7 @@ export default function CategoryAndBannerSection({
       divider={<Divider flexItem orientation="vertical" sx={{ mr: 5 }} />}
     >
       <MenuList sx={{ mt: 3 }}>
-        {categories?.map((category) => (
+        {categories && categories.map((category) => (
           <MenuItem
             key={category.categoryId}
             disableGutters

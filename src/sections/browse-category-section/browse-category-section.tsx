@@ -3,7 +3,8 @@ import { useRouter } from "next/navigation";
 import Carousel from "react-multi-carousel";
 
 // internal
-import { CategoryData } from "@/interface";
+import { useAppSelector } from "@/redux/hooks";
+import { getCategoryRoute } from "@/redux/features/categories-slice";
 
 // mui
 import Typography from "@mui/material/Typography";
@@ -34,21 +35,16 @@ const carouselResponsive = {
 };
 
 export default function BrowseCategorySection({
-  categories,
   smallHeader,
   largeHeader,
 }: {
-  categories: CategoryData[];
   smallHeader: string;
   largeHeader: string;
 }) {
   // -------------------------- VAR --------------------------
-  const history = useRouter();
+  const categories = useAppSelector((state) => state.categories.categories);
 
-  // -------------------------- FUNCTION --------------------------
-  const getCategoryRoute = (categoryName: string) => {
-    return categoryName.toLocaleLowerCase().replace(/ /g, "-");
-  };
+  const history = useRouter();
 
   return (
     <Fragment>
@@ -63,25 +59,26 @@ export default function BrowseCategorySection({
           containerClass="carousel-container"
           itemClass="carouselItem"
         >
-          {categories.map((category) => (
-            <Stack
-              key={category.categoryId}
-              alignItems="center"
-              spacing={1}
-              onClick={() =>
-                history.push(`/categories/${getCategoryRoute(category.name)}`)
-              }
-              sx={{ cursor: "pointer" }}
-            >
-              <CustomImage
-                src={category.imagePath}
-                alt="banner"
-                width="80%"
-                height={150}
-              />
-              <Typography>{category.name}</Typography>
-            </Stack>
-          ))}
+          {categories &&
+            categories.map((category) => (
+              <Stack
+                key={category.categoryId}
+                alignItems="center"
+                spacing={1}
+                onClick={() =>
+                  history.push(`/categories/${getCategoryRoute(category.name)}`)
+                }
+                sx={{ cursor: "pointer" }}
+              >
+                <CustomImage
+                  src={category.imagePath}
+                  alt="banner"
+                  width="80%"
+                  height={150}
+                />
+                <Typography textAlign="center">{category.name}</Typography>
+              </Stack>
+            ))}
         </Carousel>
       </div>
     </Fragment>
