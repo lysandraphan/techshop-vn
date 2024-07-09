@@ -9,8 +9,6 @@ import { fetchCategories } from "@/redux/features/categories-slice";
 import "./page.module.css";
 import "react-multi-carousel/lib/styles.css";
 
-import { BannerData, CategoryData } from "@/interface";
-
 // mui
 import Container from "@mui/material/Container";
 
@@ -21,16 +19,10 @@ import BestSellingSection from "@/sections/best-selling-section/best-selling-sec
 import BrowseCategorySection from "@/sections/browse-category-section/browse-category-section";
 import NewArrivalSection from "@/sections/new-arrival-section/new-arrival-section";
 import InfoSection from "@/sections/info-section/info-section";
+import { fetchBanners } from "@/redux/features/banners-slice";
 
 export default function Home() {
-  // -------------------------- STATE --------------------------
-  const [banners, setBanners] = useState<BannerData[]>([]);
-  const [isLoading, setIsLoading] = useState(false);
-
   // -------------------------- VAR --------------------------
-  const bannersUrl =
-    "https://g5-likelion-ecommerce.onrender.com/banner-images/public/all";
-
   const bestSellingUrl =
     "https://g5-likelion-ecommerce.onrender.com/product/public/best-selling";
 
@@ -39,34 +31,16 @@ export default function Home() {
 
   const dispatch = useAppDispatch();
 
-  // -------------------------- FUNCTION --------------------------
-  async function getBanners() {
-    try {
-      setIsLoading(true);
-      // const response = await axios.get<CategoryData[]>(categoriesUrl);
-      const response = await fetch(`${bannersUrl}`, {
-        cache: "force-cache",
-      });
-      // const result = response.data;
-      const result = (await response.json()) as BannerData[];
-      setBanners(result);
-      setIsLoading(false);
-    } catch (error: any) {
-      setIsLoading(false);
-      console.log(error.message);
-    }
-  }
-
   // -------------------------- EFFECT --------------------------
   useEffect(() => {
     dispatch(fetchCategories())
-    getBanners();
+    dispatch(fetchBanners())
   }, [dispatch]);
 
   // -------------------------- MAIN --------------------------
   return (
     <Container>
-      <CategoryAndBannerSection banners={banners} />
+      <CategoryAndBannerSection />
       <BestSellingSection
         smallHeader="This Month"
         largeHeader="Best Selling Products"

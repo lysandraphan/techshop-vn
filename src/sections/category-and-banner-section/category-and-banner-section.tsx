@@ -2,7 +2,6 @@ import { useRouter } from "next/navigation";
 import Carousel from "react-material-ui-carousel/dist/components/Carousel";
 
 // internal
-import { BannerData } from "@/interface";
 import { useAppSelector } from "@/redux/hooks";
 import { getCategoryRoute } from "@/redux/features/categories-slice";
 
@@ -18,13 +17,10 @@ import ChevronRightRoundedIcon from "@mui/icons-material/ChevronRightRounded";
 // component
 import CustomImage from "@/components/custom-image/custom-image.component";
 
-export default function CategoryAndBannerSection({
-  banners,
-}: {
-  banners: BannerData[];
-}) {
+export default function CategoryAndBannerSection() {
   // -------------------------- VAR --------------------------
   const categories = useAppSelector((state) => state.categories.categories);
+  const banners = useAppSelector((state) => state.banners.banners);
 
   const history = useRouter();
 
@@ -35,20 +31,21 @@ export default function CategoryAndBannerSection({
       divider={<Divider flexItem orientation="vertical" sx={{ mr: 5 }} />}
     >
       <MenuList sx={{ mt: 3 }}>
-        {categories && categories.map((category) => (
-          <MenuItem
-            key={category.categoryId}
-            disableGutters
-            onClick={() =>
-              history.push(`/categories/${getCategoryRoute(category.name)}`)
-            }
-          >
-            <ListItemText>{category.name}</ListItemText>
-            <ListItemIcon sx={{ ml: 3 }}>
-              <ChevronRightRoundedIcon fontSize="small" />
-            </ListItemIcon>
-          </MenuItem>
-        ))}
+        {categories &&
+          categories.map((category) => (
+            <MenuItem
+              key={category.categoryId}
+              disableGutters
+              onClick={() =>
+                history.push(`/categories/${getCategoryRoute(category.name)}`)
+              }
+            >
+              <ListItemText>{category.name}</ListItemText>
+              <ListItemIcon sx={{ ml: 3 }}>
+                <ChevronRightRoundedIcon fontSize="small" />
+              </ListItemIcon>
+            </MenuItem>
+          ))}
       </MenuList>
       <Carousel
         sx={{ flex: 1, mt: 5 }}
