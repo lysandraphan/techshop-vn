@@ -7,9 +7,8 @@ import ProductCard from "@/components/product-card/product-card.component";
 import Grid from "@mui/material/Grid";
 import CircularProgress from "@mui/material/CircularProgress";
 import Box from "@mui/material/Box";
-import { useAppDispatch, useAppSelector } from "@/redux/hooks";
-// import { fetchProducts } from "@/redux/features/products-slice";
 
+// interface
 export interface ProductData {
   productId: number;
   name: string;
@@ -35,9 +34,15 @@ export interface ProductData {
 interface ProductListProps {
   api: string;
   isInCategory?: boolean;
+  filteredPrice?: [number, number];
 }
 
-export default function ProductList({ api, isInCategory }: ProductListProps) {
+// EXPORT DEFAULT
+export default function ProductList({
+  api,
+  isInCategory,
+  filteredPrice,
+}: ProductListProps) {
   // -------------------------- STATE --------------------------
   const [products, setProducts] = useState<ProductData[]>([]);
   const [isLoading, setIsLoading] = useState(false);
@@ -53,7 +58,18 @@ export default function ProductList({ api, isInCategory }: ProductListProps) {
       } else {
         result = response.data as ProductData[];
       }
-      setProducts(result);
+
+      // filter price
+      if (filteredPrice) {
+        const filteredProduct = result.filter(
+          (product) =>
+            product.price >= filteredPrice[0] &&
+            product.price <= filteredPrice[1]
+        );
+        setProducts(filteredProduct);
+      } else {
+        setProducts(result);
+      }
       setIsLoading(false);
     } catch (error: any) {
       setIsLoading(false);
@@ -61,13 +77,10 @@ export default function ProductList({ api, isInCategory }: ProductListProps) {
     }
   }
 
-  // const products = useAppSelector((state) => state.products.products);
-
   // -------------------------- EFFECT --------------------------
   useEffect(() => {
     getProducts();
-    // dispatch(fetchProducts(api));
-  }, []);
+  }, [filteredPrice]);
 
   // -------------------------- MAIN --------------------------
   if (isLoading)
@@ -86,24 +99,25 @@ export default function ProductList({ api, isInCategory }: ProductListProps) {
 
   return (
     <Grid container columnSpacing={3} rowSpacing={3} mt={1}>
-      {products.length !== 0
-        ? products.map((product) => (
-            <Grid item xs={6} sm={4} md={3} key={product.productId}>
-              <ProductCard product={product} isInCategory={isInCategory} />
-            </Grid>
-          ))
-        :
+      {products.length !== 0 ? (
+        products.map((product) => (
+          <Grid item xs={6} sm={4} md={3} key={product.productId}>
+            <ProductCard product={product} isInCategory={isInCategory} />
+          </Grid>
+        ))
+      ) : (
         <Box
-        sx={{
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "center",
-          width: "auto",
-          p: 5,
-        }}>
+          sx={{
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            width: "auto",
+            p: 5,
+          }}
+        >
           No Product Found
-        </Box> 
-        }
+        </Box>
+      )}
     </Grid>
   );
 }

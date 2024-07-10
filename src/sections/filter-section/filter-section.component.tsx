@@ -18,12 +18,16 @@ import FilterPrice from "@/components/filter-price/filter-price.component";
 interface FilterSectionProps {
   filteredCategory: [number, string];
   changeFilteredCategory: (newFilterCategory: [number, string]) => void;
+  filteredPrice: [number, number];
+  changeFilteredPrice: (newFilteredPrice: [number, number]) => void;
 }
 
 // EXPORT DEFAULT
 export default function FilterSection({
   filteredCategory,
   changeFilteredCategory,
+  filteredPrice,
+  changeFilteredPrice,
 }: FilterSectionProps) {
   // -------------------------- VAR --------------------------
   const categories = useAppSelector((state) => state.categories.categories);
@@ -75,7 +79,10 @@ export default function FilterSection({
           ))}
         </RadioGroup>
       </FormControl>
-      <FilterPrice />
+      <FilterPrice
+        filteredPrice={filteredPrice}
+        changeFilteredPrice={changeFilteredPrice}
+      />
     </Stack>
   );
 }

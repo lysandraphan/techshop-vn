@@ -29,7 +29,9 @@ export default function Categories() {
 
   const categoryId = parseInt(searchParams.get("id") as string);
 
-  const category = useAppSelector((state) => selectCategory(state, categoryId));
+  const category = useAppSelector((state: any) =>
+    selectCategory(state, categoryId)
+  );
 
   const history = useRouter();
 
@@ -43,6 +45,10 @@ export default function Categories() {
     category.name,
   ]);
 
+  const [filteredPrice, setFilteredPrice] = useState<[number, number]>([
+    0, 1000000,
+  ]);
+
   // -------------------------- FUNCTION --------------------------
   const changeFilteredCategory = (newFilteredCategory: [number, string]) => {
     setFilteredCategory(newFilteredCategory);
@@ -51,6 +57,10 @@ export default function Categories() {
         newFilteredCategory[0]
       }`
     );
+  };
+
+  const changeFilteredPrice = (newFilteredPrice: [number, number]) => {
+    setFilteredPrice(newFilteredPrice);
   };
 
   // -------------------------- MAIN --------------------------
@@ -94,10 +104,12 @@ export default function Categories() {
           <FilterSection
             filteredCategory={filteredCategory}
             changeFilteredCategory={changeFilteredCategory}
+            filteredPrice={filteredPrice}
+            changeFilteredPrice={changeFilteredPrice}
           />
         </Grid>
         <Grid item md={10}>
-          <ProductList api={api} isInCategory />
+          <ProductList api={api} filteredPrice={filteredPrice} isInCategory />
         </Grid>
       </Grid>
     </Container>

@@ -9,27 +9,40 @@ import Radio from "@mui/material/Radio";
 import RadioGroup from "@mui/material/RadioGroup";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import FormControl from "@mui/material/FormControl";
-import FormLabel from "@mui/material/FormLabel";
 import TextField from "@mui/material/TextField";
 
-const minDistance = 10;
-
-const filterPriceOptions = [
-  { id: 0, min: 0, max: 5000, label: "All Price" },
-  { id: 1, min: 0, max: 100, label: "Under $100" },
-  { id: 2, min: 100, max: 500, label: "$100 to $500" },
-  { id: 3, min: 500, max: 1000, label: "$500 to $1000" },
-  { id: 4, min: 1000, max: 5000, label: "Over $1000" },
-];
-
-function valuetext(value: number) {
-  return `$${value}`;
+// interface
+interface filterPriceOptionProps {
+  id: number;
+  label: string;
+  range: [number, number];
 }
 
-export default function FilterPrice() {
-  const [priceRange, setPriceRange] = useState<number[]>([200, 800]);
-  const [filteredPrice, setFilteredPrice] = useState(0);
+interface FilterPriceProps {
+  filteredPrice: [number, number];
+  changeFilteredPrice: (newFilteredPrice: [number, number]) => void;
+}
 
+// variable
+const minDistance = 10;
+
+const filterPriceOptions: filterPriceOptionProps[] = [
+  { id: 0, label: "All Price", range: [0, 1000000] },
+  { id: 1, label: "Under $100", range: [0, 100] },
+  { id: 2, label: "$100 to $500", range: [100, 500] },
+  { id: 3, label: "$500 to $1000", range: [500, 1000] },
+  { id: 4, label: "Over $1000", range: [1000, 1000000] },
+];
+
+// EXPORT DEFAULT
+export default function FilterPrice({
+  filteredPrice,
+  changeFilteredPrice,
+}: FilterPriceProps) {
+  // -------------------------- STATE --------------------------
+  const [priceRange, setPriceRange] = useState<number[]>([200, 800]);
+
+  // -------------------------- FUNCTION --------------------------
   const handleChangeSlider = (
     event: Event,
     newPriceRange: number | number[],
@@ -53,9 +66,22 @@ export default function FilterPrice() {
   };
 
   const handleChangeRadioBtn = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setFilteredPrice(parseInt(event.target.value));
+    const arr = event.target.value.split(",");
+    const filterPriceArr = [parseInt(arr[0]), parseInt(arr[1])] as [
+      number,
+      number
+    ];
+    changeFilteredPrice(filterPriceArr);
   };
 
+  const compareRange = (
+    optionRange: [number, number],
+    priceRange: [number, number]
+  ) => {
+    return optionRange[0] === priceRange[0] && optionRange[1] === priceRange[1];
+  };
+
+  // -------------------------- MAIN --------------------------
   return (
     <Stack direction="column" spacing={2}>
       <Typography fontWeight={600}>PRICE RANGE</Typography>
@@ -64,7 +90,6 @@ export default function FilterPrice() {
         value={priceRange}
         onChange={handleChangeSlider}
         valueLabelDisplay="auto"
-        getAriaValueText={valuetext}
         disableSwap
         color="secondary"
         min={0}
@@ -101,11 +126,11 @@ export default function FilterPrice() {
           {filterPriceOptions.map((option) => (
             <FormControlLabel
               key={option.id}
-              value={option.id}
+              value={option.range}
               control={
                 <Radio
                   size="small"
-                  checked={option.id === filteredPrice}
+                  checked={compareRange(option.range, filteredPrice)}
                   sx={{
                     "& .MuiSvgIcon-root": {
                       fontSize: 12,
