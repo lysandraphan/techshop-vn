@@ -3,7 +3,6 @@
 // mui
 import Link from "@mui/material/Link";
 import Container from "@mui/material/Container";
-import Typography from "@mui/material/Typography";
 import Stack from "@mui/material/Stack";
 import Divider from "@mui/material/Divider";
 import Radio from "@mui/material/Radio";
@@ -11,17 +10,37 @@ import RadioGroup from "@mui/material/RadioGroup";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import FormControl from "@mui/material/FormControl";
 import FormLabel from "@mui/material/FormLabel";
+import Typography from "@mui/material/Typography";
+
 import { useAppSelector } from "@/redux/hooks";
 import { useState } from "react";
-import { selectCategory } from "@/redux/features/categories-slice";
+import {
+  CategoryData,
+  selectCategory,
+} from "@/redux/features/categories-slice";
+import FilterPrice from "@/components/filter-price/filter-price.component";
 
-export default function FilterSection({ categoryId }: { categoryId: number }) {
-  const [value, setValue] = useState("female");
+interface FilterSectionProps {
+  categoryId: number;
+  filteredCategory: string;
+  changeFilteredCategory: (newFilterCategory: string) => void;
+}
+
+export default function FilterSection({
+  categoryId,
+  filteredCategory,
+  changeFilteredCategory,
+}: FilterSectionProps) {
   const categories = useAppSelector((state) => state.categories.categories);
 
-  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setValue((event.target as HTMLInputElement).value);
+  const handleChangeFilter = (event: React.ChangeEvent<HTMLInputElement>) => {
+    changeFilteredCategory((event.target as HTMLInputElement).value);
   };
+
+  // const handleChangeFilter = (event: React.ChangeEvent<HTMLInputElement>) => {
+  //   setValue((event.target as HTMLInputElement).value);
+  // };
+
   return (
     <Stack
       direction="column"
@@ -33,24 +52,32 @@ export default function FilterSection({ categoryId }: { categoryId: number }) {
       }
     >
       <FormControl>
-        <FormLabel id="demo-controlled-radio-buttons-group">CATEGORY</FormLabel>
+        <Typography mb={2} fontWeight={600}>
+          CATEGORY
+        </Typography>
         <RadioGroup
-          aria-labelledby="demo-controlled-radio-buttons-group"
+          aria-labelledby="category-radio-buttons-group"
           name="controlled-radio-buttons-group"
-          value={value}
-          onChange={handleChange}
+          value={filteredCategory}
+          onChange={handleChangeFilter}
         >
-          {categories.map((category) => (
+          {categories.map((category: CategoryData) => (
             <FormControlLabel
               key={category.categoryId}
               value={category.name}
-              control={<Radio size="small" />}
+              control={
+                <Radio
+                  size="small"
+                  checked={category.name === filteredCategory}
+                />
+              }
               label={category.name}
               sx={{ fontSize: 10 }}
             />
           ))}
         </RadioGroup>
       </FormControl>
+      <FilterPrice />
     </Stack>
   );
 }
