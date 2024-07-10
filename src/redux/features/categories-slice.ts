@@ -8,7 +8,7 @@ interface CategoriesState {
   error: any;
 }
 
-interface CategoryData {
+export interface CategoryData {
   categoryId: number;
   name: string;
   imagePath: string;
@@ -67,5 +67,5 @@ export default categories.reducer;
 // Select Category
 export const selectCategory = (state: RootState, categoryId: number) =>
   state.categories.categories.find(
-    (category) => category.categoryId === categoryId
+    (category: CategoryData) => category.categoryId === categoryId
   );

@@ -5,7 +5,7 @@ import SectionHeader from "../../components/section-header/section-header.compon
 import ProductList from "../../components/product-list/product-list.component";
 
 interface BestSellingSectionProps {
-  url: string;
+  api: string;
   smallHeader: string;
   largeHeader: string;
 }
@@ -13,12 +13,12 @@ interface BestSellingSectionProps {
 export default function BestSellingSection({
   smallHeader,
   largeHeader,
-  url,
+  api,
 }: BestSellingSectionProps) {
   return (
     <Fragment>
       <SectionHeader smallHeader={smallHeader} largeHeader={largeHeader} />
-      <ProductList url={url} />
+      <ProductList api={api} />
     </Fragment>
   );
 }

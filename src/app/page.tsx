@@ -20,6 +20,7 @@ import BestSellingSection from "@/sections/best-selling-section/best-selling-sec
 import BrowseCategorySection from "@/sections/browse-category-section/browse-category-section";
 import NewArrivalSection from "@/sections/new-arrival-section/new-arrival-section";
 import InfoSection from "@/sections/info-section/info-section";
+import { fetchProducts } from "@/redux/features/products-slice";
 
 export default function Home() {
   // -------------------------- VAR --------------------------
@@ -33,25 +34,27 @@ export default function Home() {
 
   // -------------------------- EFFECT --------------------------
   useEffect(() => {
-    dispatch(fetchCategories())
-    dispatch(fetchBanners())
+    dispatch(fetchCategories());
+    dispatch(fetchBanners());
+    // dispatch(fetchProducts(bestSellingUrl));
+    // dispatch(fetchProducts(newArrivalUrl));
   }, []);
 
   // -------------------------- MAIN --------------------------
   return (
     <Container>
       <CategoryAndBannerSection />
-      <BestSellingSection
+      {/* <BestSellingSection
         smallHeader="This Month"
         largeHeader="Best Selling Products"
-        url={bestSellingUrl}
-      />
+        api={bestSellingUrl}
+      /> */}
       <CustomImage src="/banner-2.jpg" alt="banner" height={450} mt={50} />
-      <NewArrivalSection
+      {/* <NewArrivalSection
         smallHeader="Our Products"
         largeHeader="New Arrival"
-        url={newArrivalUrl}
-      />
+        api={newArrivalUrl}
+      /> */}
       <BrowseCategorySection
         smallHeader="Categories"
         largeHeader="Browse By Category"

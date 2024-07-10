@@ -5,7 +5,7 @@ import SectionHeader from "@/components/section-header/section-header.component"
 import ProductList from "@/components/product-list/product-list.component";
 
 interface NewArrivalSectionProps {
-  url: string;
+  api: string;
   smallHeader: string;
   largeHeader: string;
 }
@@ -13,12 +13,12 @@ interface NewArrivalSectionProps {
 export default function NewArrivalSection({
   smallHeader,
   largeHeader,
-  url,
+  api,
 }: NewArrivalSectionProps) {
   return (
     <Fragment>
       <SectionHeader smallHeader={smallHeader} largeHeader={largeHeader} />
-      <ProductList url={url} />
+      <ProductList api={api} />
     </Fragment>
   );
 }
