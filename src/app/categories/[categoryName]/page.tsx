@@ -21,7 +21,7 @@ import Box from "@mui/material/Box";
 import ProductList from "@/components/product-list/product-list.component";
 import FilterSection from "@/sections/filter-section/filter-section.component";
 import { useEffect, useState } from "react";
-import { fetchProducts } from "@/redux/features/products-slice";
+// import { fetchProducts } from "@/redux/features/products-slice";
 
 export default function Categories() {
   const searchParams = useSearchParams();
@@ -42,7 +42,7 @@ export default function Categories() {
   const dispatch = useAppDispatch();
   useEffect(() => {
     // getProducts();
-    dispatch(fetchProducts(api));
+    // dispatch(fetchProducts(api));
   }, []);
 
   if (!category)

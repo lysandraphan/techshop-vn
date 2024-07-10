@@ -28,6 +28,7 @@ export default function ProductCard({
       transform: "translateY(-3px)",
     },
   };
+  
   // -------------------------- FUNCTION --------------------------
   function displayPrice(price: number) {
     return price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
@@ -85,7 +86,7 @@ export default function ProductCard({
       >
         <Rating
           name="text-feedback"
-          value={product.ratingScrore}
+          value={product.ratingScore}
           readOnly
           precision={0.5}
           sx={{ fontSize: 20 }}
