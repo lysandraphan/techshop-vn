@@ -57,7 +57,7 @@ export default function FilterPrice() {
   };
 
   return (
-    <Stack direction="column" spacing={3}>
+    <Stack direction="column" spacing={2}>
       <Typography fontWeight={600}>PRICE RANGE</Typography>
       <Slider
         getAriaLabel={() => "Minimum distance"}
@@ -77,12 +77,18 @@ export default function FilterPrice() {
           label="Min"
           variant="outlined"
           maxRows={1}
+          size="small"
+          inputProps={{ sx: { fontSize: 10 } }}
+          InputLabelProps={{ sx: { fontSize: 10 } }}
         />
         <TextField
           id="max-input-field"
           label="Max"
           variant="outlined"
           maxRows={1}
+          size="small"
+          inputProps={{ sx: { fontSize: 10 } }}
+          InputLabelProps={{ sx: { fontSize: 10 } }}
         />
       </Stack>
       <FormControl>
