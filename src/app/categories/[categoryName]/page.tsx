@@ -1,9 +1,10 @@
 "use client";
 import NextLink from "next/link";
-import { useSearchParams } from "next/navigation";
+import { useState } from "react";
+import { useRouter, useSearchParams } from "next/navigation";
 
 // internal
-import { useAppDispatch, useAppSelector } from "@/redux/hooks";
+import { useAppSelector } from "@/redux/hooks";
 import {
   getCategoryRoute,
   selectCategory,
@@ -20,37 +21,37 @@ import Box from "@mui/material/Box";
 // component
 import ProductList from "@/components/product-list/product-list.component";
 import FilterSection from "@/sections/filter-section/filter-section.component";
-import { useEffect, useState } from "react";
-// import { fetchProducts } from "@/redux/features/products-slice";
 
+// EXPORT DEFAULT
 export default function Categories() {
   // -------------------------- VAR --------------------------
   const searchParams = useSearchParams();
+
   const categoryId = parseInt(searchParams.get("id") as string);
-  let category = useAppSelector((state) => selectCategory(state, categoryId));
-  const isLoading = useAppSelector((state) => state.categories.isLoading);
+
+  const category = useAppSelector((state) => selectCategory(state, categoryId));
+
+  const history = useRouter();
 
   let pageNumber = 1;
+
   const api = `https://g5-likelion-ecommerce.onrender.com/product/public/${categoryId}/paginate?page=${pageNumber}&pageSize=10&accountId=-1`;
 
-  // http://localhost:3000/categories/digital-cameras?id=10
-  // const dispatch = useAppDispatch();
-
   // -------------------------- STATE --------------------------
-  const [filteredCategory, setFilteredCategory] = useState(category.categoryId);
+  const [filteredCategory, setFilteredCategory] = useState<[number, string]>([
+    category.categoryId,
+    category.name,
+  ]);
 
   // -------------------------- FUNCTION --------------------------
-  const changeFilteredCategory = (newFilteredCategory: number) => {
+  const changeFilteredCategory = (newFilteredCategory: [number, string]) => {
     setFilteredCategory(newFilteredCategory);
-    console.log(filteredCategory);
+    history.push(
+      `/categories/${getCategoryRoute(newFilteredCategory[1])}?id=${
+        newFilteredCategory[0]
+      }`
+    );
   };
-
-  // -------------------------- EFFECT --------------------------
-
-  useEffect(() => {
-    // getProducts();
-    // dispatch(fetchProducts(api));
-  }, []);
 
   // -------------------------- MAIN --------------------------
   if (!category)
@@ -91,7 +92,6 @@ export default function Categories() {
       <Grid container spacing={5} mt={1}>
         <Grid item md={2}>
           <FilterSection
-            categoryId={categoryId}
             filteredCategory={filteredCategory}
             changeFilteredCategory={changeFilteredCategory}
           />

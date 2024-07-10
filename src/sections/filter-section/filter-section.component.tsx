@@ -1,47 +1,40 @@
-"use client";
+// internal
+import { useAppSelector } from "@/redux/hooks";
+import { CategoryData } from "@/redux/features/categories-slice";
 
 // mui
-import Link from "@mui/material/Link";
-import Container from "@mui/material/Container";
 import Stack from "@mui/material/Stack";
 import Divider from "@mui/material/Divider";
 import Radio from "@mui/material/Radio";
 import RadioGroup from "@mui/material/RadioGroup";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import FormControl from "@mui/material/FormControl";
-import FormLabel from "@mui/material/FormLabel";
 import Typography from "@mui/material/Typography";
 
-import { useAppSelector } from "@/redux/hooks";
-import { useState } from "react";
-import {
-  CategoryData,
-  selectCategory,
-} from "@/redux/features/categories-slice";
+// component
 import FilterPrice from "@/components/filter-price/filter-price.component";
 
+// interface
 interface FilterSectionProps {
-  categoryId: number;
-  filteredCategory: number;
-  changeFilteredCategory: (newFilterCategory: number) => void;
+  filteredCategory: [number, string];
+  changeFilteredCategory: (newFilterCategory: [number, string]) => void;
 }
 
+// EXPORT DEFAULT
 export default function FilterSection({
-  categoryId,
   filteredCategory,
   changeFilteredCategory,
 }: FilterSectionProps) {
+  // -------------------------- VAR --------------------------
   const categories = useAppSelector((state) => state.categories.categories);
 
+  // -------------------------- FUNCTION --------------------------
   const handleChangeFilter = (event: React.ChangeEvent<HTMLInputElement>) => {
-    changeFilteredCategory(parseInt(event.target.value));
+    const arr = event.target.value.split(",");
+    changeFilteredCategory([parseInt(arr[0]), arr[1]]);
   };
 
-  // const handleChangeFilter = (event: React.ChangeEvent<HTMLInputElement>) => {
-  //   setValue((event.target as HTMLInputElement).value);
-  // };
-  console.log(filteredCategory);
-
+  // -------------------------- MAIN --------------------------
   return (
     <Stack
       direction="column"
@@ -65,13 +58,13 @@ export default function FilterSection({
           {categories.map((category: CategoryData) => (
             <FormControlLabel
               key={category.categoryId}
-              value={category.categoryId}
+              value={[category.categoryId, category.name]}
               control={
                 <Radio
                   size="small"
-                  checked={category.categoryId === filteredCategory}
+                  checked={category.categoryId === filteredCategory[0]}
                   sx={{
-                    '& .MuiSvgIcon-root': {
+                    "& .MuiSvgIcon-root": {
                       fontSize: 12,
                     },
                   }}
