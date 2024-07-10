@@ -22,8 +22,8 @@ import FilterPrice from "@/components/filter-price/filter-price.component";
 
 interface FilterSectionProps {
   categoryId: number;
-  filteredCategory: string;
-  changeFilteredCategory: (newFilterCategory: string) => void;
+  filteredCategory: number;
+  changeFilteredCategory: (newFilterCategory: number) => void;
 }
 
 export default function FilterSection({
@@ -34,12 +34,13 @@ export default function FilterSection({
   const categories = useAppSelector((state) => state.categories.categories);
 
   const handleChangeFilter = (event: React.ChangeEvent<HTMLInputElement>) => {
-    changeFilteredCategory((event.target as HTMLInputElement).value);
+    changeFilteredCategory(parseInt(event.target.value));
   };
 
   // const handleChangeFilter = (event: React.ChangeEvent<HTMLInputElement>) => {
   //   setValue((event.target as HTMLInputElement).value);
   // };
+  console.log(filteredCategory);
 
   return (
     <Stack
@@ -64,15 +65,19 @@ export default function FilterSection({
           {categories.map((category: CategoryData) => (
             <FormControlLabel
               key={category.categoryId}
-              value={category.name}
+              value={category.categoryId}
               control={
                 <Radio
                   size="small"
-                  checked={category.name === filteredCategory}
+                  checked={category.categoryId === filteredCategory}
+                  sx={{
+                    '& .MuiSvgIcon-root': {
+                      fontSize: 12,
+                    },
+                  }}
                 />
               }
-              label={category.name}
-              sx={{ fontSize: 10 }}
+              label={<Typography fontSize={12}>{category.name}</Typography>}
             />
           ))}
         </RadioGroup>

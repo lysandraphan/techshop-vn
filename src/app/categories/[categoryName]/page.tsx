@@ -24,27 +24,35 @@ import { useEffect, useState } from "react";
 // import { fetchProducts } from "@/redux/features/products-slice";
 
 export default function Categories() {
+  // -------------------------- VAR --------------------------
   const searchParams = useSearchParams();
   const categoryId = parseInt(searchParams.get("id") as string);
-  const category = useAppSelector((state) => selectCategory(state, categoryId));
+  let category = useAppSelector((state) => selectCategory(state, categoryId));
   const isLoading = useAppSelector((state) => state.categories.isLoading);
-
-  const [filteredCategory, setFilteredCategory] = useState("");
-  const changeFilteredCategory = (newFilteredCategory: string) => {
-    setFilteredCategory(newFilteredCategory);
-  };
 
   let pageNumber = 1;
   const api = `https://g5-likelion-ecommerce.onrender.com/product/public/${categoryId}/paginate?page=${pageNumber}&pageSize=10&accountId=-1`;
 
   // http://localhost:3000/categories/digital-cameras?id=10
+  // const dispatch = useAppDispatch();
 
-  const dispatch = useAppDispatch();
+  // -------------------------- STATE --------------------------
+  const [filteredCategory, setFilteredCategory] = useState(category.categoryId);
+
+  // -------------------------- FUNCTION --------------------------
+  const changeFilteredCategory = (newFilteredCategory: number) => {
+    setFilteredCategory(newFilteredCategory);
+    console.log(filteredCategory);
+  };
+
+  // -------------------------- EFFECT --------------------------
+
   useEffect(() => {
     // getProducts();
     // dispatch(fetchProducts(api));
   }, []);
 
+  // -------------------------- MAIN --------------------------
   if (!category)
     return (
       <Box
@@ -81,14 +89,14 @@ export default function Categories() {
         </Link>
       </Breadcrumbs>
       <Grid container spacing={5} mt={1}>
-        <Grid item md={2.5}>
+        <Grid item md={2}>
           <FilterSection
             categoryId={categoryId}
             filteredCategory={filteredCategory}
             changeFilteredCategory={changeFilteredCategory}
           />
         </Grid>
-        <Grid item md={9.5}>
+        <Grid item md={10}>
           <ProductList api={api} isInCategory />
         </Grid>
       </Grid>
