@@ -5,6 +5,10 @@ import axios from "axios";
 //mui
 import ProductCard from "@/components/product-card/product-card.component";
 import Grid from "@mui/material/Grid";
+import CircularProgress from "@mui/material/CircularProgress";
+import Box from "@mui/material/Box";
+import { useAppDispatch, useAppSelector } from "@/redux/hooks";
+// import { fetchProducts } from "@/redux/features/products-slice";
 
 export interface ProductData {
   productId: number;
@@ -12,7 +16,7 @@ export interface ProductData {
   quantity: number;
   description: string;
   price: number;
-  ratingScrore: number;
+  ratingScore: number;
   rateTotal: number;
   categoryDto: {
     categoryId: number;
@@ -29,11 +33,11 @@ export interface ProductData {
 }
 
 interface ProductListProps {
-  url: string;
+  api: string;
   isInCategory?: boolean;
 }
 
-export default function ProductList({ url, isInCategory }: ProductListProps) {
+export default function ProductList({ api, isInCategory }: ProductListProps) {
   // -------------------------- STATE --------------------------
   const [products, setProducts] = useState<ProductData[]>([]);
   const [isLoading, setIsLoading] = useState(false);
@@ -42,7 +46,7 @@ export default function ProductList({ url, isInCategory }: ProductListProps) {
   async function getProducts() {
     try {
       setIsLoading(true);
-      const response = await axios.get(url);
+      const response = await axios.get(api);
       let result;
       if (isInCategory) {
         result = response.data.items as ProductData[];
@@ -57,12 +61,29 @@ export default function ProductList({ url, isInCategory }: ProductListProps) {
     }
   }
 
+  // const products = useAppSelector((state) => state.products.products);
+
   // -------------------------- EFFECT --------------------------
   useEffect(() => {
     getProducts();
+    // dispatch(fetchProducts(api));
   }, []);
 
   // -------------------------- MAIN --------------------------
+  if (isLoading)
+    return (
+      <Box
+        sx={{
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+          p: 5,
+        }}
+      >
+        <CircularProgress />
+      </Box>
+    );
+
   return (
     <Grid container columnSpacing={3} rowSpacing={3} mt={1}>
       {products &&
