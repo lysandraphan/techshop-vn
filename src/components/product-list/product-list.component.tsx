@@ -86,12 +86,24 @@ export default function ProductList({ api, isInCategory }: ProductListProps) {
 
   return (
     <Grid container columnSpacing={3} rowSpacing={3} mt={1}>
-      {products &&
-        products?.map((product) => (
-          <Grid item xs={6} sm={4} md={3} key={product.productId}>
-            <ProductCard product={product} isInCategory={isInCategory} />
-          </Grid>
-        ))}
+      {products.length !== 0
+        ? products.map((product) => (
+            <Grid item xs={6} sm={4} md={3} key={product.productId}>
+              <ProductCard product={product} isInCategory={isInCategory} />
+            </Grid>
+          ))
+        :
+        <Box
+        sx={{
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+          width: "auto",
+          p: 5,
+        }}>
+          No Product Found
+        </Box> 
+        }
     </Grid>
   );
 }

@@ -97,10 +97,17 @@ export default function FilterPrice() {
               key={option.id}
               value={option.id}
               control={
-                <Radio size="small" checked={option.id === filteredPrice} />
+                <Radio
+                  size="small"
+                  checked={option.id === filteredPrice}
+                  sx={{
+                    "& .MuiSvgIcon-root": {
+                      fontSize: 12,
+                    },
+                  }}
+                />
               }
-              label={option.label}
-              sx={{ fontSize: 10 }}
+              label={<Typography fontSize={12}>{option.label}</Typography>}
             />
           ))}
         </RadioGroup>
