@@ -28,13 +28,7 @@ const persistConfig = {
   whitelist: ["categories", "banners"],
 };
 
-const makeConfiguredStore = () => {
-  return configureStore({
-    reducer: rootReducer,
-    devTools: process.env.NODE_ENV !== "production",
-  });
-};
-
+//
 /**
  * Create a store instance per-request
  * Don't need persistence on the server side
@@ -42,7 +36,11 @@ const makeConfiguredStore = () => {
 export const makeStore = () => {
   const isServer = typeof window === "undefined";
   if (isServer) {
-    return makeConfiguredStore();
+    let store = configureStore({
+      reducer: rootReducer,
+      devTools: process.env.NODE_ENV !== "production",
+    });
+    return store;
   } else {
     const persistedReducer = persistReducer(persistConfig, rootReducer);
     let store: any = configureStore({
@@ -53,6 +51,7 @@ export const makeStore = () => {
             ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
           },
         }),
+      devTools: process.env.NODE_ENV !== "production",
     });
     store.__persistor = persistStore(store);
     return store;
