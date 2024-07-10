@@ -1,5 +1,7 @@
 "use client";
 import { useState } from "react";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 // mui
 import Slider from "@mui/material/Slider";
@@ -41,6 +43,8 @@ export default function FilterPrice({
 }: FilterPriceProps) {
   // -------------------------- STATE --------------------------
   const [priceRange, setPriceRange] = useState<number[]>([200, 800]);
+  const [min, setMin] = useState("");
+  const [max, setMax] = useState("");
 
   // -------------------------- FUNCTION --------------------------
   const handleChangeSlider = (
@@ -65,6 +69,35 @@ export default function FilterPrice({
     }
   };
 
+  const notify = (message: string) => toast.error(message);
+
+  const clearPriceTextFields = () => {
+    setMin("");
+    setMax("");
+  };
+
+  const handleKeyDown = (event: any) => {
+    if (event.key === "Enter") {
+      event.preventDefault();
+      const inputValue = parseInt(event.target.value);
+      if (isNaN(inputValue)) {
+        notify("Please enter a valid number.");
+        clearPriceTextFields();
+        return;
+      }
+      if (parseInt(min) > parseInt(max)) {
+        notify("Min must be smaller or equal to max.");
+        clearPriceTextFields();
+
+        return;
+      }
+      changeFilteredPrice([parseInt(min), parseInt(max)]);
+    }
+  };
+
+  // TO DOs: Radio button while loading products, must disable all filter selection
+  // TODO: move filters to redux. If choose Radio Price, clear Price Text field
+
   const handleChangeRadioBtn = (event: React.ChangeEvent<HTMLInputElement>) => {
     const arr = event.target.value.split(",");
     const filterPriceArr = [parseInt(arr[0]), parseInt(arr[1])] as [
@@ -84,6 +117,7 @@ export default function FilterPrice({
   // -------------------------- MAIN --------------------------
   return (
     <Stack direction="column" spacing={2}>
+      <ToastContainer />
       <Typography fontWeight={600}>PRICE RANGE</Typography>
       <Slider
         getAriaLabel={() => "Minimum distance"}
@@ -105,6 +139,11 @@ export default function FilterPrice({
           size="small"
           inputProps={{ sx: { fontSize: 10 } }}
           InputLabelProps={{ sx: { fontSize: 10 } }}
+          value={min}
+          onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
+            setMin(event.target.value);
+          }}
+          onKeyDown={handleKeyDown}
         />
         <TextField
           id="max-input-field"
@@ -114,6 +153,15 @@ export default function FilterPrice({
           size="small"
           inputProps={{ sx: { fontSize: 10 } }}
           InputLabelProps={{ sx: { fontSize: 10 } }}
+          value={max}
+          onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
+            setMax(event.target.value);
+          }}
+          onKeyDown={handleKeyDown}
+          // defaultValue={filteredPrice[1]}
+          // onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
+          //   setPriceRange((prev) => [prev[0], parseInt(event.target.value)]);
+          // }}
         />
       </Stack>
       <FormControl>
