@@ -2,7 +2,7 @@ import { createSlice, createAsyncThunk, PayloadAction } from "@reduxjs/toolkit";
 import { RootState } from "../store";
 
 // -------------------------- INTERFACE --------------------------
-interface CategoriesState {
+export interface CategoriesState {
   categories: CategoryData[];
   isLoading: boolean;
   error: any;

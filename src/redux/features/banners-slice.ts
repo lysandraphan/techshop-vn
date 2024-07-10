@@ -1,13 +1,13 @@
 import { createSlice, PayloadAction, createAsyncThunk } from "@reduxjs/toolkit";
 
 // -------------------------- INTERFACE --------------------------
-interface BannersState {
+export interface BannersState {
   banners: BannerData[];
   isLoading: boolean;
   error: any;
 }
 
-interface BannerData {
+export interface BannerData {
   id: number;
   imagePath: string;
   isDeleted: boolean;

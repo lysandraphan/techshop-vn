@@ -6,9 +6,11 @@ import Carousel from "react-material-ui-carousel/dist/components/Carousel";
 
 // internal
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
-import { getCategoryRoute } from "@/redux/features/categories-slice";
-import { fetchBanners } from "@/redux/features/banners-slice";
-
+import {
+  CategoryData,
+  getCategoryRoute,
+} from "@/redux/features/categories-slice";
+import { BannerData, fetchBanners } from "@/redux/features/banners-slice";
 
 // mui
 import Stack from "@mui/material/Stack";
@@ -18,8 +20,6 @@ import ListItemText from "@mui/material/ListItemText";
 import ListItemIcon from "@mui/material/ListItemIcon";
 import Divider from "@mui/material/Divider";
 import ChevronRightRoundedIcon from "@mui/icons-material/ChevronRightRounded";
-import CircularProgress from "@mui/material/CircularProgress";
-import Box from "@mui/material/Box";
 
 // component
 import CustomImage from "@/components/custom-image/custom-image.component";
@@ -38,12 +38,6 @@ const CategoryAndBannerSection = () => {
   // }, []);
 
   // -------------------------- MAIN --------------------------
-  if (isLoading)
-    return (
-      <Box sx={{ display: "flex", alignItems: "center", justifyContent: "center", p: 5 }}>
-        <CircularProgress />
-      </Box>
-    );
   return (
     <Stack
       direction="row"
@@ -51,7 +45,7 @@ const CategoryAndBannerSection = () => {
     >
       <MenuList sx={{ mt: 3 }}>
         {categories &&
-          categories.map((category) => (
+          categories.map((category: CategoryData) => (
             <MenuItem
               key={category.categoryId}
               disableGutters
@@ -80,7 +74,7 @@ const CategoryAndBannerSection = () => {
           },
         }}
       >
-        {banners.map((banner) => (
+        {banners.map((banner: BannerData) => (
           <CustomImage
             key={banner.id}
             height={350}

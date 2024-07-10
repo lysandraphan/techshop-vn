@@ -4,7 +4,10 @@ import Carousel from "react-multi-carousel";
 
 // internal
 import { useAppSelector } from "@/redux/hooks";
-import { getCategoryRoute } from "@/redux/features/categories-slice";
+import {
+  CategoryData,
+  getCategoryRoute,
+} from "@/redux/features/categories-slice";
 
 // mui
 import Typography from "@mui/material/Typography";
@@ -43,6 +46,7 @@ export default function BrowseCategorySection({
 }) {
   // -------------------------- VAR --------------------------
   const categories = useAppSelector((state) => state.categories.categories);
+  // console.log(categories);
 
   const history = useRouter();
 
@@ -60,13 +64,17 @@ export default function BrowseCategorySection({
           itemClass="carouselItem"
         >
           {categories &&
-            categories.map((category) => (
+            categories.map((category: CategoryData) => (
               <Stack
                 key={category.categoryId}
                 alignItems="center"
                 spacing={1}
                 onClick={() =>
-                  history.push(`/categories/${getCategoryRoute(category.name)}`)
+                  history.push(
+                    `/categories/${getCategoryRoute(category.name)}?id=${
+                      category.categoryId
+                    }`
+                  )
                 }
                 sx={{ cursor: "pointer" }}
               >
