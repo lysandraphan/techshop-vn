@@ -27,6 +27,9 @@ export default function FilterSection() {
 
   const filterCategory = useAppSelector((state) => state.filter.filterCategory);
 
+  const isDisableFilter = useAppSelector(
+    (state) => state.filter.isDisableFilter
+  );
   const dispatch = useAppDispatch();
 
   const history = useRouter();
@@ -73,6 +76,7 @@ export default function FilterSection() {
                 <Radio
                   size="small"
                   checked={category.categoryId === filterCategory[0]}
+                  disabled={isDisableFilter}
                   sx={{
                     "& .MuiSvgIcon-root": {
                       fontSize: 12,

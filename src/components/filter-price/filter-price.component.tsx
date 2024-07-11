@@ -102,15 +102,17 @@ export default function FilterPrice() {
       if (minPrice > maxPrice) {
         notify("Min must be smaller or equal to max.");
         clearPriceTextFields();
-
         return;
       }
+      
       dispatch(setFilterPriceRange([minPrice, maxPrice]));
     }
   };
 
   // Filter price using Radio Button Group
   const handleChangeRadioBtn = (event: React.ChangeEvent<HTMLInputElement>) => {
+    clearPriceTextFields();
+
     const arr = event.target.value.split(",");
 
     const minPrice = parseInt(arr[0]);
