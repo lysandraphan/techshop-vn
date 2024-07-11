@@ -42,6 +42,10 @@ export default function FilterPrice() {
     (state) => state.filter.filterPriceRange
   );
 
+  const isDisableFilter = useAppSelector(
+    (state) => state.filter.isDisableFilter
+  );
+
   const dispatch = useAppDispatch();
 
   // -------------------------- STATE --------------------------
@@ -137,6 +141,7 @@ export default function FilterPrice() {
         min={0}
         max={1000}
         step={50}
+        disabled={isDisableFilter}
       />
       <Stack direction="row" spacing={2}>
         <TextField
@@ -152,6 +157,7 @@ export default function FilterPrice() {
             setMin(event.target.value);
           }}
           onKeyDown={handleKeyDown}
+          disabled={isDisableFilter}
         />
         <TextField
           id="max-input-field"
@@ -166,6 +172,7 @@ export default function FilterPrice() {
             setMax(event.target.value);
           }}
           onKeyDown={handleKeyDown}
+          disabled={isDisableFilter}
         />
       </Stack>
       <FormControl>
@@ -187,6 +194,7 @@ export default function FilterPrice() {
                       fontSize: 12,
                     },
                   }}
+                  disabled={isDisableFilter}
                 />
               }
               label={<Typography fontSize={12}>{option.label}</Typography>}

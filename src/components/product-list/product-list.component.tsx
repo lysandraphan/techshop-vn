@@ -2,6 +2,10 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
 
+// internal
+import { useAppDispatch } from "@/redux/hooks";
+import { setDisableFilter } from "@/redux/features/filter-slice";
+
 //mui
 import ProductCard from "@/components/product-card/product-card.component";
 import Grid from "@mui/material/Grid";
@@ -47,10 +51,15 @@ export default function ProductList({
   const [products, setProducts] = useState<ProductData[]>([]);
   const [isLoading, setIsLoading] = useState(false);
 
+  // -------------------------- VAR --------------------------
+  const dispatch = useAppDispatch();
+
   // -------------------------- FUNCTION --------------------------
   async function getProducts() {
     try {
       setIsLoading(true);
+      dispatch(setDisableFilter(true));
+      
       const response = await axios.get(api);
       let result;
       if (isInCategory) {
@@ -70,7 +79,9 @@ export default function ProductList({
       } else {
         setProducts(result);
       }
+
       setIsLoading(false);
+      dispatch(setDisableFilter(false));
     } catch (error: any) {
       setIsLoading(false);
       console.log(error.message);
