@@ -34,14 +34,14 @@ export interface ProductData {
 interface ProductListProps {
   api: string;
   isInCategory?: boolean;
-  filteredPrice?: [number, number];
+  filterPriceRange?: [number, number];
 }
 
 // EXPORT DEFAULT
 export default function ProductList({
   api,
   isInCategory,
-  filteredPrice,
+  filterPriceRange,
 }: ProductListProps) {
   // -------------------------- STATE --------------------------
   const [products, setProducts] = useState<ProductData[]>([]);
@@ -60,11 +60,11 @@ export default function ProductList({
       }
 
       // filter price
-      if (filteredPrice) {
+      if (filterPriceRange) {
         const filteredProduct = result.filter(
           (product) =>
-            product.price >= filteredPrice[0] &&
-            product.price <= filteredPrice[1]
+            product.price >= filterPriceRange[0] &&
+            product.price <= filterPriceRange[1]
         );
         setProducts(filteredProduct);
       } else {
@@ -80,7 +80,7 @@ export default function ProductList({
   // -------------------------- EFFECT --------------------------
   useEffect(() => {
     getProducts();
-  }, [filteredPrice]);
+  }, [filterPriceRange]);
 
   // -------------------------- MAIN --------------------------
   if (isLoading)

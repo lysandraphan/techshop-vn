@@ -1,14 +1,15 @@
 "use client";
 import NextLink from "next/link";
-import { useState } from "react";
-import { useRouter, useSearchParams } from "next/navigation";
+import { useEffect } from "react";
+import { useSearchParams } from "next/navigation";
 
 // internal
-import { useAppSelector } from "@/redux/hooks";
+import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import {
   getCategoryRoute,
   selectCategory,
 } from "@/redux/features/categories-slice";
+import { setFilterCategory } from "@/redux/features/filter-slice";
 
 // mui
 import Link from "@mui/material/Link";
@@ -33,35 +34,20 @@ export default function Categories() {
     selectCategory(state, categoryId)
   );
 
-  const history = useRouter();
+  const filterPriceRange = useAppSelector(
+    (state) => state.filter.filterPriceRange
+  );
 
   let pageNumber = 1;
 
   const api = `https://g5-likelion-ecommerce.onrender.com/product/public/${categoryId}/paginate?page=${pageNumber}&pageSize=10&accountId=-1`;
 
-  // -------------------------- STATE --------------------------
-  const [filteredCategory, setFilteredCategory] = useState<[number, string]>([
-    category.categoryId,
-    category.name,
-  ]);
+  const dispatch = useAppDispatch();
 
-  const [filteredPrice, setFilteredPrice] = useState<[number, number]>([
-    0, 1000000,
-  ]);
-
-  // -------------------------- FUNCTION --------------------------
-  const changeFilteredCategory = (newFilteredCategory: [number, string]) => {
-    setFilteredCategory(newFilteredCategory);
-    history.push(
-      `/categories/${getCategoryRoute(newFilteredCategory[1])}?id=${
-        newFilteredCategory[0]
-      }`
-    );
-  };
-
-  const changeFilteredPrice = (newFilteredPrice: [number, number]) => {
-    setFilteredPrice(newFilteredPrice);
-  };
+  // -------------------------- EFFECT -------------------------
+  useEffect(() => {
+    dispatch(setFilterCategory([categoryId, category.name]));
+  }, []);
 
   // -------------------------- MAIN --------------------------
   if (!category)
@@ -101,15 +87,14 @@ export default function Categories() {
       </Breadcrumbs>
       <Grid container spacing={5} mt={1}>
         <Grid item md={2}>
-          <FilterSection
-            filteredCategory={filteredCategory}
-            changeFilteredCategory={changeFilteredCategory}
-            filteredPrice={filteredPrice}
-            changeFilteredPrice={changeFilteredPrice}
-          />
+          <FilterSection />
         </Grid>
         <Grid item md={10}>
-          <ProductList api={api} filteredPrice={filteredPrice} isInCategory />
+          <ProductList
+            api={api}
+            filterPriceRange={filterPriceRange}
+            isInCategory
+          />
         </Grid>
       </Grid>
     </Container>

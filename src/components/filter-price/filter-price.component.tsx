@@ -3,6 +3,10 @@ import { useState } from "react";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
+// internal
+import { useAppDispatch, useAppSelector } from "@/redux/hooks";
+import { setFilterPriceRange } from "@/redux/features/filter-slice";
+
 // mui
 import Slider from "@mui/material/Slider";
 import Typography from "@mui/material/Typography";
@@ -20,27 +24,26 @@ interface filterPriceOptionProps {
   range: [number, number];
 }
 
-interface FilterPriceProps {
-  filteredPrice: [number, number];
-  changeFilteredPrice: (newFilteredPrice: [number, number]) => void;
-}
-
 // variable
 const minDistance = 10;
 
 const filterPriceOptions: filterPriceOptionProps[] = [
-  { id: 0, label: "All Price", range: [0, 1000000] },
+  { id: 0, label: "All Price", range: [0, 100000] },
   { id: 1, label: "Under $100", range: [0, 100] },
   { id: 2, label: "$100 to $500", range: [100, 500] },
   { id: 3, label: "$500 to $1000", range: [500, 1000] },
-  { id: 4, label: "Over $1000", range: [1000, 1000000] },
+  { id: 4, label: "Over $1000", range: [1000, 100000] },
 ];
 
 // EXPORT DEFAULT
-export default function FilterPrice({
-  filteredPrice,
-  changeFilteredPrice,
-}: FilterPriceProps) {
+export default function FilterPrice() {
+  // -------------------------- VAR --------------------------
+  const filterPriceRange = useAppSelector(
+    (state) => state.filter.filterPriceRange
+  );
+
+  const dispatch = useAppDispatch();
+
   // -------------------------- STATE --------------------------
   const [priceRange, setPriceRange] = useState<number[]>([200, 800]);
   const [min, setMin] = useState("");
@@ -76,35 +79,40 @@ export default function FilterPrice({
     setMax("");
   };
 
+  // Filter price using Text Fields
   const handleKeyDown = (event: any) => {
     if (event.key === "Enter") {
       event.preventDefault();
+
       const inputValue = parseInt(event.target.value);
-      if (isNaN(inputValue)) {
-        notify("Please enter a valid number.");
+
+      if (isNaN(inputValue) || min === "" || max === "") {
+        notify("Please enter valid Min and Max numbers.");
         clearPriceTextFields();
         return;
       }
-      if (parseInt(min) > parseInt(max)) {
+
+      const minPrice = parseInt(min);
+      const maxPrice = parseInt(max);
+
+      if (minPrice > maxPrice) {
         notify("Min must be smaller or equal to max.");
         clearPriceTextFields();
 
         return;
       }
-      changeFilteredPrice([parseInt(min), parseInt(max)]);
+      dispatch(setFilterPriceRange([minPrice, maxPrice]));
     }
   };
 
-  // TO DOs: Radio button while loading products, must disable all filter selection
-  // TODO: move filters to redux. If choose Radio Price, clear Price Text field
-
+  // Filter price using Radio Button Group
   const handleChangeRadioBtn = (event: React.ChangeEvent<HTMLInputElement>) => {
     const arr = event.target.value.split(",");
-    const filterPriceArr = [parseInt(arr[0]), parseInt(arr[1])] as [
-      number,
-      number
-    ];
-    changeFilteredPrice(filterPriceArr);
+
+    const minPrice = parseInt(arr[0]);
+    const maxPrice = parseInt(arr[1]);
+
+    dispatch(setFilterPriceRange([minPrice, maxPrice]));
   };
 
   const compareRange = (
@@ -158,17 +166,12 @@ export default function FilterPrice({
             setMax(event.target.value);
           }}
           onKeyDown={handleKeyDown}
-          // defaultValue={filteredPrice[1]}
-          // onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
-          //   setPriceRange((prev) => [prev[0], parseInt(event.target.value)]);
-          // }}
         />
       </Stack>
       <FormControl>
         <RadioGroup
           aria-labelledby="price-radio-buttons-group"
-          name="controlled-radio-buttons-group"
-          value=""
+          name="price-radio-buttons-group"
           onChange={handleChangeRadioBtn}
         >
           {filterPriceOptions.map((option) => (
@@ -178,7 +181,7 @@ export default function FilterPrice({
               control={
                 <Radio
                   size="small"
-                  checked={compareRange(option.range, filteredPrice)}
+                  checked={compareRange(option.range, filterPriceRange)}
                   sx={{
                     "& .MuiSvgIcon-root": {
                       fontSize: 12,

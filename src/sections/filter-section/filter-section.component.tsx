@@ -1,6 +1,12 @@
+import { useRouter } from "next/navigation";
+
 // internal
-import { useAppSelector } from "@/redux/hooks";
-import { CategoryData } from "@/redux/features/categories-slice";
+import { useAppDispatch, useAppSelector } from "@/redux/hooks";
+import {
+  CategoryData,
+  getCategoryRoute,
+} from "@/redux/features/categories-slice";
+import { setFilterCategory } from "@/redux/features/filter-slice";
 
 // mui
 import Stack from "@mui/material/Stack";
@@ -14,28 +20,28 @@ import Typography from "@mui/material/Typography";
 // component
 import FilterPrice from "@/components/filter-price/filter-price.component";
 
-// interface
-interface FilterSectionProps {
-  filteredCategory: [number, string];
-  changeFilteredCategory: (newFilterCategory: [number, string]) => void;
-  filteredPrice: [number, number];
-  changeFilteredPrice: (newFilteredPrice: [number, number]) => void;
-}
-
 // EXPORT DEFAULT
-export default function FilterSection({
-  filteredCategory,
-  changeFilteredCategory,
-  filteredPrice,
-  changeFilteredPrice,
-}: FilterSectionProps) {
+export default function FilterSection() {
   // -------------------------- VAR --------------------------
   const categories = useAppSelector((state) => state.categories.categories);
+
+  const filterCategory = useAppSelector((state) => state.filter.filterCategory);
+
+  const dispatch = useAppDispatch();
+
+  const history = useRouter();
 
   // -------------------------- FUNCTION --------------------------
   const handleChangeFilter = (event: React.ChangeEvent<HTMLInputElement>) => {
     const arr = event.target.value.split(",");
-    changeFilteredCategory([parseInt(arr[0]), arr[1]]);
+    const categoryId = parseInt(arr[0]);
+    const categoryName = arr[1];
+
+    dispatch(setFilterCategory([categoryId, categoryName]));
+
+    history.push(
+      `/categories/${getCategoryRoute(categoryName)}?id=${categoryId}`
+    );
   };
 
   // -------------------------- MAIN --------------------------
@@ -55,8 +61,8 @@ export default function FilterSection({
         </Typography>
         <RadioGroup
           aria-labelledby="category-radio-buttons-group"
-          name="controlled-radio-buttons-group"
-          value={filteredCategory}
+          name="category-radio-buttons-group"
+          value={filterCategory}
           onChange={handleChangeFilter}
         >
           {categories.map((category: CategoryData) => (
@@ -66,7 +72,7 @@ export default function FilterSection({
               control={
                 <Radio
                   size="small"
-                  checked={category.categoryId === filteredCategory[0]}
+                  checked={category.categoryId === filterCategory[0]}
                   sx={{
                     "& .MuiSvgIcon-root": {
                       fontSize: 12,
@@ -79,10 +85,7 @@ export default function FilterSection({
           ))}
         </RadioGroup>
       </FormControl>
-      <FilterPrice
-        filteredPrice={filteredPrice}
-        changeFilteredPrice={changeFilteredPrice}
-      />
+      <FilterPrice />
     </Stack>
   );
 }

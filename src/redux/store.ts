@@ -14,12 +14,12 @@ import {
 // internal
 import categoriesReducer from "./features/categories-slice";
 import bannersReducer from "./features/banners-slice";
-import productsReducer from "./features/products-slice";
+import filterReducer from "./features/filter-slice";
 
 const rootReducer = combineReducers({
   categories: categoriesReducer,
   banners: bannersReducer,
-  products: productsReducer,
+  filter: filterReducer,
 });
 
 const persistConfig = {
