@@ -13,13 +13,11 @@ import Select, { SelectChangeEvent } from "@mui/material/Select";
 import IconButton from "@mui/material/IconButton";
 import SearchIcon from "@mui/icons-material/Search";
 import Input from "@mui/material/Input";
-import Typography from "@mui/material/Typography";
 
 // component
 import ProductList from "@/components/product-list/product-list.component";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import { setSortValue, SortType } from "@/redux/features/filter-slice";
-import { FormLabel, InputLabel } from "@mui/material";
 
 interface CategoryProductSectionProps {
   categoryId: number;
@@ -34,10 +32,6 @@ export default function CategoryProductSection({
   // -------------------------- FUNCTION --------------------------
   const filterPriceRange = useAppSelector(
     (state) => state.filter.filterPriceRange
-  );
-
-  const totalFilteredProducts = useAppSelector(
-    (state) => state.filter.totalFilteredProducts
   );
 
   const sortValue = useAppSelector((state) => state.filter.sortValue);
@@ -78,10 +72,7 @@ export default function CategoryProductSection({
           </IconButton>
         </Stack>
         <FormControl sx={{ m: 1, minWidth: 120 }}>
-          {/* <InputLabel id="demo-simple-select-label">Sort By</InputLabel> */}
           <Select
-            // labelId="demo-simple-select-label"
-            // label="Sort by"
             value={sortValue}
             onChange={handleChange}
             displayEmpty
@@ -94,11 +85,12 @@ export default function CategoryProductSection({
               },
             }}
           >
-            <MenuItem value="default">
-              <em>Default</em>
+            <MenuItem value="default" disabled>
+              Sort By
             </MenuItem>
             <MenuItem value="lowest">Lowest Price</MenuItem>
             <MenuItem value="highest">Highest Price</MenuItem>
+            <MenuItem value="best">Best Seller</MenuItem>
           </Select>
         </FormControl>
       </Stack>
