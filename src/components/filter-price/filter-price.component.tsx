@@ -81,7 +81,7 @@ export default function FilterPrice() {
     const timeoutId = setTimeout(() => {
       dispatch(setFilterPriceRange(priceRange as [number, number]));
       clearPriceTextFields();
-    }, 4000);
+    }, 3000);
 
     // const tempPriceRange = [...priceRange];
     // while (
@@ -143,7 +143,9 @@ export default function FilterPrice() {
 
     const minPrice = parseInt(arr[0]);
     const maxPrice = parseInt(arr[1]);
+    const maxPriceSlider = maxPrice > 1000 ? 1000 : maxPrice;
 
+    setPriceRange([minPrice, maxPriceSlider]);
     dispatch(setFilterPriceRange([minPrice, maxPrice]));
   };
 
