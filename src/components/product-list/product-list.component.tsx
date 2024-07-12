@@ -1,12 +1,14 @@
 "use client";
 import { useEffect, useState } from "react";
 import axios from "axios";
+import lodash from "lodash";
 
 // internal
 import { useAppDispatch } from "@/redux/hooks";
 import {
   setDisableFilter,
   setTotalFilteredProducts,
+  SortType,
 } from "@/redux/features/filter-slice";
 
 //mui
@@ -42,6 +44,7 @@ interface ProductListProps {
   api: string;
   isInCategory?: boolean;
   filterPriceRange?: [number, number];
+  sortValue?: SortType;
 }
 
 // EXPORT DEFAULT
@@ -49,6 +52,7 @@ export default function ProductList({
   api,
   isInCategory,
   filterPriceRange,
+  sortValue,
 }: ProductListProps) {
   // -------------------------- STATE --------------------------
   const [products, setProducts] = useState<ProductData[]>([]);
@@ -93,10 +97,22 @@ export default function ProductList({
     }
   }
 
+  // Sort Products
+  const sortProducts = (sortValue: SortType) => {
+    sortValue === "lowest" &&
+      setProducts(lodash.orderBy(products, ["price"], ["asc"]));
+    sortValue === "highest" &&
+      setProducts(lodash.orderBy(products, ["price"], ["desc"]));
+  };
+
   // -------------------------- EFFECT --------------------------
   useEffect(() => {
     getProducts();
   }, [filterPriceRange]);
+
+  useEffect(() => {
+    sortValue && sortProducts(sortValue);
+  }, [sortValue]);
 
   // -------------------------- MAIN --------------------------
   if (isLoading)
