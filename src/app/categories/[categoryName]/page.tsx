@@ -23,6 +23,7 @@ import Box from "@mui/material/Box";
 // component
 import ProductList from "@/components/product-list/product-list.component";
 import FilterSection from "@/sections/filter-section/filter-section.component";
+import CategoryProductSection from "@/sections/category-product-section/category-product-section";
 
 // EXPORT DEFAULT
 export default function Categories() {
@@ -35,17 +36,13 @@ export default function Categories() {
     selectCategory(state, categoryId)
   );
 
-  const filterPriceRange = useAppSelector(
-    (state) => state.filter.filterPriceRange
-  );
+  // const filterPriceRange = useAppSelector(
+  //   (state) => state.filter.filterPriceRange
+  // );
 
-  const totalFilteredProducts = useAppSelector(
-    (state) => state.filter.totalFilteredProducts
-  );
-
-  let pageNumber = 1;
-
-  const api = `https://g5-likelion-ecommerce.onrender.com/api/product/public/${categoryId}/paginate?page=${pageNumber}`;
+  // const totalFilteredProducts = useAppSelector(
+  //   (state) => state.filter.totalFilteredProducts
+  // );
 
   const dispatch = useAppDispatch();
 
@@ -93,14 +90,7 @@ export default function Categories() {
         </Grid>
         {/*-------------------------- ProductList Section --------------------------*/}
         <Grid item md={10}>
-          <Stack direction="row" bgcolor="primary.light">
-            {totalFilteredProducts} Result Found
-          </Stack>
-          <ProductList
-            api={api}
-            filterPriceRange={filterPriceRange}
-            isInCategory
-          />
+          <CategoryProductSection categoryId={categoryId} />
         </Grid>
       </Grid>
     </Container>

@@ -5,6 +5,7 @@ import { useEffect } from "react";
 import { useAppDispatch } from "@/redux/hooks";
 import { fetchCategories } from "@/redux/features/categories-slice";
 import { fetchBanners } from "@/redux/features/banners-slice";
+import { bestSellingApi, newArrivalApi } from "@/api";
 
 // style
 import "./page.module.css";
@@ -24,12 +25,6 @@ import InfoSection from "@/sections/info-section/info-section";
 
 export default function Home() {
   // -------------------------- VAR --------------------------
-  const bestSellingApi =
-    "https://g5-likelion-ecommerce.onrender.com/api/product/public/best-selling";
-
-  const newArrivalApi =
-    "https://g5-likelion-ecommerce.onrender.com/api/product/public/new-arrival";
-
   const dispatch = useAppDispatch();
 
   // -------------------------- EFFECT --------------------------

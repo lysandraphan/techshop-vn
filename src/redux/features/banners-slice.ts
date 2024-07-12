@@ -1,4 +1,7 @@
-import { createSlice, PayloadAction, createAsyncThunk } from "@reduxjs/toolkit";
+import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
+
+// internal
+import { bannersApi } from "@/api";
 
 // -------------------------- INTERFACE --------------------------
 export interface BannersState {
@@ -20,9 +23,6 @@ const initialState: BannersState = {
   isLoading: false,
   error: null,
 };
-
-const bannersApi =
-  "https://g5-likelion-ecommerce.onrender.com/api/banner-images/public/all";
 
 // -------------------------- FUNCTION --------------------------
 // Get Banners from API

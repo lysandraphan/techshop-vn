@@ -1,5 +1,8 @@
 import { createSlice, createAsyncThunk, PayloadAction } from "@reduxjs/toolkit";
+
+// internal
 import { RootState } from "../store";
+import { categoriesApi } from "@/api";
 
 // -------------------------- INTERFACE --------------------------
 export interface CategoriesState {
@@ -22,9 +25,6 @@ const initialState: CategoriesState = {
   isLoading: false,
   error: null,
 };
-
-const categoriesApi =
-  "https://g5-likelion-ecommerce.onrender.com/api/categories/public/all";
 
 // -------------------------- FUNCTION --------------------------
 // Get Categories from API
