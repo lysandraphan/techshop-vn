@@ -49,7 +49,7 @@ export default function FilterPrice() {
   const dispatch = useAppDispatch();
 
   // -------------------------- STATE --------------------------
-  const [priceRange, setPriceRange] = useState<number[]>([200, 800]);
+  const [priceRange, setPriceRange] = useState<number[]>(filterPriceRange);
   const [min, setMin] = useState("");
   const [max, setMax] = useState("");
 
