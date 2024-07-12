@@ -78,11 +78,7 @@ export default function Categories() {
           underline="hover"
           color="text.primary"
           href={
-            category
-              ? `/categories/${getCategoryRoute(category.name)}?id=${
-                  category.categoryId
-                }`
-              : ""
+            category ? getCategoryRoute(category.name, category.categoryId) : ""
           }
           aria-current="page"
           component={NextLink}
