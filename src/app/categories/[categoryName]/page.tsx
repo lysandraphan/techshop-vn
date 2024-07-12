@@ -83,7 +83,7 @@ export default function Categories() {
           {category?.name}
         </Link>
       </Breadcrumbs>
-      <Grid container spacing={5} mt={1}>
+      <Grid container spacing={5} mt={1} mb={5}>
         {/*-------------------------- Filter Section --------------------------*/}
         <Grid item md={2}>
           <FilterSection />

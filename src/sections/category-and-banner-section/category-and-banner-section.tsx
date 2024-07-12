@@ -75,7 +75,7 @@ const CategoryAndBannerSection = () => {
         {banners.map((banner: BannerData) => (
           <CustomImage
             key={banner.id}
-            height={350}
+            height={300}
             src={banner.imagePath}
             alt={banner.alt}
           />

@@ -158,7 +158,7 @@ export default function FilterPrice() {
 
   // -------------------------- MAIN --------------------------
   return (
-    <Stack direction="column" spacing={2}>
+    <Stack direction="column" spacing={2} mb={3}>
       <ToastContainer />
       <Typography fontWeight={600}>PRICE RANGE</Typography>
       <Slider

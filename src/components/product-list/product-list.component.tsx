@@ -45,6 +45,7 @@ interface ProductListProps {
   isInCategory?: boolean;
   filterPriceRange?: [number, number];
   sortValue?: SortType;
+  searchQuery?: string;
 }
 
 // EXPORT DEFAULT
@@ -53,6 +54,7 @@ export default function ProductList({
   isInCategory,
   filterPriceRange,
   sortValue,
+  searchQuery,
 }: ProductListProps) {
   // -------------------------- STATE --------------------------
   const [products, setProducts] = useState<ProductData[]>([]);
@@ -122,6 +124,17 @@ export default function ProductList({
   useEffect(() => {
     sortValue && sortProducts(sortValue);
   }, [sortValue]);
+
+  useEffect(() => {
+    if (searchQuery) {
+      const filtered = products.filter((product) => {
+        return product.name
+          .toLocaleLowerCase()
+          .includes(searchQuery.toLocaleLowerCase());
+      });
+      setFilteredProducts(filtered);
+    }
+  }, [searchQuery, products]);
 
   // -------------------------- MAIN --------------------------
   if (isLoading)
