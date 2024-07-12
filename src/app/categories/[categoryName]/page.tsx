@@ -17,6 +17,7 @@ import Container from "@mui/material/Container";
 import Breadcrumbs from "@mui/material/Breadcrumbs";
 import Grid from "@mui/material/Grid";
 import CircularProgress from "@mui/material/CircularProgress";
+import Stack from "@mui/material/Stack";
 import Box from "@mui/material/Box";
 
 // component
@@ -36,6 +37,10 @@ export default function Categories() {
 
   const filterPriceRange = useAppSelector(
     (state) => state.filter.filterPriceRange
+  );
+
+  const totalFilteredProducts = useAppSelector(
+    (state) => state.filter.totalFilteredProducts
   );
 
   let pageNumber = 1;
@@ -92,6 +97,9 @@ export default function Categories() {
         </Grid>
         {/*-------------------------- ProductList Section --------------------------*/}
         <Grid item md={10}>
+          <Stack direction="row" bgcolor="primary.light">
+            {totalFilteredProducts} Result Found
+          </Stack>
           <ProductList
             api={api}
             filterPriceRange={filterPriceRange}

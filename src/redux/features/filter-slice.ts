@@ -5,6 +5,7 @@ interface FilterState {
   filterCategory: [number, string];
   filterPriceRange: [number, number];
   isDisableFilter: boolean;
+  totalFilteredProducts: number;
 }
 
 // -------------------------- VAR --------------------------
@@ -14,6 +15,7 @@ const initialState: FilterState = {
   filterCategory: [0, ""],
   filterPriceRange: [0, maxProductPrice],
   isDisableFilter: false,
+  totalFilteredProducts: 0,
 };
 
 // -------------------------- REDUX --------------------------
@@ -21,19 +23,26 @@ export const filter = createSlice({
   name: "filter",
   initialState,
   reducers: {
-    setFilterCategory(state, action: PayloadAction<[number, string]>) {
+    setFilterCategory: (state, action: PayloadAction<[number, string]>) => {
       state.filterCategory = action.payload;
     },
-    setFilterPriceRange: (state, action) => {
+    setFilterPriceRange: (state, action: PayloadAction<[number, number]>) => {
       state.filterPriceRange = action.payload;
     },
-    setDisableFilter: (state, action) => {
+    setDisableFilter: (state, action: PayloadAction<boolean>) => {
       state.isDisableFilter = action.payload;
+    },
+    setTotalFilteredProducts: (state, action: PayloadAction<number>) => {
+      state.totalFilteredProducts = action.payload;
     },
   },
 });
 
-export const { setFilterCategory, setFilterPriceRange, setDisableFilter } =
-  filter.actions;
+export const {
+  setFilterCategory,
+  setFilterPriceRange,
+  setDisableFilter,
+  setTotalFilteredProducts,
+} = filter.actions;
 
 export default filter.reducer;

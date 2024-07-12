@@ -4,7 +4,10 @@ import axios from "axios";
 
 // internal
 import { useAppDispatch } from "@/redux/hooks";
-import { setDisableFilter } from "@/redux/features/filter-slice";
+import {
+  setDisableFilter,
+  setTotalFilteredProducts,
+} from "@/redux/features/filter-slice";
 
 //mui
 import ProductCard from "@/components/product-card/product-card.component";
@@ -76,6 +79,7 @@ export default function ProductList({
             product.price <= filterPriceRange[1]
         );
         setProducts(filteredProduct);
+        dispatch(setTotalFilteredProducts(filteredProduct.length));
       } else {
         setProducts(result);
       }
