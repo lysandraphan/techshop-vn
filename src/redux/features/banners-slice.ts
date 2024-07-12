@@ -46,9 +46,11 @@ export const banners = createSlice({
     });
     builder.addCase(fetchBanners.fulfilled, (state, action) => {
       state.banners = action.payload;
+      state.isLoading = false;
     });
     builder.addCase(fetchBanners.rejected, (state, action) => {
       state.error = action.error;
+      state.isLoading = false;
     });
   },
 });
