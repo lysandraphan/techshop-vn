@@ -106,14 +106,14 @@ export default function ProductList({
 
   // Sort Products
   const sortProducts = (sortValue: SortType) => {
-    sortValue === "default" &&
-      setProducts(lodash.orderBy(products, ["createAt"], ["asc"]));
     sortValue === "lowest" &&
       setProducts(lodash.orderBy(products, ["price"], ["asc"]));
     sortValue === "highest" &&
       setProducts(lodash.orderBy(products, ["price"], ["desc"]));
     sortValue === "best" &&
-      setProducts(lodash.orderBy(products, ["ratingScore", "ratingTotal"], ["desc"]));
+      setProducts(
+        lodash.orderBy(products, ["ratingScore", "ratingTotal"], ["desc"])
+      );
   };
 
   // -------------------------- EFFECT --------------------------
