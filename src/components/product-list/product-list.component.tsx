@@ -56,6 +56,7 @@ export default function ProductList({
 }: ProductListProps) {
   // -------------------------- STATE --------------------------
   const [products, setProducts] = useState<ProductData[]>([]);
+  const [filteredProducts, setFilteredProducts] = useState<ProductData[]>([]);
   const [isLoading, setIsLoading] = useState(false);
 
   // -------------------------- VAR --------------------------
@@ -75,19 +76,7 @@ export default function ProductList({
         result = response.data as ProductData[];
       }
 
-      // filter price
-      if (filterPriceRange) {
-        const filteredProduct = result.filter(
-          (product) =>
-            product.price >= filterPriceRange[0] &&
-            product.price <= filterPriceRange[1]
-        );
-        setProducts(filteredProduct);
-        dispatch(setTotalFilteredProducts(filteredProduct.length));
-      } else {
-        setProducts(result);
-      }
-
+      setProducts(result);
       setIsLoading(false);
       dispatch(setDisableFilter(false));
     } catch (error: any) {
@@ -96,6 +85,22 @@ export default function ProductList({
       console.log(error.message);
     }
   }
+
+  // Filter Products by Price
+  const filterPrice = () => {
+    if (products.length === 0) return;
+    if (filterPriceRange) {
+      const filtered = products.filter(
+        (product) =>
+          product.price >= filterPriceRange[0] &&
+          product.price <= filterPriceRange[1]
+      );
+      setFilteredProducts(filtered);
+      dispatch(setTotalFilteredProducts(filtered.length));
+    } else {
+      setFilteredProducts(products);
+    }
+  };
 
   // Sort Products
   const sortProducts = (sortValue: SortType) => {
@@ -108,7 +113,11 @@ export default function ProductList({
   // -------------------------- EFFECT --------------------------
   useEffect(() => {
     getProducts();
-  }, [filterPriceRange]);
+  }, []);
+
+  useEffect(() => {
+    filterPrice();
+  }, [filterPriceRange, products]);
 
   useEffect(() => {
     sortValue && sortProducts(sortValue);
@@ -131,8 +140,8 @@ export default function ProductList({
 
   return (
     <Grid container columnSpacing={3} rowSpacing={3} mt={1}>
-      {products.length !== 0 ? (
-        products.map((product) => (
+      {filteredProducts.length !== 0 ? (
+        filteredProducts.map((product) => (
           <Grid item xs={6} sm={4} md={3} key={product.productId}>
             <ProductCard product={product} isInCategory={isInCategory} />
           </Grid>
