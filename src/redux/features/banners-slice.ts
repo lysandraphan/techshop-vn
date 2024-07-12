@@ -28,7 +28,7 @@ const bannersApi =
 // Get Banners from API
 export const fetchBanners = createAsyncThunk(
   "banners/fetchBanners",
-  async (thunkAPI) => {
+  async () => {
     const response = await fetch(bannersApi);
     const result = (await response.json()) as BannerData[];
     return result;

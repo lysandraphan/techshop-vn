@@ -42,9 +42,7 @@ export default function FilterSection() {
 
     dispatch(setFilterCategory([categoryId, categoryName]));
 
-    history.push(
-      `/categories/${getCategoryRoute(categoryName)}?id=${categoryId}`
-    );
+    history.push(getCategoryRoute(categoryName, categoryId));
   };
 
   // -------------------------- MAIN --------------------------

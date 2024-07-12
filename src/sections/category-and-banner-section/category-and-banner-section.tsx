@@ -51,9 +51,7 @@ const CategoryAndBannerSection = () => {
               disableGutters
               onClick={() =>
                 history.push(
-                  `/categories/${getCategoryRoute(category.name)}?id=${
-                    category.categoryId
-                  }`
+                  getCategoryRoute(category.name, category.categoryId)
                 )
               }
             >

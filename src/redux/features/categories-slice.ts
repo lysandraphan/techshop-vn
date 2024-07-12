@@ -27,20 +27,21 @@ const categoriesApi =
   "https://g5-likelion-ecommerce.onrender.com/api/categories/public/all";
 
 // -------------------------- FUNCTION --------------------------
-// Get Category Route
-export const getCategoryRoute = (categoryName: string) => {
-  return categoryName.toLocaleLowerCase().replace(/ /g, "-");
-};
-
 // Get Categories from API
 export const fetchCategories = createAsyncThunk(
   "categories/fetchCategories",
-  async (thunkAPI) => {
+  async () => {
     const response = await fetch(categoriesApi);
     const result = (await response.json()) as CategoryData[];
     return result;
   }
 );
+
+// Get Category Route
+export const getCategoryRoute = (categoryName: string, categoryId: number) => {
+  categoryName = categoryName.toLocaleLowerCase().replace(/ /g, "-");
+  return `/categories/${categoryName}?id=${categoryId}`;
+};
 
 // -------------------------- REDUX --------------------------
 export const categories = createSlice({

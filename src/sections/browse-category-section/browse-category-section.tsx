@@ -71,9 +71,7 @@ export default function BrowseCategorySection({
                 spacing={1}
                 onClick={() =>
                   history.push(
-                    `/categories/${getCategoryRoute(category.name)}?id=${
-                      category.categoryId
-                    }`
+                    getCategoryRoute(category.name, category.categoryId)
                   )
                 }
                 sx={{ cursor: "pointer" }}
