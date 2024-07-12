@@ -78,28 +78,7 @@ export default function FilterPrice() {
 
   // Filter price using Slider
   const handleCommitChangeSlider = () => {
-    const timeoutId = setTimeout(() => {
-      dispatch(setFilterPriceRange(priceRange as [number, number]));
-      clearPriceTextFields();
-    }, 3000);
-
-    // const tempPriceRange = [...priceRange];
-    // while (
-    //   tempPriceRange[0] === priceRange[0] &&
-    //   tempPriceRange[1] === priceRange[1]
-    // ) {
-    //   if (
-    //     tempPriceRange[0] !== priceRange[0] ||
-    //     tempPriceRange[1] !== priceRange[1]
-    //   ) {
-    //     clearTimeout(timeoutId);
-    //     break;
-    //   }
-    // }
-
-    // Clear timeout if slider value changes
-    // if ()
-    // clearTimeout(timeoutId);
+    dispatch(setFilterPriceRange(priceRange as [number, number]));
   };
 
   const notify = (message: string) => toast.error(message);
@@ -130,6 +109,10 @@ export default function FilterPrice() {
         clearPriceTextFields();
         return;
       }
+
+      const maxPriceSlider = maxPrice > 1000 ? 1000 : maxPrice;
+
+      setPriceRange([minPrice, maxPriceSlider]);
 
       dispatch(setFilterPriceRange([minPrice, maxPrice]));
     }

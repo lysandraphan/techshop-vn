@@ -17,11 +17,9 @@ import Container from "@mui/material/Container";
 import Breadcrumbs from "@mui/material/Breadcrumbs";
 import Grid from "@mui/material/Grid";
 import CircularProgress from "@mui/material/CircularProgress";
-import Stack from "@mui/material/Stack";
 import Box from "@mui/material/Box";
 
 // component
-import ProductList from "@/components/product-list/product-list.component";
 import FilterSection from "@/sections/filter-section/filter-section.component";
 import CategoryProductSection from "@/sections/category-product-section/category-product-section";
 
@@ -35,14 +33,6 @@ export default function Categories() {
   const category = useAppSelector((state: any) =>
     selectCategory(state, categoryId)
   );
-
-  // const filterPriceRange = useAppSelector(
-  //   (state) => state.filter.filterPriceRange
-  // );
-
-  // const totalFilteredProducts = useAppSelector(
-  //   (state) => state.filter.totalFilteredProducts
-  // );
 
   const dispatch = useAppDispatch();
 
