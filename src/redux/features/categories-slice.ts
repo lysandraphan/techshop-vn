@@ -23,8 +23,8 @@ const initialState: CategoriesState = {
   error: null,
 };
 
-const categoriesUrl =
-  "https://g5-likelion-ecommerce.onrender.com/categories/public/all";
+const categoriesApi =
+  "https://g5-likelion-ecommerce.onrender.com/api/categories/public/all";
 
 // -------------------------- FUNCTION --------------------------
 // Get Category Route
@@ -36,7 +36,7 @@ export const getCategoryRoute = (categoryName: string) => {
 export const fetchCategories = createAsyncThunk(
   "categories/fetchCategories",
   async (thunkAPI) => {
-    const response = await fetch(categoriesUrl);
+    const response = await fetch(categoriesApi);
     const result = (await response.json()) as CategoryData[];
     return result;
   }

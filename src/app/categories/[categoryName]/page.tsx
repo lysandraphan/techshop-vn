@@ -40,7 +40,7 @@ export default function Categories() {
 
   let pageNumber = 1;
 
-  const api = `https://g5-likelion-ecommerce.onrender.com/product/public/${categoryId}/paginate?page=${pageNumber}&pageSize=10&accountId=-1`;
+  const api = `https://g5-likelion-ecommerce.onrender.com/api/product/public/${categoryId}/paginate?page=${pageNumber}`;
 
   const dispatch = useAppDispatch();
 
@@ -86,9 +86,11 @@ export default function Categories() {
         </Link>
       </Breadcrumbs>
       <Grid container spacing={5} mt={1}>
+        {/*-------------------------- Filter Section --------------------------*/}
         <Grid item md={2}>
           <FilterSection />
         </Grid>
+        {/*-------------------------- ProductList Section --------------------------*/}
         <Grid item md={10}>
           <ProductList
             api={api}

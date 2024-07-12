@@ -24,11 +24,11 @@ import InfoSection from "@/sections/info-section/info-section";
 
 export default function Home() {
   // -------------------------- VAR --------------------------
-  const bestSellingUrl =
-    "https://g5-likelion-ecommerce.onrender.com/product/public/best-selling";
+  const bestSellingApi =
+    "https://g5-likelion-ecommerce.onrender.com/api/product/public/best-selling";
 
-  const newArrivalUrl =
-    "https://g5-likelion-ecommerce.onrender.com/product/public/new-arrival";
+  const newArrivalApi =
+    "https://g5-likelion-ecommerce.onrender.com/api/product/public/new-arrival";
 
   const dispatch = useAppDispatch();
 
@@ -36,8 +36,8 @@ export default function Home() {
   useEffect(() => {
     dispatch(fetchCategories());
     dispatch(fetchBanners());
-    // dispatch(fetchProducts(bestSellingUrl));
-    // dispatch(fetchProducts(newArrivalUrl));
+    // dispatch(fetchProducts(bestSellingApi));
+    // dispatch(fetchProducts(newArrivalApi));
   }, []);
 
   // -------------------------- MAIN --------------------------
@@ -47,13 +47,13 @@ export default function Home() {
       <BestSellingSection
         smallHeader="This Month"
         largeHeader="Best Selling Products"
-        api={bestSellingUrl}
+        api={bestSellingApi}
       />
       <CustomImage src="/banner-2.jpg" alt="banner" height={450} mt={50} />
       <NewArrivalSection
         smallHeader="Our Products"
         largeHeader="New Arrival"
-        api={newArrivalUrl}
+        api={newArrivalApi}
       />
       <BrowseCategorySection
         smallHeader="Categories"

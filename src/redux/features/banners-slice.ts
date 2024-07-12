@@ -21,15 +21,15 @@ const initialState: BannersState = {
   error: null,
 };
 
-const bannersUrl =
-  "https://g5-likelion-ecommerce.onrender.com/banner-images/public/all";
+const bannersApi =
+  "https://g5-likelion-ecommerce.onrender.com/api/banner-images/public/all";
 
 // -------------------------- FUNCTION --------------------------
 // Get Banners from API
 export const fetchBanners = createAsyncThunk(
   "banners/fetchBanners",
   async (thunkAPI) => {
-    const response = await fetch(bannersUrl);
+    const response = await fetch(bannersApi);
     const result = (await response.json()) as BannerData[];
     return result;
   }
