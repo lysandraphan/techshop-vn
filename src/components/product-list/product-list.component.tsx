@@ -59,7 +59,7 @@ export default function ProductList({
     try {
       setIsLoading(true);
       dispatch(setDisableFilter(true));
-      
+
       const response = await axios.get(api);
       let result;
       if (isInCategory) {
@@ -84,6 +84,7 @@ export default function ProductList({
       dispatch(setDisableFilter(false));
     } catch (error: any) {
       setIsLoading(false);
+      dispatch(setDisableFilter(false));
       console.log(error.message);
     }
   }
