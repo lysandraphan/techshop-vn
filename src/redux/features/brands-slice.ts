@@ -52,6 +52,9 @@ export const brands = createSlice({
         (brandId) => brandId !== action.payload
       );
     },
+    resetSelectedBrandIds: (state) => {
+      state.selectedBrandIds = [];
+    },
   },
   extraReducers(builder) {
     builder.addCase(fetchBrands.pending, (state) => {
@@ -68,6 +71,10 @@ export const brands = createSlice({
   },
 });
 
-export const { addSelectedBrandIds, filterSelectedBrandIds } = brands.actions;
+export const {
+  addSelectedBrandIds,
+  filterSelectedBrandIds,
+  resetSelectedBrandIds,
+} = brands.actions;
 
 export default brands.reducer;

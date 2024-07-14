@@ -12,6 +12,7 @@ import {
   fetchBrands,
   addSelectedBrandIds,
   filterSelectedBrandIds,
+  resetSelectedBrandIds,
 } from "@/redux/features/brands-slice";
 import LoadingFallback from "../loading-fallback/loading-fallback.component";
 import Typography from "@mui/material/Typography";
@@ -38,7 +39,9 @@ export default function FilterBrand() {
     }
   };
 
-  const displayAllBrands = () => {};
+  const displayAllBrands = () => {
+    dispatch(resetSelectedBrandIds());
+  };
 
   // -------------------------- MAIN --------------------------
   if (isLoading) return <LoadingFallback />;
