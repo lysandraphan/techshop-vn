@@ -141,9 +141,11 @@ export default function FilterPrice() {
 
   // -------------------------- MAIN --------------------------
   return (
-    <Stack direction="column" spacing={2} mb={3}>
+    <Stack direction="column" spacing={1}>
       <ToastContainer />
-      <Typography fontWeight={600}>PRICE RANGE</Typography>
+      <Typography fontWeight={600} sx={{ wordSpacing: 3 }}>
+        PRICE RANGE
+      </Typography>
       <Slider
         getAriaLabel={() => "Minimum distance"}
         value={priceRange}
@@ -156,6 +158,7 @@ export default function FilterPrice() {
         max={1000}
         step={50}
         disabled={isDisableFilter}
+        size="small"
       />
       <Stack direction="row" spacing={2}>
         <TextField

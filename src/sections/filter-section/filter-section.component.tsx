@@ -19,6 +19,7 @@ import Typography from "@mui/material/Typography";
 
 // component
 import FilterPrice from "@/components/filter-price/filter-price.component";
+import FilterBrand from "@/components/filter-brand/filter-brand.component";
 
 // EXPORT DEFAULT
 export default function FilterSection() {
@@ -52,7 +53,7 @@ export default function FilterSection() {
       divider={
         <Divider
           flexItem
-          sx={{ mt: 3, mb: 3, backgroundColor: "primary.light" }}
+          sx={{ mt: 2, mb: 1, backgroundColor: "primary.light" }}
         />
       }
     >
@@ -88,6 +89,7 @@ export default function FilterSection() {
         </RadioGroup>
       </FormControl>
       <FilterPrice />
+      <FilterBrand />
     </Stack>
   );
 }
