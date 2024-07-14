@@ -48,7 +48,7 @@ export default function BrowseCategorySection({
   const categories = useAppSelector((state) => state.categories.categories);
   // console.log(categories);
 
-  const history = useRouter();
+  const router = useRouter();
 
   return (
     <Fragment>
@@ -70,7 +70,7 @@ export default function BrowseCategorySection({
                 alignItems="center"
                 spacing={1}
                 onClick={() =>
-                  history.push(
+                  router.push(
                     getCategoryRoute(category.name, category.categoryId)
                   )
                 }

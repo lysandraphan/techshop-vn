@@ -27,7 +27,7 @@ const inter = Inter({
 
 export default function Header() {
   const isLoggedIn = true; //test
-  const history = useRouter();
+  const router = useRouter();
   const theme = useTheme();
 
   const quantityStyle = {
@@ -118,7 +118,7 @@ export default function Header() {
               <IconButton
                 color="primary"
                 aria-label="cart"
-                onClick={() => history.push("/wishlist")}
+                onClick={() => router.push("/wishlist")}
               >
                 <FavoriteBorderOutlinedIcon sx={{ fontSize: 30 }} />
                 {isLoggedIn && <span style={quantityStyle}>4</span>}
@@ -126,7 +126,7 @@ export default function Header() {
               <IconButton
                 color="primary"
                 aria-label="cart"
-                onClick={() => history.push("/cart")}
+                onClick={() => router.push("/cart")}
               >
                 <ShoppingCartOutlinedIcon sx={{ fontSize: 30 }} />
                 {isLoggedIn && <span style={quantityStyle}>2</span>}

@@ -33,7 +33,7 @@ export default function FilterSection() {
   );
   const dispatch = useAppDispatch();
 
-  const history = useRouter();
+  const router = useRouter();
 
   // -------------------------- FUNCTION --------------------------
   const handleChangeFilter = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -43,7 +43,7 @@ export default function FilterSection() {
 
     dispatch(setFilterCategory([categoryId, categoryName]));
 
-    history.push(getCategoryRoute(categoryName, categoryId));
+    router.push(getCategoryRoute(categoryName, categoryId));
   };
 
   // -------------------------- MAIN --------------------------

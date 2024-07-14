@@ -35,7 +35,7 @@ const CategoryAndBannerSection = () => {
   
   const banners = useAppSelector((state) => state.banners.banners);
 
-  const history = useRouter();
+  const router = useRouter();
 
   // -------------------------- MAIN --------------------------
   if (!categories && isLoadingCategories || isLoadingBanners) return <LoadingFallback />;
@@ -51,7 +51,7 @@ const CategoryAndBannerSection = () => {
               key={category.categoryId}
               disableGutters
               onClick={() =>
-                history.push(
+                router.push(
                   getCategoryRoute(category.name, category.categoryId)
                 )
               }
