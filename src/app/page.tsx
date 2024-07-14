@@ -5,6 +5,7 @@ import { useEffect } from "react";
 import { useAppDispatch } from "@/redux/hooks";
 import { fetchCategories } from "@/redux/features/categories-slice";
 import { fetchBanners } from "@/redux/features/banners-slice";
+import { fetchBrands } from "@/redux/features/brands-slice";
 import { bestSellingApi, newArrivalApi } from "@/api";
 
 // style
@@ -31,6 +32,7 @@ export default function Home() {
   useEffect(() => {
     dispatch(fetchCategories());
     dispatch(fetchBanners());
+    dispatch(fetchBrands());
     // dispatch(fetchProducts(bestSellingApi));
     // dispatch(fetchProducts(newArrivalApi));
   }, []);

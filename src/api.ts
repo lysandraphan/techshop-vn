@@ -11,6 +11,8 @@ export const bannersApi =
 export const categoriesApi =
   "https://g5-likelion-ecommerce.onrender.com/api/categories/public/all";
 
+export const brandsApi = "https://g5-likelion-ecommerce.onrender.com/api/brand/public/all"
+
 export const getProductsByCategoryApi = (
   categoryId: number,
   pageNumber: number = 1
