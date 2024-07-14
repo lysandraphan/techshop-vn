@@ -1,16 +1,14 @@
 "use client";
-import { useEffect } from "react";
-
 import { useRouter } from "next/navigation";
 import Carousel from "react-material-ui-carousel/dist/components/Carousel";
 
 // internal
-import { useAppDispatch, useAppSelector } from "@/redux/hooks";
+import { useAppSelector } from "@/redux/hooks";
 import {
   CategoryData,
   getCategoryRoute,
 } from "@/redux/features/categories-slice";
-import { BannerData, fetchBanners } from "@/redux/features/banners-slice";
+import { BannerData } from "@/redux/features/banners-slice";
 
 // mui
 import Stack from "@mui/material/Stack";
@@ -23,21 +21,21 @@ import ChevronRightRoundedIcon from "@mui/icons-material/ChevronRightRounded";
 
 // component
 import CustomImage from "@/components/custom-image/custom-image.component";
+import LoadingFallback from "@/components/loading-fallback/loading-fallback.component";
 
 const CategoryAndBannerSection = () => {
   // -------------------------- VAR --------------------------
   const categories = useAppSelector((state) => state.categories.categories);
-  const isLoading = useAppSelector((state) => state.categories.isLoading);
+  const isLoadingCategories = useAppSelector(
+    (state) => state.categories.isLoading
+  );
+  const isLoadingBanners = useAppSelector((state) => state.banners.isLoading);
   const banners = useAppSelector((state) => state.banners.banners);
 
   const history = useRouter();
 
-  // const dispatch = useAppDispatch();
-  // useEffect(() => {
-  //   dispatch(fetchBanners())
-  // }, []);
-
   // -------------------------- MAIN --------------------------
+  if (isLoadingCategories || isLoadingBanners) return <LoadingFallback />;
   return (
     <Stack
       direction="row"
