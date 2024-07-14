@@ -6,31 +6,35 @@ import FormControlLabel from "@mui/material/FormControlLabel";
 import Checkbox from "@mui/material/Checkbox";
 import Stack from "@mui/material/Stack";
 import { useState } from "react";
-import { useAppSelector } from "@/redux/hooks";
-import { BrandData, fetchBrands } from "@/redux/features/brands-slice";
+import { useAppDispatch, useAppSelector } from "@/redux/hooks";
+import {
+  BrandData,
+  fetchBrands,
+  addSelectedBrandIds,
+  filterSelectedBrandIds,
+} from "@/redux/features/brands-slice";
 import LoadingFallback from "../loading-fallback/loading-fallback.component";
 import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
 
 export default function FilterBrand() {
-  // -------------------------- STATE --------------------------
-  const [selectedBrands, setSelectedBrands] = useState<string[]>([]);
-
   // -------------------------- VAR --------------------------
   const isLoading = useAppSelector((state) => state.brands.isLoading);
   const brands = useAppSelector((state) => state.brands.brands);
+  const selectedBrandIds = useAppSelector(
+    (state) => state.brands.selectedBrandIds
+  );
+  const dispatch = useAppDispatch();
 
   // -------------------------- FUNCTION --------------------------
   const checkBoxHandler = (event: React.ChangeEvent<HTMLInputElement>) => {
     let isSelected = event.target.checked;
-    let selectedBrandName = event.target.value;
+    let selectedId = parseInt(event.target.value);
 
     if (isSelected) {
-      setSelectedBrands([...selectedBrands, selectedBrandName]);
+      dispatch(addSelectedBrandIds(selectedId));
     } else {
-      setSelectedBrands((prevState) =>
-        prevState.filter((brandName) => brandName !== selectedBrandName)
-      );
+      dispatch(filterSelectedBrandIds(selectedId));
     }
   };
 
@@ -61,10 +65,10 @@ export default function FilterBrand() {
                 key={brand.id}
                 control={
                   <Checkbox
-                    checked={selectedBrands.includes(brand.name)}
+                    checked={selectedBrandIds?.includes(brand.id)}
                     onChange={checkBoxHandler}
                     name={brand.name}
-                    value={brand.name}
+                    value={brand.id}
                     sx={{
                       pl: 1.5,
                       pr: 0.5,

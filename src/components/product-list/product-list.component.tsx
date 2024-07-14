@@ -32,6 +32,10 @@ export interface ProductData {
     deletedAt: null;
     quantityProduct: null;
   };
+  brand: {
+    id: number;
+    name: string;
+  };
   createdAt: string;
   deletedAt: null;
   inWishList: false;
@@ -43,6 +47,7 @@ interface ProductListProps {
   api: string;
   isInCategory?: boolean;
   filterPriceRange?: [number, number];
+  selectedBrandIds?: number[];
   sortValue?: SortType;
   searchQuery?: string;
 }
@@ -52,6 +57,7 @@ export default function ProductList({
   api,
   isInCategory,
   filterPriceRange,
+  selectedBrandIds,
   sortValue,
   searchQuery,
 }: ProductListProps) {
@@ -103,6 +109,20 @@ export default function ProductList({
     }
   };
 
+  // Filter Products by Brand
+  const filterBrand = () => {
+    if (products.length === 0) return;
+    if (selectedBrandIds && selectedBrandIds?.length !== 0) {
+      const filtered = products.filter((product) =>
+        selectedBrandIds?.includes(product.brand.id)
+      );
+      setFilteredProducts(filtered);
+      dispatch(setTotalFilteredProducts(filtered.length));
+    } else {
+      setFilteredProducts(products);
+    }
+  };
+
   // Sort Products
   const sortProducts = (sortValue: SortType) => {
     sortValue === "lowest" &&
@@ -123,6 +143,10 @@ export default function ProductList({
   useEffect(() => {
     filterPrice();
   }, [filterPriceRange, products]);
+
+  useEffect(() => {
+    filterBrand();
+  }, [selectedBrandIds, products]);
 
   useEffect(() => {
     sortValue && sortProducts(sortValue);

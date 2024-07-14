@@ -33,6 +33,7 @@ export default function CategoryProductSection({
   const filterPriceRange = useAppSelector(
     (state) => state.filter.filterPriceRange
   );
+  const selectedBrandIds = useAppSelector(state => state.brands.selectedBrandIds)
 
   const sortValue = useAppSelector((state) => state.filter.sortValue);
 
@@ -100,6 +101,7 @@ export default function CategoryProductSection({
       <ProductList
         api={getProductsByCategoryApi(categoryId)}
         filterPriceRange={filterPriceRange}
+        selectedBrandIds={selectedBrandIds}
         sortValue={sortValue}
         searchQuery={searchQuery}
         isInCategory
