@@ -29,7 +29,7 @@ export default function CategoryProductSection({
 }: CategoryProductSectionProps) {
   // -------------------------- STATE --------------------------
   const [searchQuery, setSearchQuery] = useState("");
-  
+
   // -------------------------- VAR --------------------------
   const filterPriceRange = useAppSelector(
     (state) => state.filter.filterPriceRange
@@ -42,8 +42,9 @@ export default function CategoryProductSection({
 
   const dispatch = useAppDispatch();
 
-  // -------------------------- FUNCTION --------------------------
+  const fzSX = { fontSize: 12 };
 
+  // -------------------------- FUNCTION --------------------------
   const selectSortHandler = (event: SelectChangeEvent) => {
     dispatch(setSortValue(event.target.value as SortType));
   };
@@ -58,8 +59,7 @@ export default function CategoryProductSection({
             flex: 1,
             pl: 2,
             borderRadius: 1,
-            border: "1px solid",
-            borderColor: "primary.dark",
+            border: "1px solid #c4c4c4",
           }}
           maxWidth={300}
         >
@@ -73,30 +73,37 @@ export default function CategoryProductSection({
             }}
             onChange={(e) => setSearchQuery(e.target.value)}
           />
-          <IconButton color="primary" onClick={() => {}}>
+          <IconButton sx={{ color: "#757575" }} onClick={() => {}}>
             <SearchIcon />
           </IconButton>
         </Stack>
-        <FormControl sx={{ m: 1, minWidth: 120 }}>
+        <FormControl sx={{ m: 1, minWidth: 140 }}>
           <Select
             value={sortValue}
             onChange={selectSortHandler}
             displayEmpty
             inputProps={{ "aria-label": "Without label" }}
             sx={{
+              fontSize: 12,
+              color: "#A3A3A3",
               "& .MuiSelect-select": {
-                paddingLeft: 2,
-                paddingTop: 1,
-                paddingBottom: 1,
+                pl: 2,
+                py: 1.5,
               },
             }}
           >
-            <MenuItem value="default" disabled>
-              Sort By
+            <MenuItem value="default" disabled sx={fzSX}>
+              Sort by
             </MenuItem>
-            <MenuItem value="lowest">Lowest Price</MenuItem>
-            <MenuItem value="highest">Highest Price</MenuItem>
-            <MenuItem value="best">Best Seller</MenuItem>
+            <MenuItem value="lowest" sx={fzSX}>
+              Price: Low to High
+            </MenuItem>
+            <MenuItem value="highest" sx={fzSX}>
+              Price: High to Low
+            </MenuItem>
+            <MenuItem value="best" sx={fzSX}>
+              Top Rated
+            </MenuItem>
           </Select>
         </FormControl>
       </Stack>
