@@ -1,5 +1,4 @@
 import { combineReducers, configureStore } from "@reduxjs/toolkit";
-import storage from "redux-persist/lib/storage";
 import {
   persistReducer,
   persistStore,
@@ -16,6 +15,7 @@ import categoriesReducer from "./features/categories-slice";
 import bannersReducer from "./features/banners-slice";
 import filterReducer from "./features/filter-slice";
 import brandsReducer from "./features/brands-slice";
+import customStorage from "./storage";
 
 const rootReducer = combineReducers({
   categories: categoriesReducer,
@@ -26,7 +26,7 @@ const rootReducer = combineReducers({
 
 const persistConfig = {
   key: "root",
-  storage,
+  storage: customStorage,
   whitelist: ["categories", "banners", "brands"],
 };
 
