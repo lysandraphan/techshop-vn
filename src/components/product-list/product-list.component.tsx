@@ -14,8 +14,7 @@ import {
 //mui
 import ProductCard from "@/components/product-card/product-card.component";
 import Grid from "@mui/material/Grid";
-import CircularProgress from "@mui/material/CircularProgress";
-import Box from "@mui/material/Box";
+import LoadingFallback from "../loading-fallback/loading-fallback.component";
 
 // interface
 export interface ProductData {
@@ -141,19 +140,7 @@ export default function ProductList({
   }, [searchQuery, products]);
 
   // -------------------------- MAIN --------------------------
-  if (isLoading)
-    return (
-      <Box
-        sx={{
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "center",
-          p: 5,
-        }}
-      >
-        <CircularProgress />
-      </Box>
-    );
+  if (isLoading) return <LoadingFallback />;
 
   return (
     <Grid container columnSpacing={3} rowSpacing={3} mt={1}>
@@ -164,17 +151,11 @@ export default function ProductList({
           </Grid>
         ))
       ) : (
-        <Box
-          sx={{
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-            width: "auto",
-            p: 5,
-          }}
-        >
-          No Product Found
-        </Box>
+        <LoadingFallback
+          fallback
+          message="
+          No Product Found"
+        />
       )}
     </Grid>
   );
