@@ -1,6 +1,7 @@
-import Image from "next/image";
-
+"use client";
+// internal
 import { ProductData } from "../product-list/product-list.component";
+import { useRouter } from "next/navigation";
 
 //mui
 import Typography from "@mui/material/Typography";
@@ -8,18 +9,24 @@ import Stack from "@mui/material/Stack";
 import Box from "@mui/material/Box";
 import Rating from "@mui/material/Rating";
 import StarRateRoundedIcon from "@mui/icons-material/StarRateRounded";
+
+// component
 import CustomImage from "../custom-image/custom-image.component";
 
+// interface
 interface ProductCardProps {
   product: ProductData;
   isInCategory?: boolean;
 }
 
+// EXPORT DEFAULT
 export default function ProductCard({
   product,
   isInCategory,
 }: ProductCardProps) {
-  // -------------------------- VAR --------------------------s
+  // -------------------------- VAR --------------------------
+  const router = useRouter();
+
   const stackSX = {
     transition: "transform ease-in 0.1s",
     willChange: "transform",
@@ -30,14 +37,31 @@ export default function ProductCard({
   };
 
   // -------------------------- FUNCTION --------------------------
-  function displayPrice(price: number) {
+  const displayPrice = (price: number) => {
     return price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-  }
+  };
+
+  const getProductRoute = () => {
+    const categoryId = product.categoryDto.categoryId;
+    const categoryName = product.categoryDto.name
+      .toLocaleLowerCase()
+      .replace(/ /g, "-");
+    const productId = product.productId;
+    const route = `/categories/${categoryName}/${categoryId}/products/${productId}`;
+    console.log(route);
+    return route;
+  };
 
   // -------------------------- RENDER --------------------------
   const renderProductCardNoBorder = () => {
     return (
-      <Stack spacing={1} sx={stackSX} px={2} pb={2}>
+      <Stack
+        spacing={1}
+        sx={stackSX}
+        px={2}
+        pb={2}
+        onClick={() => router.push(getProductRoute())}
+      >
         <Box
           sx={{
             display: "flex",
@@ -109,6 +133,7 @@ export default function ProductCard({
         pb={2}
         border="2px solid #E4E7E9"
         borderRadius={2}
+        onClick={() => router.push(getProductRoute())}
       >
         <Box
           sx={{
