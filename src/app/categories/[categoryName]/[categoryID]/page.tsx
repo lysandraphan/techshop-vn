@@ -1,7 +1,7 @@
 "use client";
 import NextLink from "next/link";
 import { useEffect } from "react";
-import { usePathname, useSearchParams } from "next/navigation";
+import { useParams } from "next/navigation";
 
 // internal
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
@@ -16,19 +16,18 @@ import Link from "@mui/material/Link";
 import Container from "@mui/material/Container";
 import Breadcrumbs from "@mui/material/Breadcrumbs";
 import Grid from "@mui/material/Grid";
-import CircularProgress from "@mui/material/CircularProgress";
-import Box from "@mui/material/Box";
 
 // component
 import FilterSection from "@/sections/filter-section/filter-section.component";
 import CategoryProductSection from "@/sections/category-product-section/category-product-section";
+import LoadingFallback from "@/components/loading-fallback/loading-fallback.component";
 
 // EXPORT DEFAULT
 export default function Categories() {
   // -------------------------- VAR --------------------------
-  const pathName = usePathname();
+  const params = useParams<{ categoryName: string; categoryID: string }>();
 
-  const categoryId = parseInt(pathName.split("/")[3]);
+  const categoryId = parseInt(params.categoryID);
 
   const category = useAppSelector((state: any) =>
     selectCategory(state, categoryId)
@@ -43,19 +42,7 @@ export default function Categories() {
   }, []);
 
   // -------------------------- MAIN --------------------------
-  if (!category)
-    return (
-      <Box
-        sx={{
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "center",
-          p: 5,
-        }}
-      >
-        <CircularProgress />
-      </Box>
-    );
+  if (!category) return <LoadingFallback />;
   return (
     <Container>
       <Breadcrumbs aria-label="breadcrumb" sx={{ mt: 5 }}>
