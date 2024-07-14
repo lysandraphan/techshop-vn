@@ -54,6 +54,7 @@ export default function FilterPrice() {
   const [max, setMax] = useState("");
 
   // -------------------------- FUNCTION --------------------------
+  // Mui Slider
   const handleChangeSlider = (
     event: Event,
     newPriceRange: number | number[],
@@ -81,8 +82,10 @@ export default function FilterPrice() {
     dispatch(setFilterPriceRange(priceRange as [number, number]));
   };
 
+  // Display toast error message
   const notify = (message: string) => toast.error(message);
 
+  // Clear Min-Max Price TextFlieds
   const clearPriceTextFields = () => {
     setMin("");
     setMax("");
@@ -132,6 +135,7 @@ export default function FilterPrice() {
     dispatch(setFilterPriceRange([minPrice, maxPrice]));
   };
 
+  // Compare Input Price Range with Radio Button Price Range Options 
   const compareRange = (
     optionRange: [number, number],
     priceRange: [number, number]

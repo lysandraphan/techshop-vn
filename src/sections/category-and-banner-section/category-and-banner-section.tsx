@@ -26,10 +26,13 @@ import LoadingFallback from "@/components/loading-fallback/loading-fallback.comp
 const CategoryAndBannerSection = () => {
   // -------------------------- VAR --------------------------
   const categories = useAppSelector((state) => state.categories.categories);
+
   const isLoadingCategories = useAppSelector(
     (state) => state.categories.isLoading
+
   );
   const isLoadingBanners = useAppSelector((state) => state.banners.isLoading);
+  
   const banners = useAppSelector((state) => state.banners.banners);
 
   const history = useRouter();
@@ -73,7 +76,7 @@ const CategoryAndBannerSection = () => {
         {banners.map((banner: BannerData) => (
           <CustomImage
             key={banner.id}
-            height={300}
+            height={270}
             src={banner.imagePath}
             alt={banner.alt}
           />

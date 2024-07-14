@@ -3,43 +3,48 @@ import { Fragment, useState } from "react";
 
 // internal
 import { getProductsByCategoryApi } from "../../api";
+import { useAppDispatch, useAppSelector } from "@/redux/hooks";
+import { setSortValue, SortType } from "@/redux/features/filter-slice";
 
 // mui
 import Stack from "@mui/material/Stack";
 import MenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";
 import Select, { SelectChangeEvent } from "@mui/material/Select";
-
 import IconButton from "@mui/material/IconButton";
 import SearchIcon from "@mui/icons-material/Search";
 import Input from "@mui/material/Input";
 
 // component
 import ProductList from "@/components/product-list/product-list.component";
-import { useAppDispatch, useAppSelector } from "@/redux/hooks";
-import { setSortValue, SortType } from "@/redux/features/filter-slice";
 
+// interface
 interface CategoryProductSectionProps {
   categoryId: number;
 }
 
+// EXPORT DEFAULT
 export default function CategoryProductSection({
   categoryId,
 }: CategoryProductSectionProps) {
   // -------------------------- STATE --------------------------
   const [searchQuery, setSearchQuery] = useState("");
-
-  // -------------------------- FUNCTION --------------------------
+  
+  // -------------------------- VAR --------------------------
   const filterPriceRange = useAppSelector(
     (state) => state.filter.filterPriceRange
   );
-  const selectedBrandIds = useAppSelector(state => state.brands.selectedBrandIds)
+  const selectedBrandIds = useAppSelector(
+    (state) => state.brands.selectedBrandIds
+  );
 
   const sortValue = useAppSelector((state) => state.filter.sortValue);
 
   const dispatch = useAppDispatch();
 
-  const handleChange = (event: SelectChangeEvent) => {
+  // -------------------------- FUNCTION --------------------------
+
+  const selectSortHandler = (event: SelectChangeEvent) => {
     dispatch(setSortValue(event.target.value as SortType));
   };
 
@@ -75,7 +80,7 @@ export default function CategoryProductSection({
         <FormControl sx={{ m: 1, minWidth: 120 }}>
           <Select
             value={sortValue}
-            onChange={handleChange}
+            onChange={selectSortHandler}
             displayEmpty
             inputProps={{ "aria-label": "Without label" }}
             sx={{

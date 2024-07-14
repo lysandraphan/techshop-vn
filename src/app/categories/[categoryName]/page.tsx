@@ -39,6 +39,7 @@ export default function Categories() {
   // -------------------------- EFFECT -------------------------
   useEffect(() => {
     dispatch(setFilterCategory([categoryId, category.name]));
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   // -------------------------- MAIN --------------------------

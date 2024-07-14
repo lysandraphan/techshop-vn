@@ -112,7 +112,7 @@ export default function ProductList({
   // Filter Products by Brand
   const filterBrand = () => {
     if (products.length === 0) return;
-    if (selectedBrandIds && selectedBrandIds?.length !== 0) {
+    if (selectedBrandIds && selectedBrandIds.length !== 0) {
       const filtered = products.filter((product) =>
         selectedBrandIds?.includes(product.brand.id)
       );
@@ -138,18 +138,22 @@ export default function ProductList({
   // -------------------------- EFFECT --------------------------
   useEffect(() => {
     getProducts();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   useEffect(() => {
     filterPrice();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [filterPriceRange, products]);
 
   useEffect(() => {
     filterBrand();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [selectedBrandIds, products]);
 
   useEffect(() => {
     sortValue && sortProducts(sortValue);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [sortValue]);
 
   useEffect(() => {

@@ -1,30 +1,34 @@
 "use client";
-import Box from "@mui/material/Box";
+// internal
+import { useAppDispatch, useAppSelector } from "@/redux/hooks";
+import {
+  BrandData,
+  addSelectedBrandIds,
+  filterSelectedBrandIds,
+  resetSelectedBrandIds,
+} from "@/redux/features/brands-slice";
+
+// mui
 import FormControl from "@mui/material/FormControl";
 import FormGroup from "@mui/material/FormGroup";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import Checkbox from "@mui/material/Checkbox";
 import Stack from "@mui/material/Stack";
-import { useState } from "react";
-import { useAppDispatch, useAppSelector } from "@/redux/hooks";
-import {
-  BrandData,
-  fetchBrands,
-  addSelectedBrandIds,
-  filterSelectedBrandIds,
-  resetSelectedBrandIds,
-} from "@/redux/features/brands-slice";
 import LoadingFallback from "../loading-fallback/loading-fallback.component";
 import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
 
+// -------------------------- MAIN --------------------------
 export default function FilterBrand() {
   // -------------------------- VAR --------------------------
   const isLoading = useAppSelector((state) => state.brands.isLoading);
+
   const brands = useAppSelector((state) => state.brands.brands);
+
   const selectedBrandIds = useAppSelector(
     (state) => state.brands.selectedBrandIds
   );
+
   const dispatch = useAppDispatch();
 
   // -------------------------- FUNCTION --------------------------
