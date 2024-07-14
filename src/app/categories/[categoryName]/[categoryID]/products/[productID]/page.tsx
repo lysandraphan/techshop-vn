@@ -58,6 +58,7 @@ export default function ProductDetail() {
 
   // -------------------------- MAIN --------------------------
   if (isLoading) return <LoadingFallback />;
+  if (!product) return <LoadingFallback message="No Product Found." />;
   return (
     <Container>
       <Breadcrumbs aria-label="breadcrumb" sx={{ mt: 5 }}>
