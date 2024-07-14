@@ -40,7 +40,7 @@ export const fetchCategories = createAsyncThunk(
 // Get Category Route
 export const getCategoryRoute = (categoryName: string, categoryId: number) => {
   categoryName = categoryName.toLocaleLowerCase().replace(/ /g, "-");
-  return `/categories/${categoryName}?id=${categoryId}`;
+  return `/categories/${categoryName}/${categoryId}`;
 };
 
 // -------------------------- REDUX --------------------------

@@ -1,7 +1,7 @@
 "use client";
 import NextLink from "next/link";
 import { useEffect } from "react";
-import { useSearchParams } from "next/navigation";
+import { usePathname, useSearchParams } from "next/navigation";
 
 // internal
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
@@ -26,9 +26,9 @@ import CategoryProductSection from "@/sections/category-product-section/category
 // EXPORT DEFAULT
 export default function Categories() {
   // -------------------------- VAR --------------------------
-  const searchParams = useSearchParams();
+  const pathName = usePathname();
 
-  const categoryId = parseInt(searchParams.get("id") as string);
+  const categoryId = parseInt(pathName.split("/")[3]);
 
   const category = useAppSelector((state: any) =>
     selectCategory(state, categoryId)
@@ -39,7 +39,7 @@ export default function Categories() {
   // -------------------------- EFFECT -------------------------
   useEffect(() => {
     dispatch(setFilterCategory([categoryId, category.name]));
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   // -------------------------- MAIN --------------------------
