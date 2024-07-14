@@ -38,7 +38,7 @@ const CategoryAndBannerSection = () => {
   const history = useRouter();
 
   // -------------------------- MAIN --------------------------
-  if (isLoadingCategories || isLoadingBanners) return <LoadingFallback />;
+  if (!categories && isLoadingCategories || isLoadingBanners) return <LoadingFallback />;
   return (
     <Stack
       direction="row"
