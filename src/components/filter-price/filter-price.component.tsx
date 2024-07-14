@@ -167,7 +167,7 @@ export default function FilterPrice() {
           variant="outlined"
           maxRows={1}
           size="small"
-          inputProps={{ sx: { fontSize: 10 } }}
+          inputProps={{ sx: { fontSize: 10 }, enterKeyHint: "go" }}
           InputLabelProps={{ sx: { fontSize: 10 } }}
           value={min}
           onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
