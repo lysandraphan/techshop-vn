@@ -7,17 +7,21 @@ import { useRouter } from "next/navigation";
 import Typography from "@mui/material/Typography";
 import Stack from "@mui/material/Stack";
 import Box from "@mui/material/Box";
-import Rating from "@mui/material/Rating";
-import StarRateRoundedIcon from "@mui/icons-material/StarRateRounded";
 
 // component
 import CustomImage from "../custom-image/custom-image.component";
+import RatingInfo from "../rating-info/rating-info";
 
 // interface
 interface ProductCardProps {
   product: ProductData;
   isInCategory?: boolean;
 }
+
+// function
+export const displayPrice = (price: number) => {
+  return price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+};
 
 // EXPORT DEFAULT
 export default function ProductCard({
@@ -38,10 +42,6 @@ export default function ProductCard({
   };
 
   // -------------------------- FUNCTION --------------------------
-  const displayPrice = (price: number) => {
-    return price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-  };
-
   const getProductRoute = () => {
     const categoryId = product.categoryDto.categoryId;
     const categoryName = product.categoryDto.name
@@ -98,31 +98,10 @@ export default function ProductCard({
         <Typography fontSize={16} color="secondary" fontWeight={500}>
           ${displayPrice(product.price)}
         </Typography>
-        <Box
-          sx={{
-            display: "flex",
-            alignItems: "center",
-            fontSize: 1,
-            mt: 0.7,
-          }}
-        >
-          <Rating
-            name="text-feedback"
-            value={product.ratingScore}
-            readOnly
-            precision={0.5}
-            sx={{ fontSize: 20 }}
-            emptyIcon={
-              <StarRateRoundedIcon
-                style={{ opacity: 0.55 }}
-                fontSize="inherit"
-              />
-            }
-          />
-          <Box sx={{ ml: 0.7, mb: -0.3, fontSize: 14 }}>
-            ({product.rateTotal})
-          </Box>
-        </Box>
+        <RatingInfo
+          ratingScore={product.ratingScore}
+          ratingTotal={product.rateTotal}
+        />
       </Stack>
     );
   };
@@ -155,32 +134,11 @@ export default function ProductCard({
             height="50%"
           />
         </Box>
-        <Box
-          sx={{
-            display: "flex",
-            alignItems: "center",
-            fontSize: 1,
-            mt: 0.7,
-          }}
-        >
-          <Rating
-            name="text-feedback"
-            value={product.ratingScore}
-            readOnly
-            precision={0.5}
-            sx={{ fontSize: 15 }}
-            emptyIcon={
-              <StarRateRoundedIcon
-                style={{ opacity: 0.55 }}
-                fontSize="inherit"
-              />
-            }
-          />
-          <Box sx={{ ml: 0.7, mb: -0.3, fontSize: 10, color: "#808080" }}>
-            ({product.rateTotal})
-          </Box>
-        </Box>
-
+        <RatingInfo
+          ratingScore={product.ratingScore}
+          ratingTotal={product.rateTotal}
+          smallSize
+        />
         <Typography
           fontSize={12}
           fontWeight={500}
