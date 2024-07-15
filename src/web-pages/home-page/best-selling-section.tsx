@@ -1,8 +1,9 @@
 import { Fragment } from "react";
 
 // component
-import SectionHeader from "../../components/section-header/section-header.component";
-import ProductList from "../../components/product-list/product-list.component";
+import ProductList from "@/components/product-list/product-list.component";
+import SectionHeader from "@/components/section-header/section-header.component";
+
 
 interface BestSellingSectionProps {
   api: string;

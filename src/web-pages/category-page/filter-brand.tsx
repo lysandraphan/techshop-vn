@@ -14,9 +14,11 @@ import FormGroup from "@mui/material/FormGroup";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import Checkbox from "@mui/material/Checkbox";
 import Stack from "@mui/material/Stack";
-import LoadingFallback from "../loading-fallback/loading-fallback.component";
 import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
+
+// component
+import LoadingFallback from "@/components/loading-fallback/loading-fallback.component";
 
 // -------------------------- MAIN --------------------------
 export default function FilterBrand() {

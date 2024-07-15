@@ -2,9 +2,9 @@
 import { Fragment, useState } from "react";
 
 // internal
-import { getProductsByCategoryApi } from "../../api";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import { setSortValue, SortType } from "@/redux/features/filter-slice";
+import { getProductsByCategoryApi } from "@/api";
 
 // mui
 import Stack from "@mui/material/Stack";

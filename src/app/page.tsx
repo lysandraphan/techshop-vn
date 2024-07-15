@@ -13,11 +13,11 @@ import Container from "@mui/material/Container";
 
 // component
 import CustomImage from "@/components/custom-image/custom-image.component";
-import CategoryAndBannerSection from "@/sections/category-and-banner-section/category-and-banner-section";
-import BestSellingSection from "@/sections/best-selling-section/best-selling-section";
-import BrowseCategorySection from "@/sections/browse-category-section/browse-category-section";
-import NewArrivalSection from "@/sections/new-arrival-section/new-arrival-section";
-import InfoSection from "@/sections/info-section/info-section";
+import CategoryAndBannerSection from "@/web-pages/home-page/category-and-banner-section";
+import BestSellingSection from "@/web-pages/home-page/best-selling-section";
+import BrowseCategorySection from "@/web-pages/home-page/browse-category-section";
+import NewArrivalSection from "@/web-pages/home-page/new-arrival-section";
+import InfoSection from "@/web-pages/home-page/info-section";
 // import { fetchProducts } from "@/redux/features/products-slice";
 
 export default function Home() {

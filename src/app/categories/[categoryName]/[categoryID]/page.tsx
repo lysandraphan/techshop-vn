@@ -16,11 +16,15 @@ import Link from "@mui/material/Link";
 import Container from "@mui/material/Container";
 import Breadcrumbs from "@mui/material/Breadcrumbs";
 import Grid from "@mui/material/Grid";
+import Stack from "@mui/material/Stack";
+import Divider from "@mui/material/Divider";
 
 // component
-import FilterSection from "@/sections/filter-section/filter-section.component";
-import CategoryProductSection from "@/sections/category-product-section/category-product-section";
+import CategoryProductSection from "@/web-pages/category-page/category-product-section";
 import LoadingFallback from "@/components/loading-fallback/loading-fallback.component";
+import FilterCategory from "@/web-pages/category-page/filter-category";
+import FilterPrice from "@/web-pages/category-page/filter-price";
+import FilterBrand from "@/web-pages/category-page/filter-brand";
 
 // EXPORT DEFAULT
 export default function Categories() {
@@ -64,7 +68,19 @@ export default function Categories() {
       <Grid container spacing={5} mt={1} mb={5}>
         {/*-------------------------- Filter Section --------------------------*/}
         <Grid item md={2}>
-          <FilterSection />
+          <Stack
+            direction="column"
+            divider={
+              <Divider
+                flexItem
+                sx={{ mt: 2, mb: 1, backgroundColor: "primary.light" }}
+              />
+            }
+          >
+            <FilterCategory />
+            <FilterPrice />
+            <FilterBrand />
+          </Stack>
         </Grid>
         {/*-------------------------- ProductList Section --------------------------*/}
         <Grid item md={10}>

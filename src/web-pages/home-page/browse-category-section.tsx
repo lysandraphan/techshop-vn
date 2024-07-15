@@ -38,6 +38,7 @@ const carouselResponsive = {
   },
 };
 
+// EXPORT DEFAULT
 export default function BrowseCategorySection({
   smallHeader,
   largeHeader,
@@ -50,6 +51,7 @@ export default function BrowseCategorySection({
 
   const router = useRouter();
 
+  // -------------------------- MAIN --------------------------
   return (
     <Fragment>
       <SectionHeader smallHeader={smallHeader} largeHeader={largeHeader} />
