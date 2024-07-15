@@ -32,10 +32,9 @@ export default function ProductCard({
     willChange: "transform",
     "&:hover": {
       cursor: "pointer",
-      transform: "translateY(-3px)",
+      transform: "translateY(-5px)",
+      borderWidth: "4px",
     },
-    border: "1px solid #fedfdf",
-    borderRadius: 5,
   };
 
   // -------------------------- FUNCTION --------------------------
@@ -63,6 +62,8 @@ export default function ProductCard({
         sx={stackSX}
         px={2}
         pb={2}
+        border="2px solid #FEDFDF"
+        borderRadius={2}
         onClick={() => router.push(getProductRoute())}
       >
         <Box
