@@ -70,29 +70,6 @@ export default function ProductList({
   const dispatch = useAppDispatch();
 
   // -------------------------- FUNCTION --------------------------
-  async function getProducts() {
-    try {
-      setIsLoading(true);
-      dispatch(setDisableFilter(true));
-
-      const response = await axios.get(api);
-      let result;
-      if (isInCategory) {
-        result = response.data.items as ProductData[];
-      } else {
-        result = response.data as ProductData[];
-      }
-
-      setProducts(result);
-      setIsLoading(false);
-      dispatch(setDisableFilter(false));
-    } catch (error: any) {
-      setIsLoading(false);
-      dispatch(setDisableFilter(false));
-      console.log(error.message);
-    }
-  }
-
   // Filter Products by Price
   const filterPrice = () => {
     if (products.length === 0) return;
@@ -124,7 +101,8 @@ export default function ProductList({
   };
 
   // Sort Products
-  const sortProducts = (sortValue: SortType) => {
+  const sortProducts = (sortValue: SortType | undefined) => {
+    if (!sortValue) return;
     sortValue === "lowest" &&
       setProducts(lodash.orderBy(products, ["price"], ["asc"]));
     sortValue === "highest" &&
@@ -137,9 +115,45 @@ export default function ProductList({
 
   // -------------------------- EFFECT --------------------------
   useEffect(() => {
-    getProducts();
+    const abortController = new AbortController();
+
+    const fetchProducts = async () => {
+      try {
+        setIsLoading(true);
+        dispatch(setDisableFilter(true));
+
+        const response = await axios.get(api, {
+          signal: abortController.signal,
+        });
+        let result;
+        if (isInCategory) {
+          result = response.data.items as ProductData[];
+        } else {
+          result = response.data as ProductData[];
+        }
+
+        setProducts(result);
+        setIsLoading(false);
+        dispatch(setDisableFilter(false));
+      } catch (error: any) {
+        setIsLoading(false);
+        dispatch(setDisableFilter(false));
+        // only log error/call dispatch when we know the fetch was not aborted
+        if (!abortController.signal.aborted) {
+          console.log(error.message);
+        }
+      }
+    };
+
+    fetchProducts();
+
+    // Clean up
+    return () => {
+      abortController.abort();
+    };
+
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [api]);
 
   useEffect(() => {
     filterPrice();
@@ -152,9 +166,9 @@ export default function ProductList({
   }, [selectedBrandIds, products]);
 
   useEffect(() => {
-    sortValue && sortProducts(sortValue);
+    sortProducts(sortValue);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [sortValue]);
+  }, [sortValue, products]);
 
   useEffect(() => {
     if (searchQuery) {

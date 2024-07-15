@@ -37,24 +37,37 @@ export default function ProductDetail() {
   const pathName = usePathname();
 
   // -------------------------- FUNCTION --------------------------
-  const fetchProductDetail = async () => {
-    try {
-      setIsLoading(true);
-      const response = await axios.get(api);
-      const result = response.data as ProductData;
-      console.log(result);
-      setProduct(result);
-      setIsLoading(false);
-    } catch (error: any) {
-      setIsLoading(false);
-      console.log(error.message);
-    }
-  };
 
   // -------------------------- EFFECT --------------------------
   useEffect(() => {
+    const abortController = new AbortController();
+
+    const fetchProductDetail = async () => {
+      try {
+        setIsLoading(true);
+        const response = await axios.get(api, {
+          signal: abortController.signal,
+        });
+        const result = response.data as ProductData;
+        console.log(result);
+        setProduct(result);
+        setIsLoading(false);
+      } catch (error: any) {
+        setIsLoading(false);
+        // only log error/call dispatch when we know the fetch was not aborted
+        if (!abortController.signal.aborted) {
+          console.log(error.message);
+        }
+      }
+    };
+
     fetchProductDetail();
-  }, []);
+
+    // Clean up
+    return () => {
+      abortController.abort();
+    };
+  }, [api]);
 
   // -------------------------- MAIN --------------------------
   if (isLoading) return <LoadingFallback />;
