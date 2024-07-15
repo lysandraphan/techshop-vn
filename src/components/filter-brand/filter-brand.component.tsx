@@ -29,6 +29,10 @@ export default function FilterBrand() {
     (state) => state.brands.selectedBrandIds
   );
 
+  const isDisableFilter = useAppSelector(
+    (state) => state.filter.isDisableFilter
+  );
+
   const dispatch = useAppDispatch();
 
   // -------------------------- FUNCTION --------------------------
@@ -61,6 +65,7 @@ export default function FilterBrand() {
         size="small"
         sx={{ fontSize: 10, py: 0.5, wordSpacing: 3 }}
         onClick={displayAllBrands}
+        disabled={isDisableFilter}
       >
         All Brands
       </Button>
@@ -76,6 +81,7 @@ export default function FilterBrand() {
                     onChange={checkBoxHandler}
                     name={brand.name}
                     value={brand.id}
+                    disabled={isDisableFilter}
                     sx={{
                       pl: 1.5,
                       pr: 0.5,
