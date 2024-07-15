@@ -43,7 +43,7 @@ export default function Home() {
       <CategoryAndBannerSection />
       <BestSellingSection
         smallHeader="This Month"
-        largeHeader="Best Selling Products"
+        largeHeader="Best Selling"
         api={bestSellingApi}
       />
       <CustomImage src="/banner-2.jpg" alt="banner" height={450} mt={50} />

@@ -34,6 +34,8 @@ export default function ProductCard({
       cursor: "pointer",
       transform: "translateY(-3px)",
     },
+    border: "1px solid #fedfdf",
+    borderRadius: 5,
   };
 
   // -------------------------- FUNCTION --------------------------
@@ -53,6 +55,7 @@ export default function ProductCard({
   };
 
   // -------------------------- RENDER --------------------------
+  // Render Product Card in Home Page (Best Selling, New Arrival)
   const renderProductCardNoBorder = () => {
     return (
       <Stack

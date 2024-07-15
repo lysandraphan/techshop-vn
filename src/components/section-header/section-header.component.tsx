@@ -32,12 +32,17 @@ export default function SectionHeader({
             ml={1}
             fontSize={16}
             fontWeight={600}
-            sx={{ letterSpacing: 1 }}
+            sx={{ letterSpacing: 1, wordSpacing: 3 }}
           >
             {smallHeader}
           </Typography>
         </Stack>
-        <Typography variant="h4" mt={2} fontWeight={500}>
+        <Typography
+          variant="h4"
+          mt={2}
+          fontWeight={500}
+          sx={{ letterSpacing: 0.5, wordSpacing: 3 }}
+        >
           {largeHeader}
         </Typography>
       </Container>
@@ -45,7 +50,7 @@ export default function SectionHeader({
         <Button
           variant="contained"
           color="secondary"
-          sx={{ width: "max-content", px: 4, py: 1 }}
+          sx={{ width: "max-content", px: 4, py: 1, mb: 1 }}
         >
           View All
         </Button>
