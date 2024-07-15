@@ -8,10 +8,6 @@ import { fetchBanners } from "@/redux/features/banners-slice";
 import { fetchBrands } from "@/redux/features/brands-slice";
 import { bestSellingApi, newArrivalApi } from "@/api";
 
-// style
-import "./page.module.css";
-import "react-multi-carousel/lib/styles.css";
-
 // mui
 import Container from "@mui/material/Container";
 

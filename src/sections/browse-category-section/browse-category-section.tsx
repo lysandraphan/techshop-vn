@@ -1,6 +1,7 @@
 import { Fragment } from "react";
 import { useRouter } from "next/navigation";
 import Carousel from "react-multi-carousel";
+import "react-multi-carousel/lib/styles.css";
 
 // internal
 import { useAppSelector } from "@/redux/hooks";
@@ -20,7 +21,7 @@ import CustomImage from "@/components/custom-image/custom-image.component";
 // variable
 const carouselResponsive = {
   lg: {
-    breakpoint: { max: 1536, min: 1200 },
+    breakpoint: { max: 4000, min: 1200 },
     items: 5,
   },
   md: {
@@ -46,7 +47,6 @@ export default function BrowseCategorySection({
 }) {
   // -------------------------- VAR --------------------------
   const categories = useAppSelector((state) => state.categories.categories);
-  // console.log(categories);
 
   const router = useRouter();
 
