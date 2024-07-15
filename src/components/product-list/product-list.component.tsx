@@ -102,13 +102,13 @@ export default function ProductList({
 
   // Sort Products
   const sortProducts = (sortValue: SortType | undefined) => {
-    if (!sortValue) return;
+    if (products.length === 0) return;
     sortValue === "lowest" &&
-      setProducts(lodash.orderBy(products, ["price"], ["asc"]));
+      setFilteredProducts(lodash.orderBy(products, ["price"], ["asc"]));
     sortValue === "highest" &&
-      setProducts(lodash.orderBy(products, ["price"], ["desc"]));
-    sortValue === "best" &&
-      setProducts(
+      setFilteredProducts(lodash.orderBy(products, ["price"], ["desc"]));
+    sortValue === "top" &&
+      setFilteredProducts(
         lodash.orderBy(products, ["ratingScore", "ratingTotal"], ["desc"])
       );
   };
@@ -170,7 +170,7 @@ export default function ProductList({
   useEffect(() => {
     sortProducts(sortValue);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [sortValue, products]);
+  }, [sortValue]);
 
   useEffect(() => {
     if (searchQuery) {

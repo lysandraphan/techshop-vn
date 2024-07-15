@@ -1,5 +1,5 @@
 "use client";
-import { Fragment, useState } from "react";
+import { Fragment, useEffect, useState } from "react";
 
 // internal
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
@@ -48,6 +48,11 @@ export default function CategoryProductSection({
   const selectSortHandler = (event: SelectChangeEvent) => {
     dispatch(setSortValue(event.target.value as SortType));
   };
+
+  // -------------------------- EFFECT --------------------------
+  useEffect(() => {
+    dispatch(setSortValue("default"));
+  }, []);
 
   // -------------------------- MAIN --------------------------
   return (
@@ -101,7 +106,7 @@ export default function CategoryProductSection({
             <MenuItem value="highest" sx={fzSX}>
               Price: High to Low
             </MenuItem>
-            <MenuItem value="best" sx={fzSX}>
+            <MenuItem value="top" sx={fzSX}>
               Top Rated
             </MenuItem>
           </Select>

@@ -9,7 +9,7 @@ interface FilterState {
   sortValue: SortType;
 }
 
-export type SortType = "default" | "lowest" | "highest" | "best";
+export type SortType = "default" | "lowest" | "highest" | "top";
 
 // -------------------------- VAR --------------------------
 export const maxProductPrice = 100000;
