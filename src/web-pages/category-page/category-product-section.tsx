@@ -11,12 +11,10 @@ import Stack from "@mui/material/Stack";
 import MenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";
 import Select, { SelectChangeEvent } from "@mui/material/Select";
-import IconButton from "@mui/material/IconButton";
-import SearchIcon from "@mui/icons-material/Search";
-import Input from "@mui/material/Input";
 
 // component
 import ProductList from "@/components/product-list/product-list.component";
+import SearchBar from "@/components/search-bar/search-bar";
 
 // interface
 interface CategoryProductSectionProps {
@@ -58,30 +56,11 @@ export default function CategoryProductSection({
   return (
     <Fragment>
       <Stack direction="row" justifyContent="space-between" alignItems="center">
-        <Stack
-          direction="row"
-          sx={{
-            flex: 1,
-            pl: 2,
-            borderRadius: 1,
-            border: "1px solid #c4c4c4",
-          }}
+        <SearchBar
+          setSearchQuery={setSearchQuery}
+          placeholder="Search products..."
           maxWidth={300}
-        >
-          <Input
-            type="text"
-            placeholder="Search products..."
-            disableUnderline
-            sx={{
-              flex: 1,
-              fontSize: 12,
-            }}
-            onChange={(e) => setSearchQuery(e.target.value)}
-          />
-          <IconButton sx={{ color: "#757575" }} onClick={() => {}}>
-            <SearchIcon />
-          </IconButton>
-        </Stack>
+        />
         <FormControl sx={{ m: 1, minWidth: 140 }}>
           <Select
             value={sortValue}
@@ -90,7 +69,7 @@ export default function CategoryProductSection({
             inputProps={{ "aria-label": "Without label" }}
             sx={{
               fontSize: 12,
-              color: "#A3A3A3",
+              color: "primary.dark",
               "& .MuiSelect-select": {
                 pl: 2,
                 py: 1.5,

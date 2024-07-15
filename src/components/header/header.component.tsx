@@ -1,13 +1,13 @@
 "use client";
-
+import { useState } from "react";
 import { useRouter } from "next/navigation";
 import NextLink from "next/link";
 
 // mui
 import { Inter } from "next/font/google";
+import { useTheme } from "@mui/material";
 import Link from "@mui/material/Link";
 import IconButton from "@mui/material/IconButton";
-import SearchIcon from "@mui/icons-material/Search";
 import FavoriteBorderOutlinedIcon from "@mui/icons-material/FavoriteBorderOutlined";
 import ShoppingCartOutlinedIcon from "@mui/icons-material/ShoppingCartOutlined";
 import AccountIcon from "./account-icon/account-icon.component";
@@ -16,9 +16,7 @@ import Divider from "@mui/material/Divider";
 import Typography from "@mui/material/Typography";
 import Grid from "@mui/material/Grid";
 import Container from "@mui/material/Container";
-import Box from "@mui/material/Box";
-import Input from "@mui/material/Input";
-import { useTheme } from "@mui/material";
+import SearchBar from "../search-bar/search-bar";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -26,6 +24,11 @@ const inter = Inter({
 });
 
 export default function Header() {
+  // -------------------------- STATE --------------------------
+  const [searchQuery, setSearchQuery] = useState("");
+
+  // -------------------------- VAR --------------------------
+
   const isLoggedIn = true; //test
   const router = useRouter();
   const theme = useTheme();
@@ -43,6 +46,7 @@ export default function Header() {
     padding: 3,
   } as React.CSSProperties;
 
+  // -------------------------- MAIN --------------------------
   return (
     <header>
       <Stack
@@ -87,29 +91,12 @@ export default function Header() {
 
           {/*-------------------------- Search Bar --------------------------*/}
           <Grid item md={7}>
-            <Stack
-              direction="row"
-              sx={{
-                flex: 1,
-                px: 2,
-                py: 1,
-                borderRadius: 1,
-                bgcolor: "primary.light",
-              }}
-            >
-              <Input
-                type="text"
-                placeholder="What are you looking for?"
-                disableUnderline
-                sx={{
-                  flex: 1,
-                  fontSize: 12,
-                }}
-              />
-              <IconButton color="primary" onClick={() => {}}>
-                <SearchIcon />
-              </IconButton>
-            </Stack>
+            <SearchBar
+              setSearchQuery={setSearchQuery}
+              bgcolor
+              placeholder="What are you looking for?"
+              py
+            />
           </Grid>
 
           {/*-------------------------- Icon Button Group --------------------------*/}
