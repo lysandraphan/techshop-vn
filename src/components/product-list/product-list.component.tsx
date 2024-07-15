@@ -120,7 +120,7 @@ export default function ProductList({
     const fetchProducts = async () => {
       try {
         setIsLoading(true);
-        dispatch(setDisableFilter(true));
+        isInCategory && dispatch(setDisableFilter(true));
 
         const response = await axios.get(api, {
           signal: abortController.signal,
@@ -134,10 +134,10 @@ export default function ProductList({
 
         setProducts(result);
         setIsLoading(false);
-        dispatch(setDisableFilter(false));
+        isInCategory && dispatch(setDisableFilter(false));
       } catch (error: any) {
         setIsLoading(false);
-        dispatch(setDisableFilter(false));
+        isInCategory && dispatch(setDisableFilter(false));
         // only log error/call dispatch when we know the fetch was not aborted
         if (!abortController.signal.aborted) {
           console.log(error.message);
