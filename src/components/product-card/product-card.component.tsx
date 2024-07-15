@@ -33,7 +33,7 @@ export default function ProductCard({
     "&:hover": {
       cursor: "pointer",
       transform: "translateY(-5px)",
-      borderWidth: "4px",
+      borderWidth: "3px",
     },
   };
 
