@@ -141,6 +141,8 @@ export default function ProductList({
         // only log error/call dispatch when we know the fetch was not aborted
         if (!abortController.signal.aborted) {
           console.log(error.message);
+        } else {
+          console.log("Fetch request aborted.");
         }
       }
     };
