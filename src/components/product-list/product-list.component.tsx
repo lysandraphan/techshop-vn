@@ -155,7 +155,7 @@ export default function ProductList({
     };
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [api]);
+  }, []);
 
   useEffect(() => {
     filterPrice();
