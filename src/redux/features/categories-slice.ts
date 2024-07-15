@@ -26,12 +26,16 @@ const initialState: CategoriesState = {
   error: null,
 };
 
+const abortController = new AbortController();
+
 // -------------------------- FUNCTION --------------------------
 // Get Categories from API
 export const fetchCategories = createAsyncThunk(
   "categories/fetchCategories",
   async () => {
-    const response = await fetch(categoriesApi);
+    const response = await fetch(categoriesApi, {
+      signal: abortController.signal,
+    });
     const result = (await response.json()) as CategoryData[];
     return result;
   }

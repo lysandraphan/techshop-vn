@@ -30,10 +30,14 @@ const initialState: BrandsState = {
   error: null,
 };
 
+const abortController = new AbortController();
+
 // -------------------------- FUNCTION --------------------------
 // Get Brands from API
 export const fetchBrands = createAsyncThunk("brands/fetchBrands", async () => {
-  const response = await fetch(brandsApi);
+  const response = await fetch(brandsApi, {
+    signal: abortController.signal,
+  });
   const result = (await response.json()) as ServerBrandsData;
   const data = lodash.sortBy(result.data, ["name"]);
   return data;

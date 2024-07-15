@@ -24,12 +24,16 @@ const initialState: BannersState = {
   error: null,
 };
 
+const abortController = new AbortController();
+
 // -------------------------- FUNCTION --------------------------
 // Get Banners from API
 export const fetchBanners = createAsyncThunk(
   "banners/fetchBanners",
   async () => {
-    const response = await fetch(bannersApi);
+    const response = await fetch(bannersApi, {
+      signal: abortController.signal,
+    });
     const result = (await response.json()) as BannerData[];
     return result;
   }
