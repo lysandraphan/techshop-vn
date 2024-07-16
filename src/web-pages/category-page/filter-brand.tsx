@@ -53,6 +53,7 @@ export default function FilterBrand() {
     let selectedId = parseInt(event.target.value);
 
     if (isSelected) {
+      setTest4("clicked")
       dispatch(addSelectedBrandIds(selectedId));
       setTest2("dispatched addSelectedBrandIds")
     } else {
