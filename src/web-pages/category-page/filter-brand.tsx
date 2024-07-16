@@ -75,6 +75,7 @@ export default function FilterBrand() {
       </Typography>
       <Typography>{test}</Typography>
       <Typography>{test1}</Typography>
+      <Typography>{test4}</Typography>
       <Typography>{test2}</Typography>
       <Typography>{test3}</Typography>
       <Button
