@@ -1,11 +1,13 @@
 "use client";
-import { useEffect, useState } from "react";
+import { Fragment, useEffect, useState } from "react";
 import NextLink from "next/link";
 import axios from "axios";
 
 // internal
-import { ProductData } from "@/components/product-list/product-list.component";
-import { getProductDetailApi } from "@/api";
+import ProductList, {
+  ProductData,
+} from "@/components/product-list/product-list.component";
+import { bestSellingApi, getProductDetailApi } from "@/api";
 import { useParams, usePathname, useRouter } from "next/navigation";
 import { getCategoryRoute } from "@/redux/features/categories-slice";
 
@@ -20,6 +22,8 @@ import LoadingFallback from "@/components/loading-fallback/loading-fallback.comp
 import CustomImage from "@/components/custom-image/custom-image.component";
 import ImageSection from "@/web-pages/product-detail-page/images-section";
 import MainInfoSection from "@/web-pages/product-detail-page/main-info-section";
+import MoreDetailSection from "@/web-pages/product-detail-page/more-detail-section";
+import SectionHeader from "@/components/section-header/section-header.component";
 
 // EXPORT DEFAULT
 export default function ProductDetail() {
@@ -117,7 +121,7 @@ export default function ProductDetail() {
   if (isLoading) return <LoadingFallback />;
   if (!product) return <LoadingFallback message="No Product Found." />;
   return (
-    <Container>
+    <Container sx={{mb: 10}}>
       <Breadcrumbs aria-label="breadcrumb" sx={{ mt: 5 }}>
         <Link underline="hover" color="inherit" component={NextLink} href="/">
           Home
@@ -149,10 +153,18 @@ export default function ProductDetail() {
           images={product.imagesPath}
           name={product.name}
         />
-        <Grid item md={5}>
+        <Grid item md={5} alignSelf="stretch">
           <MainInfoSection product={product} />
         </Grid>
       </Grid>
+      <MoreDetailSection
+        description={product.description}
+        ratingScore={product.ratingScore}
+        ratingTotal={product.rateTotal}
+      />
+      <SectionHeader smallHeader="Related Products" noButton />
+      {/* Testing API - Need to update new API later */}
+      <ProductList api={bestSellingApi} /> 
     </Container>
   );
 }
