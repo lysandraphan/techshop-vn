@@ -22,10 +22,7 @@ export default function Footer() {
         py={2}
         color="primary.contrastText"
         divider={
-          <Divider
-            flexItem
-            sx={{ mt: 3, mb: 3 }}
-          />
+          <Divider flexItem sx={{ mt: 3, mb: 4, bgcolor: "primary.dark" }} />
         }
       >
         <Container>
