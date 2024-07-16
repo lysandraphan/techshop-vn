@@ -21,24 +21,22 @@ export default function ImageSection({
   return (
     <Fragment>
       <Grid item md={2}>
-        <Stack
-          direction="column"
-          spacing={5}
-        >
+        <Stack direction="column" spacing={5}>
           {images &&
             images.map((image, index) => (
-              <CustomImage
-                key={index}
-                src={image}
-                alt={name}
-                width={110}
-                height={85}
-              />
+              <CustomImage key={index} src={image} alt={name} width={110} height={85} />
             ))}
         </Stack>
       </Grid>
-      <Grid item md={5} direction="column" alignSelf="center">
-        <CustomImage src={mainImage} alt={name} height={350} />
+      <Grid
+        item
+        md={5}
+        direction="column"
+        display="flex"
+        alignSelf="center"
+        justifyItems="center"
+      >
+        <CustomImage src={mainImage} alt={name} width="80%" height={350} />
       </Grid>
     </Fragment>
   );

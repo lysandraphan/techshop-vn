@@ -4,7 +4,6 @@ import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
 import FavoriteBorderOutlinedIcon from "@mui/icons-material/FavoriteBorderOutlined";
 
-
 // internal
 import { ProductData } from "@/components/product-list/product-list.component";
 import RatingInfo from "@/components/rating-info/rating-info";
