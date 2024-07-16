@@ -12,6 +12,7 @@ import Tabs from "@mui/material/Tabs";
 import Tab from "@mui/material/Tab";
 import RatingInfo from "@/components/rating-info/rating-info";
 import TabPanel from "@/components/tab-panel/tab-panel";
+import ProductDescription from "@/components/product-description/product-description";
 
 // interface
 interface MoreDetailSectionProps {
@@ -45,7 +46,7 @@ export default function MoreDetailSection({
         border: "1px solid",
         borderColor: "primary.dark",
         borderRadius: 2,
-        mt: 5,
+        mt: 7,
       }}
     >
       <Tabs
@@ -60,7 +61,7 @@ export default function MoreDetailSection({
       </Tabs>
       <SwipeableViews index={value} onChangeIndex={handleChangeIndex}>
         <TabPanel value={value} index={0}>
-          {description}
+          <ProductDescription description={description} />
         </TabPanel>
         <TabPanel value={value} index={1}>
           <RatingInfo ratingScore={ratingScore} ratingTotal={ratingTotal} />
