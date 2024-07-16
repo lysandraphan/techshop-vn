@@ -1,6 +1,5 @@
 "use client";
 import { useState } from "react";
-import SwipeableViews from "react-swipeable-views";
 
 // mui
 import Grid from "@mui/material/Grid";
@@ -59,14 +58,12 @@ export default function MoreDetailSection({
         <Tab label="DESCRIPTION" />
         <Tab label="REVIEW" />
       </Tabs>
-      <SwipeableViews index={value} onChangeIndex={handleChangeIndex}>
-        <TabPanel value={value} index={0}>
-          <ProductDescription description={description} />
-        </TabPanel>
-        <TabPanel value={value} index={1}>
-          <RatingInfo ratingScore={ratingScore} ratingTotal={ratingTotal} />
-        </TabPanel>
-      </SwipeableViews>
+      <TabPanel value={value} index={0}>
+        <ProductDescription description={description} />
+      </TabPanel>
+      <TabPanel value={value} index={1}>
+        <RatingInfo ratingScore={ratingScore} ratingTotal={ratingTotal} />
+      </TabPanel>
     </Box>
   );
 }
