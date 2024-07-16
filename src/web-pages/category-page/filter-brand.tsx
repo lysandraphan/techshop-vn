@@ -19,9 +19,13 @@ import Button from "@mui/material/Button";
 
 // component
 import LoadingFallback from "@/components/loading-fallback/loading-fallback.component";
+import { useState } from "react";
 
 // -------------------------- MAIN --------------------------
 export default function FilterBrand() {
+  const [test, setTest] = useState('')
+  const [test1, setTest1] = useState('')
+
   // -------------------------- VAR --------------------------
   const isLoading = useAppSelector((state) => state.brands.isLoading);
 
@@ -39,6 +43,9 @@ export default function FilterBrand() {
 
   // -------------------------- FUNCTION --------------------------
   const checkBoxHandler = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setTest("Clicked")
+    setTest1(event.target.checked.toString())
+
     let isSelected = event.target.checked;
     let selectedId = parseInt(event.target.value);
 
@@ -60,7 +67,8 @@ export default function FilterBrand() {
       <Typography fontWeight={600} sx={{ wordSpacing: 3 }}>
         OUR BRANDS
       </Typography>
-
+      <Typography>{test}</Typography>
+      <Typography>{test1}</Typography>
       <Button
         variant="outlined"
         color="secondary"
@@ -71,6 +79,7 @@ export default function FilterBrand() {
       >
         All Brands
       </Button>
+
       <FormControl sx={{ m: 3 }} component="fieldset" variant="standard">
         <FormGroup row>
           {brands &&
@@ -89,7 +98,7 @@ export default function FilterBrand() {
                       pr: 0.5,
                       py: 1,
                       "& .MuiSvgIcon-root": {
-                        fontSize: 12,
+                        fontSize: 14,
                       },
                     }}
                   />
