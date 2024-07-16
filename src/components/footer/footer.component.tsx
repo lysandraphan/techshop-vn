@@ -24,7 +24,7 @@ export default function Footer() {
         divider={
           <Divider
             flexItem
-            sx={{ mt: 3, mb: 3, backgroundColor: "primary.light" }}
+            sx={{ mt: 3, mb: 3 }}
           />
         }
       >

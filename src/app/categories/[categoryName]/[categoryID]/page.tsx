@@ -73,7 +73,7 @@ export default function Categories() {
             divider={
               <Divider
                 flexItem
-                sx={{ mt: 2, mb: 1, backgroundColor: "primary.light" }}
+                sx={{ mt: 2, mb: 1 }}
               />
             }
           >
