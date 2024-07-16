@@ -19,16 +19,9 @@ import Button from "@mui/material/Button";
 
 // component
 import LoadingFallback from "@/components/loading-fallback/loading-fallback.component";
-import { useState } from "react";
 
-// -------------------------- MAIN --------------------------
+// EXPORT DEFAULT
 export default function FilterBrand() {
-  const [test, setTest] = useState('')
-  const [test1, setTest1] = useState('')
-  const [test2, setTest2] = useState('')
-  const [test3, setTest3] = useState('')
-  const [test4, setTest4] = useState('')
-
   // -------------------------- VAR --------------------------
   const isLoading = useAppSelector((state) => state.brands.isLoading);
 
@@ -46,19 +39,13 @@ export default function FilterBrand() {
 
   // -------------------------- FUNCTION --------------------------
   const checkBoxHandler = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setTest(event.target.value)
-    setTest1(event.target.checked.toString())
-
     let isSelected = event.target.checked;
     let selectedId = parseInt(event.target.value);
 
     if (isSelected) {
-      setTest4(selectedBrandIds)
       dispatch(addSelectedBrandIds(selectedId));
-      setTest2("dispatched addSelectedBrandIds")
     } else {
       dispatch(filterSelectedBrandIds(selectedId));
-      setTest3("dispatched filterSelectedBrandIds")
     }
   };
 
@@ -73,11 +60,6 @@ export default function FilterBrand() {
       <Typography fontWeight={600} sx={{ wordSpacing: 3 }}>
         OUR BRANDS
       </Typography>
-      <Typography>{test}</Typography>
-      <Typography>{test1}</Typography>
-      <Typography>{test4}</Typography>
-      <Typography>{test2}</Typography>
-      <Typography>{test3}</Typography>
       <Button
         variant="outlined"
         color="secondary"
