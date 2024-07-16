@@ -31,8 +31,8 @@ export default function ImageSection({
                 key={index}
                 src={image}
                 alt={name}
-                width={130}
-                height={100}
+                width={110}
+                height={85}
               />
             ))}
         </Stack>

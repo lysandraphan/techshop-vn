@@ -1,11 +1,7 @@
 // mui
-import Grid from "@mui/material/Grid";
 import Stack from "@mui/material/Stack";
 import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
-import Box from "@mui/material/Box";
-import Rating from "@mui/material/Rating";
-import StarRateRoundedIcon from "@mui/icons-material/StarRateRounded";
 import FavoriteBorderOutlinedIcon from "@mui/icons-material/FavoriteBorderOutlined";
 
 

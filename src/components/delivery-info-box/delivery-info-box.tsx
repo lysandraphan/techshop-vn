@@ -26,7 +26,7 @@ export default function DeliveryInfoBox() {
               Free Delivery
             </Typography>
             <Typography fontSize={14}>
-              Enter your postal code for Delivery Avaibility
+              Enter your postal code for Delivery Avaibility.
             </Typography>
           </Stack>
         </Stack>
@@ -36,10 +36,10 @@ export default function DeliveryInfoBox() {
           <LoopIcon fontSize="large" />
           <Stack>
             <Typography variant="h6" fontSize={16}>
-              Free Delivery
+              Return Delivery
             </Typography>
             <Typography fontSize={14}>
-              Enter your postal code for Delivery Avaibility
+              Free 30 days delivery returns.
             </Typography>
           </Stack>
         </Stack>
