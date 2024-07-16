@@ -1,5 +1,5 @@
 "use client";
-import { useState } from "react";
+import { Fragment, useState } from "react";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
@@ -135,7 +135,7 @@ export default function FilterPrice() {
     dispatch(setFilterPriceRange([minPrice, maxPrice]));
   };
 
-  // Compare Input Price Range with Radio Button Price Range Options 
+  // Compare Input Price Range with Radio Button Price Range Options
   const compareRange = (
     optionRange: [number, number],
     priceRange: [number, number]
@@ -145,84 +145,91 @@ export default function FilterPrice() {
 
   // -------------------------- MAIN --------------------------
   return (
-    <Stack direction="column" spacing={1}>
+    <Fragment>
       <ToastContainer />
-      <Typography fontWeight={600} sx={{ wordSpacing: 3 }}>
-        PRICE RANGE
-      </Typography>
-      <Slider
-        getAriaLabel={() => "Minimum distance"}
-        value={priceRange}
-        onChange={handleChangeSlider}
-        onChangeCommitted={handleCommitChangeSlider}
-        valueLabelDisplay="auto"
-        disableSwap
-        color="secondary"
-        min={0}
-        max={1000}
-        step={50}
-        disabled={isDisableFilter}
-        size="small"
-      />
-      <Stack direction="row" spacing={2}>
-        <TextField
-          id="min-input-field"
-          label="Min"
-          variant="outlined"
-          maxRows={1}
-          size="small"
-          inputProps={{ sx: { fontSize: 10 }, enterKeyHint: "go" }}
-          InputLabelProps={{ sx: { fontSize: 10 } }}
-          value={min}
-          onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
-            setMin(event.target.value);
-          }}
-          onKeyDown={handleKeyDown}
+      <Stack direction="column" spacing={1}>
+        <Typography fontWeight={600} sx={{ wordSpacing: 3 }}>
+          PRICE RANGE
+        </Typography>
+
+        {/*-------------------------- Slider --------------------------*/}
+        <Slider
+          getAriaLabel={() => "Minimum distance"}
+          value={priceRange}
+          onChange={handleChangeSlider}
+          onChangeCommitted={handleCommitChangeSlider}
+          valueLabelDisplay="auto"
+          disableSwap
+          color="secondary"
+          min={0}
+          max={1000}
+          step={50}
           disabled={isDisableFilter}
-        />
-        <TextField
-          id="max-input-field"
-          label="Max"
-          variant="outlined"
-          maxRows={1}
           size="small"
-          inputProps={{ sx: { fontSize: 10 }, enterKeyHint: "go" }}
-          InputLabelProps={{ sx: { fontSize: 10 } }}
-          value={max}
-          onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
-            setMax(event.target.value);
-          }}
-          onKeyDown={handleKeyDown}
-          disabled={isDisableFilter}
         />
+        {/*-------------------------- Min-Max TextFields --------------------------*/}
+        <Stack direction="row" spacing={2} mb={5}>
+          <TextField
+            id="min-input-field"
+            label="Min"
+            variant="outlined"
+            maxRows={1}
+            size="small"
+            inputProps={{ sx: { fontSize: 10 }, enterKeyHint: "go" }}
+            InputLabelProps={{ sx: { fontSize: 10 } }}
+            value={min}
+            onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
+              setMin(event.target.value);
+            }}
+            onKeyDown={handleKeyDown}
+            disabled={isDisableFilter}
+          />
+          <TextField
+            id="max-input-field"
+            label="Max"
+            variant="outlined"
+            maxRows={1}
+            size="small"
+            inputProps={{ sx: { fontSize: 10 }, enterKeyHint: "go" }}
+            InputLabelProps={{ sx: { fontSize: 10 } }}
+            value={max}
+            onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
+              setMax(event.target.value);
+            }}
+            onKeyDown={handleKeyDown}
+            disabled={isDisableFilter}
+          />
+        </Stack>
+
+        {/*-------------------------- Radio Buttons --------------------------*/}
+        <FormControl>
+          <RadioGroup
+            aria-labelledby="price-radio-buttons-group"
+            name="price-radio-buttons-group"
+            onChange={handleChangeRadioBtn}
+          >
+            {filterPriceOptions.map((option) => (
+              <FormControlLabel
+                key={option.id}
+                value={option.range}
+                control={
+                  <Radio
+                    size="small"
+                    checked={compareRange(option.range, filterPriceRange)}
+                    sx={{
+                      "& .MuiSvgIcon-root": {
+                        fontSize: 12,
+                      },
+                    }}
+                    disabled={isDisableFilter}
+                  />
+                }
+                label={<Typography fontSize={12}>{option.label}</Typography>}
+              />
+            ))}
+          </RadioGroup>
+        </FormControl>
       </Stack>
-      <FormControl>
-        <RadioGroup
-          aria-labelledby="price-radio-buttons-group"
-          name="price-radio-buttons-group"
-          onChange={handleChangeRadioBtn}
-        >
-          {filterPriceOptions.map((option) => (
-            <FormControlLabel
-              key={option.id}
-              value={option.range}
-              control={
-                <Radio
-                  size="small"
-                  checked={compareRange(option.range, filterPriceRange)}
-                  sx={{
-                    "& .MuiSvgIcon-root": {
-                      fontSize: 12,
-                    },
-                  }}
-                  disabled={isDisableFilter}
-                />
-              }
-              label={<Typography fontSize={12}>{option.label}</Typography>}
-            />
-          ))}
-        </RadioGroup>
-      </FormControl>
-    </Stack>
+    </Fragment>
   );
 }
