@@ -9,17 +9,19 @@ interface SectionHeaderProps {
   smallHeader: string;
   largeHeader?: string;
   noButton?: boolean;
+  mt?: number;
 }
 
 export default function SectionHeader({
   smallHeader,
   largeHeader,
   noButton,
+  mt = 10,
 }: SectionHeaderProps) {
   return (
     <Stack direction="row" alignItems="flex-end">
       <Container disableGutters>
-        <Stack direction="row" mt={10} alignItems="center">
+        <Stack direction="row" mt={mt} alignItems="center">
           <Box
             sx={{
               width: 20,

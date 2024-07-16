@@ -153,7 +153,7 @@ export default function ProductDetail() {
           images={product.imagesPath}
           name={product.name}
         />
-        <Grid item md={5} alignSelf="stretch">
+        <Grid item md={5}>
           <MainInfoSection product={product} />
         </Grid>
       </Grid>
@@ -162,7 +162,7 @@ export default function ProductDetail() {
         ratingScore={product.ratingScore}
         ratingTotal={product.rateTotal}
       />
-      <SectionHeader smallHeader="Related Products" noButton />
+      <SectionHeader smallHeader="Related Products" mt={7} noButton />
       {/* Testing API - Need to update new API later */}
       <ProductList api={bestSellingApi} /> 
     </Container>
