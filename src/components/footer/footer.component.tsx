@@ -1,6 +1,8 @@
 "use client";
+import NextLink from "next/link";
 
-//mui
+// mui
+import Link from "@mui/material/Link";
 import Stack from "@mui/material/Stack";
 import Divider from "@mui/material/Divider";
 import Grid from "@mui/material/Grid";
@@ -13,6 +15,9 @@ import LinkedInIcon from "@mui/icons-material/LinkedIn";
 import TwitterIcon from "@mui/icons-material/Twitter";
 
 export default function Footer() {
+  const textFS = 14;
+  const titleFS = 18;
+
   return (
     <footer>
       <Stack
@@ -32,36 +37,77 @@ export default function Footer() {
                 <Typography variant="h5" fontWeight={600}>
                   TechShopVN
                 </Typography>
-                <Typography fontSize={14}>
+                <Typography fontSize={textFS}>
                   111 Ho Chi Minh City, Vietnam
                 </Typography>
-                <Typography fontSize={14}>techshopvn@support.com</Typography>
-                <Typography fontSize={14}>+84 999 999</Typography>
+                <Typography fontSize={textFS}>
+                  techshopvn@support.com
+                </Typography>
+                <Typography fontSize={textFS}>+84 999 999</Typography>
               </Stack>
             </Grid>
             <Grid item md={2.5}>
               <Stack direction="column" spacing={2}>
-                <Typography variant="h6" fontSize={18} fontWeight={600}>
+                <Typography variant="h6" fontSize={titleFS} fontWeight={600}>
                   Support
                 </Typography>
-                <Typography fontSize={14}>About</Typography>
-                <Typography fontSize={14}>Contact</Typography>
+                <Link
+                  underline="hover"
+                  color="inherit"
+                  href=""
+                  component={NextLink}
+                  fontSize={textFS}
+                >
+                  About
+                </Link>
+                <Link
+                  underline="hover"
+                  color="inherit"
+                  href=""
+                  component={NextLink}
+                  fontSize={textFS}
+                >
+                  Contact
+                </Link>
               </Stack>
             </Grid>
             <Grid item md={2.5}>
               <Stack direction="column" spacing={2}>
-                <Typography variant="h6" fontSize={18} fontWeight={600}>
+                <Typography variant="h6" fontSize={titleFS} fontWeight={600}>
                   Quick Links
                 </Typography>
-
-                <Typography fontSize={14}>Privacy Policy</Typography>
-                <Typography fontSize={14}>Terms Of Use</Typography>
-                <Typography fontSize={14}>FAQ</Typography>
+                <Link
+                  underline="hover"
+                  color="inherit"
+                  href=""
+                  component={NextLink}
+                  fontSize={textFS}
+                >
+                  Privacy Policy
+                </Link>
+                <Link
+                  underline="hover"
+                  color="inherit"
+                  href=""
+                  component={NextLink}
+                  fontSize={textFS}
+                >
+                  Terms Of Use
+                </Link>
+                <Link
+                  underline="hover"
+                  color="inherit"
+                  href=""
+                  component={NextLink}
+                  fontSize={textFS}
+                >
+                  FAQ
+                </Link>
               </Stack>
             </Grid>
             <Grid item md={3}>
               <Stack direction="column" spacing={1} alignItems="flex-start">
-                <Typography variant="h6" fontSize={18} fontWeight={600}>
+                <Typography variant="h6" fontSize={titleFS} fontWeight={600}>
                   Stay Connected
                 </Typography>
                 <Stack direction="row" spacing={1}>
