@@ -19,7 +19,7 @@ import Grid from "@mui/material/Grid";
 import LoadingFallback from "@/components/loading-fallback/loading-fallback.component";
 import CustomImage from "@/components/custom-image/custom-image.component";
 import ImageSection from "@/web-pages/product-detail-page/images-section";
-import ProductInfoSection from "@/web-pages/product-detail-page/product-info-section";
+import MainInfoSection from "@/web-pages/product-detail-page/main-info-section";
 
 // EXPORT DEFAULT
 export default function ProductDetail() {
@@ -150,7 +150,7 @@ export default function ProductDetail() {
           name={product.name}
         />
         <Grid item md={5}>
-          <ProductInfoSection product={product} />
+          <MainInfoSection product={product} />
         </Grid>
       </Grid>
     </Container>
