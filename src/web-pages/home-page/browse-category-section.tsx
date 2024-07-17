@@ -55,7 +55,7 @@ export default function BrowseCategorySection({
   return (
     <Fragment>
       <SectionHeader smallHeader={smallHeader} largeHeader={largeHeader} />
-      <div style={{ marginTop: 40 }}>
+      <div style={{ marginTop: 50 }}>
         <Carousel
           responsive={carouselResponsive}
           showDots={false}
@@ -81,8 +81,8 @@ export default function BrowseCategorySection({
                 <CustomImage
                   src={category.imagePath}
                   alt="banner"
-                  width="80%"
-                  height={150}
+                  width="70%"
+                  height={130}
                 />
                 <Typography textAlign="center">{category.name}</Typography>
               </Stack>

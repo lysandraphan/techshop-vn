@@ -52,7 +52,7 @@ export default function Home() {
         smallHeader="Categories"
         largeHeader="Browse By Category"
       />
-      <CustomImage src="/banner-3.jpg" alt="banner" height={450} mt={50} />
+      <CustomImage src="/banner-1.jpg" alt="banner" height={380} mt={64} />
       <InfoSection />
     </Container>
   );
