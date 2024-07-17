@@ -107,8 +107,14 @@ export default function FilterPrice() {
       const minPrice = parseInt(min);
       const maxPrice = parseInt(max);
 
+      if (minPrice < 0 || maxPrice <= 0) {
+        notify("Min and Max cannot be negative numbers.");
+        clearPriceTextFields();
+        return;
+      }
+
       if (minPrice > maxPrice) {
-        notify("Min must be smaller or equal to max.");
+        notify("Min must be smaller or equal to Max.");
         clearPriceTextFields();
         return;
       }
