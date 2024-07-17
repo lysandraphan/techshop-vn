@@ -37,7 +37,7 @@ export default function ImageSection({
   // -------------------------- MAIN --------------------------
   return (
     <Fragment>
-      <Grid item md={2}>
+      <Grid item md={1.5}>
         <Stack direction="column" spacing={5}>
           {sideImages &&
             sideImages.map((image, index) => (
@@ -53,11 +53,13 @@ export default function ImageSection({
       </Grid>
       <Grid
         item
-        md={5}
+        xs={12}
+        md={5.5}
         direction="column"
         display="flex"
         alignSelf="center"
         justifyItems="center"
+        alignItems="center"
       >
         {largeImage && (
           <CustomImage src={largeImage} alt={name} width="80%" height={350} />
