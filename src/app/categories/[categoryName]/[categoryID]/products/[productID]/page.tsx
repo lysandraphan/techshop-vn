@@ -1,5 +1,5 @@
 "use client";
-import { Fragment, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import NextLink from "next/link";
 import axios from "axios";
 
@@ -7,9 +7,10 @@ import axios from "axios";
 import ProductList, {
   ProductData,
 } from "@/components/product-list/product-list.component";
-import { bestSellingApi, getProductDetailApi } from "@/api";
+import { bestSellingApi, getProductDetailApi, getProductReviews } from "@/api";
 import { useParams, usePathname, useRouter } from "next/navigation";
 import { getCategoryRoute } from "@/redux/features/categories-slice";
+import { ReviewData } from "@/interface";
 
 // mui
 import Link from "@mui/material/Link";
@@ -19,7 +20,6 @@ import Grid from "@mui/material/Grid";
 
 // component
 import LoadingFallback from "@/components/loading-fallback/loading-fallback.component";
-import CustomImage from "@/components/custom-image/custom-image.component";
 import ImageSection from "@/web-pages/product-detail-page/images-section";
 import MainInfoSection from "@/web-pages/product-detail-page/main-info-section";
 import MoreDetailSection from "@/web-pages/product-detail-page/more-detail-section";
@@ -29,6 +29,7 @@ import SectionHeader from "@/components/section-header/section-header.component"
 export default function ProductDetail() {
   // -------------------------- STATE --------------------------
   const [product, setProduct] = useState<ProductData>();
+  const [reviews, setReviews] = useState<ReviewData[]>();
   const [isLoading, setIsLoading] = useState(false);
 
   // -------------------------- VAR --------------------------
@@ -87,7 +88,6 @@ export default function ProductDetail() {
 
   useEffect(() => {
     const abortController = new AbortController();
-
     const fetchProductDetail = async () => {
       try {
         setIsLoading(true);
@@ -95,7 +95,6 @@ export default function ProductDetail() {
           signal: abortController.signal,
         });
         const result = response.data as ProductData;
-        console.log(result);
         setProduct(result);
         setIsLoading(false);
       } catch (error: any) {
@@ -108,14 +107,40 @@ export default function ProductDetail() {
         }
       }
     };
-
     fetchProductDetail();
-
     // Clean up
     return () => {
       abortController.abort();
     };
   }, [api]);
+
+  useEffect(() => {
+    const abortController = new AbortController();
+    const fetchReviews = async () => {
+      try {
+        setIsLoading(true);
+        const response = await axios.get(getProductReviews(productId), {
+          signal: abortController.signal,
+        });
+        const result = response.data as ReviewData[];
+        setReviews(result);
+        setIsLoading(false);
+      } catch (error: any) {
+        setIsLoading(false);
+        // only log error/call dispatch when we know the fetch was not aborted
+        if (!abortController.signal.aborted) {
+          console.log(error.message);
+        } else {
+          console.log("Fetch request aborted.");
+        }
+      }
+    };
+    fetchReviews();
+    // Clean up
+    return () => {
+      abortController.abort();
+    };
+  }, []);
 
   // -------------------------- MAIN --------------------------
   if (isLoading) return <LoadingFallback />;
@@ -159,6 +184,7 @@ export default function ProductDetail() {
       </Grid>
       <MoreDetailSection
         description={product.description}
+        reviews={reviews}
         ratingScore={product.ratingScore}
         ratingTotal={product.rateTotal}
       />

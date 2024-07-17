@@ -23,3 +23,7 @@ export const getProductsByCategoryApi = (
 export const getProductDetailApi = (productId: number) => {
   return `https://g5-likelion-ecommerce.onrender.com/api/product/public/${productId}`;
 };
+
+export const getProductReviews = (productId: number) => {
+  return `https://g5-likelion-ecommerce.onrender.com/api/product-rate/public/${productId}`;
+};
