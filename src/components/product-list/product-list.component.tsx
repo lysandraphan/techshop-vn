@@ -70,34 +70,34 @@ export default function ProductList({
   const dispatch = useAppDispatch();
 
   // -------------------------- FUNCTION --------------------------
-  // Filter Products by Price
-  const filterPrice = () => {
+  // Filter Products by Price & Brand
+  const filterPriceAndBrands = () => {
     if (products.length === 0) return;
-    if (filterPriceRange) {
-      const filtered = products.filter(
+
+    let filtered = [];
+
+    if (filterPriceRange && selectedBrandIds && selectedBrandIds.length !== 0) {
+      filtered = products.filter(
+        (product) =>
+          product.price >= filterPriceRange[0] &&
+          product.price <= filterPriceRange[1] &&
+          selectedBrandIds?.includes(product.brand.id)
+      );
+    } else if (filterPriceRange) {
+      filtered = products.filter(
         (product) =>
           product.price >= filterPriceRange[0] &&
           product.price <= filterPriceRange[1]
       );
-      setFilteredProducts(filtered);
-      dispatch(setTotalFilteredProducts(filtered.length));
-    } else {
-      setFilteredProducts(products);
-    }
-  };
-
-  // Filter Products by Brand
-  const filterBrand = () => {
-    if (products.length === 0) return;
-    if (selectedBrandIds && selectedBrandIds.length !== 0) {
-      const filtered = products.filter((product) =>
+    } else if (selectedBrandIds && selectedBrandIds.length !== 0) {
+      filtered = products.filter((product) =>
         selectedBrandIds?.includes(product.brand.id)
       );
-      setFilteredProducts(filtered);
-      dispatch(setTotalFilteredProducts(filtered.length));
     } else {
-      setFilteredProducts(products);
+      filtered = products;
     }
+    setFilteredProducts(filtered);
+    dispatch(setTotalFilteredProducts(filtered.length));
   };
 
   // Sort Products
@@ -158,14 +158,9 @@ export default function ProductList({
   }, []);
 
   useEffect(() => {
-    filterPrice();
+    filterPriceAndBrands();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [filterPriceRange, products]);
-
-  useEffect(() => {
-    filterBrand();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [selectedBrandIds, products]);
+  }, [filterPriceRange, selectedBrandIds, products]);
 
   useEffect(() => {
     sortProducts(sortValue);
