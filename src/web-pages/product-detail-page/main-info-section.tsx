@@ -6,9 +6,11 @@ import FavoriteBorderOutlinedIcon from "@mui/icons-material/FavoriteBorderOutlin
 
 // internal
 import { ProductData } from "@/components/product-list/product-list.component";
-import RatingInfo from "@/components/rating-info/rating-info";
 import { displayPrice } from "@/components/product-card/product-card.component";
-import DeliveryInfoBox from "@/components/delivery-info-box/delivery-info-box";
+
+// component
+import RatingInfo from "@/components/rating-info/rating-info";
+import DeliveryInfoBox from "./components/delivery-info-box";
 
 // interface
 interface MainInfoSectionProps {
@@ -39,11 +41,16 @@ export default function MainInfoSection({ product }: MainInfoSectionProps) {
         <Button variant="outlined">
           <FavoriteBorderOutlinedIcon />
         </Button>
-        <Button variant="contained" color="secondary" fullWidth={true} size="large">
+        <Button
+          variant="contained"
+          color="secondary"
+          fullWidth={true}
+          size="large"
+        >
           Add To Cart
         </Button>
       </Stack>
-        <DeliveryInfoBox />
+      <DeliveryInfoBox />
     </Stack>
   );
 }

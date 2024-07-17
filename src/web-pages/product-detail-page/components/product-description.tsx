@@ -9,8 +9,8 @@ import SupportAgentOutlinedIcon from "@mui/icons-material/SupportAgentOutlined";
 import CreditScoreOutlinedIcon from "@mui/icons-material/CreditScoreOutlined";
 
 // component
-import IconText from "../icon-text/icon-text";
-import TextInfo from "../text-info/text-info";
+import IconText from "../../../components/icon-text/icon-text";
+import TextInfo from "../../../components/text-info/text-info";
 
 // interface
 interface ProductDescriptionProps {

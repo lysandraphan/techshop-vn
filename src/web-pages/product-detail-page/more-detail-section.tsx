@@ -7,7 +7,9 @@ import Tabs from "@mui/material/Tabs";
 import Tab from "@mui/material/Tab";
 import RatingInfo from "@/components/rating-info/rating-info";
 import TabPanel from "@/components/tab-panel/tab-panel";
-import ProductDescription from "@/components/product-description/product-description";
+
+// component
+import ProductDescription from "./components/product-description";
 
 // interface
 interface MoreDetailSectionProps {
@@ -28,10 +30,6 @@ export default function MoreDetailSection({
   // -------------------------- FUNCTION --------------------------
   const handleChange = (event: React.SyntheticEvent, newValue: number) => {
     setValue(newValue);
-  };
-
-  const handleChangeIndex = (index: number) => {
-    setValue(index);
   };
 
   // -------------------------- MAIN --------------------------
