@@ -1,5 +1,6 @@
 "use client";
 import { useEffect, useState } from "react";
+import { useParams, usePathname, useRouter } from "next/navigation";
 import NextLink from "next/link";
 import axios from "axios";
 
@@ -7,10 +8,14 @@ import axios from "axios";
 import ProductList, {
   ProductData,
 } from "@/components/product-list/product-list.component";
-import { bestSellingApi, getProductDetailApi, getProductReviews } from "@/api";
-import { useParams, usePathname, useRouter } from "next/navigation";
+import {
+  bestSellingApi,
+  getProductDetailApi,
+  getProductReviews,
+  getProductReviewSummary,
+} from "@/api";
 import { getCategoryRoute } from "@/redux/features/categories-slice";
-import { ReviewData } from "@/interface";
+import { ReviewData, ReviewSummaryData } from "@/interface";
 
 // mui
 import Link from "@mui/material/Link";
@@ -30,6 +35,7 @@ export default function ProductDetail() {
   // -------------------------- STATE --------------------------
   const [product, setProduct] = useState<ProductData>();
   const [reviews, setReviews] = useState<ReviewData[]>();
+  const [reviewSummary, setReviewSummary] = useState<ReviewSummaryData>();
   const [isLoading, setIsLoading] = useState(false);
 
   // -------------------------- VAR --------------------------
@@ -86,6 +92,7 @@ export default function ProductDetail() {
   //   setProduct(mockProduct as ProductData);
   // }, []);
 
+  // Fetch product detail
   useEffect(() => {
     const abortController = new AbortController();
     const fetchProductDetail = async () => {
@@ -114,33 +121,63 @@ export default function ProductDetail() {
     };
   }, [api]);
 
-  // useEffect(() => {
-  //   const abortController = new AbortController();
-  //   const fetchReviews = async () => {
-  //     try {
-  //       setIsLoading(true);
-  //       const response = await axios.get(getProductReviews(productId), {
-  //         signal: abortController.signal,
-  //       });
-  //       const result = response.data as ReviewData[];
-  //       setReviews(result);
-  //       setIsLoading(false);
-  //     } catch (error: any) {
-  //       setIsLoading(false);
-  //       // only log error/call dispatch when we know the fetch was not aborted
-  //       if (!abortController.signal.aborted) {
-  //         console.log(error.message);
-  //       } else {
-  //         console.log("Fetch request aborted.");
-  //       }
-  //     }
-  //   };
-  //   fetchReviews();
-  //   // Clean up
-  //   return () => {
-  //     abortController.abort();
-  //   };
-  // }, []);
+  // Fetch product reviews
+  useEffect(() => {
+    const abortController = new AbortController();
+    const fetchReviews = async () => {
+      try {
+        setIsLoading(true);
+        const response = await axios.get(getProductReviews(productId), {
+          signal: abortController.signal,
+        });
+        const result = response.data as ReviewData[];
+        setReviews(result);
+        setIsLoading(false);
+      } catch (error: any) {
+        setIsLoading(false);
+        // only log error/call dispatch when we know the fetch was not aborted
+        if (!abortController.signal.aborted) {
+          console.log(error.message);
+        } else {
+          console.log("Fetch request aborted.");
+        }
+      }
+    };
+    fetchReviews();
+    // Clean up
+    return () => {
+      abortController.abort();
+    };
+  }, []);
+
+  // Fetch product review summary
+  useEffect(() => {
+    const abortController = new AbortController();
+    const fetchReviewSummary = async () => {
+      try {
+        setIsLoading(true);
+        const response = await axios.get(getProductReviewSummary(productId), {
+          signal: abortController.signal,
+        });
+        const result = response.data as ReviewSummaryData;
+        setReviewSummary(result);
+        setIsLoading(false);
+      } catch (error: any) {
+        setIsLoading(false);
+        // only log error/call dispatch when we know the fetch was not aborted
+        if (!abortController.signal.aborted) {
+          console.log(error.message);
+        } else {
+          console.log("Fetch request aborted.");
+        }
+      }
+    };
+    fetchReviewSummary();
+    // Clean up
+    return () => {
+      abortController.abort();
+    };
+  }, []);
 
   // -------------------------- MAIN --------------------------
   if (isLoading) return <LoadingFallback />;
@@ -185,8 +222,7 @@ export default function ProductDetail() {
       <MoreDetailSection
         description={product.description}
         reviews={reviews}
-        ratingScore={product.ratingScore}
-        ratingTotal={product.rateTotal}
+        reviewSummary={reviewSummary}
       />
       <SectionHeader smallHeader="Related Products" mt={7} noButton />
       {/* Testing API - Need to update new API later */}

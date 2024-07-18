@@ -1,6 +1,9 @@
 "use client";
 import { useState } from "react";
 
+// internal
+import { ReviewData, ReviewSummaryData } from "@/interface";
+
 // mui
 import Box from "@mui/material/Box";
 import Tabs from "@mui/material/Tabs";
@@ -10,22 +13,19 @@ import TabPanel from "@/components/tab-panel/tab-panel";
 // component
 import ProductDescription from "./components/product-description";
 import ProductReview from "./components/product-review";
-import { ReviewData } from "@/interface";
 
 // interface
 interface MoreDetailSectionProps {
   description: string;
   reviews: ReviewData[] | undefined;
-  ratingScore: number;
-  ratingTotal: number;
+  reviewSummary: ReviewSummaryData | undefined;
 }
 
 // EXPORT DEFAULT
 export default function MoreDetailSection({
   description,
   reviews,
-  ratingScore,
-  ratingTotal,
+  reviewSummary
 }: MoreDetailSectionProps) {
   // -------------------------- STATE --------------------------
   const [tabValue, setTabValue] = useState(0);
@@ -61,8 +61,7 @@ export default function MoreDetailSection({
       <TabPanel value={tabValue} index={1}>
         <ProductReview
           reviews={reviews}
-          ratingScore={ratingScore}
-          ratingTotal={ratingTotal}
+          reviewSummary={reviewSummary}
         />
       </TabPanel>
     </Box>

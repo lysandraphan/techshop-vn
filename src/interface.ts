@@ -8,3 +8,7 @@ export interface ReviewData {
   comment: string;
   rateTime: Date;
 }
+
+export interface ReviewSummaryData {
+  [props: string]: number;
+}
