@@ -109,7 +109,6 @@ export default function ProductList({
     sortProductOrder: SortProductType | undefined,
     productlist: ProductData[]
   ) => {
-    if (productlist.length === 0) return;
     sortProductOrder === "lowest" &&
       setFilteredProducts(lodash.orderBy(productlist, ["price"], ["asc"]));
     sortProductOrder === "highest" &&
@@ -170,7 +169,11 @@ export default function ProductList({
   }, [filterPriceRange, selectedBrandIds, products]);
 
   useEffect(() => {
-    sortProductList(sortProductOrder, products);
+    if (filteredProducts.length !== 0) {
+      sortProductList(sortProductOrder, filteredProducts);
+    } else {
+      products.length !== 0 && sortProductList(sortProductOrder, products);
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [sortProductOrder]);
 
