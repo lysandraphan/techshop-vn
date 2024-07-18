@@ -109,6 +109,7 @@ export default function ProductList({
     sortProductOrder: SortProductType | undefined,
     productlist: ProductData[]
   ) => {
+    if (products.length === 0 || sortProductOrder === "default") return;
     sortProductOrder === "lowest" &&
       setFilteredProducts(lodash.orderBy(productlist, ["price"], ["asc"]));
     sortProductOrder === "highest" &&
@@ -117,6 +118,19 @@ export default function ProductList({
       setFilteredProducts(
         lodash.orderBy(productlist, ["ratingScore", "ratingTotal"], ["desc"])
       );
+  };
+
+  // Search Products
+  const searchProducts = (searchQuery: string | undefined) => {
+    if (!searchQuery || products.length === 0) return;
+
+    const filtered = products.filter((product) => {
+      return product.name
+        .toLocaleLowerCase()
+        .includes(searchQuery.toLocaleLowerCase());
+    });
+    setFilteredProducts(filtered);
+    console.log(filtered);
   };
 
   // -------------------------- EFFECT --------------------------
@@ -178,15 +192,9 @@ export default function ProductList({
   }, [sortProductOrder]);
 
   useEffect(() => {
-    if (searchQuery) {
-      const filtered = products.filter((product) => {
-        return product.name
-          .toLocaleLowerCase()
-          .includes(searchQuery.toLocaleLowerCase());
-      });
-      setFilteredProducts(filtered);
-    }
-  }, [searchQuery, products]);
+    searchProducts(searchQuery);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [searchQuery]);
 
   // -------------------------- MAIN --------------------------
   if (isLoading) return <LoadingFallback />;

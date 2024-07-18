@@ -31,6 +31,7 @@ export const filter = createSlice({
     setFilterPriceRange: (state, action: PayloadAction<[number, number]>) => {
       state.filterPriceRange = action.payload;
     },
+
     addSelectedBrandIds: (state, action: PayloadAction<number>) => {
       state.selectedBrandIds.push(action.payload);
     },
@@ -39,7 +40,14 @@ export const filter = createSlice({
         (brandId) => brandId !== action.payload
       );
     },
+    resetFilterPriceRange: (state) => {
+      state.filterPriceRange = [0, maxProductPrice];
+    },
     resetSelectedBrandIds: (state) => {
+      state.selectedBrandIds = [];
+    },
+    resetAllFilters: (state) => {
+      state.filterPriceRange = [0, maxProductPrice];
       state.selectedBrandIds = [];
     },
     setDisableFilter: (state, action: PayloadAction<boolean>) => {
@@ -56,7 +64,9 @@ export const {
   setFilterPriceRange,
   addSelectedBrandIds,
   filterSelectedBrandIds,
+  resetFilterPriceRange,
   resetSelectedBrandIds,
+  resetAllFilters,
   setDisableFilter,
   setTotalFilteredProducts,
 } = filter.actions;
