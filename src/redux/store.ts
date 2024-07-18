@@ -29,7 +29,7 @@ const rootReducer = combineReducers({
 const persistConfig = {
   key: "root",
   storage: customStorage,
-  whitelist: ["categories", "banners", "brands", "sort"],
+  whitelist: ["categories", "banners", "brands"],
 };
 
 //
