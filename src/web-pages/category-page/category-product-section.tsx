@@ -3,7 +3,10 @@ import { Fragment, useEffect, useState } from "react";
 
 // internal
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
-import { setSortValue, SortType } from "@/redux/features/filter-slice";
+import {
+  setSortProductOrder,
+  SortProductType,
+} from "@/redux/features/sort-slice";
 import { getProductsByCategoryApi } from "@/api";
 
 // mui
@@ -36,7 +39,9 @@ export default function CategoryProductSection({
     (state) => state.brands.selectedBrandIds
   );
 
-  const sortValue = useAppSelector((state) => state.filter.sortValue);
+  const sortProductOrder = useAppSelector(
+    (state) => state.sort.sortProductOrder
+  );
 
   const dispatch = useAppDispatch();
 
@@ -44,12 +49,12 @@ export default function CategoryProductSection({
 
   // -------------------------- FUNCTION --------------------------
   const selectSortHandler = (event: SelectChangeEvent) => {
-    dispatch(setSortValue(event.target.value as SortType));
+    dispatch(setSortProductOrder(event.target.value as SortProductType));
   };
 
   // -------------------------- EFFECT --------------------------
   useEffect(() => {
-    dispatch(setSortValue("default"));
+    dispatch(setSortProductOrder("default"));
   }, []);
 
   // -------------------------- MAIN --------------------------
@@ -63,7 +68,7 @@ export default function CategoryProductSection({
         />
         <FormControl sx={{ m: 1, minWidth: 140 }}>
           <Select
-            value={sortValue}
+            value={sortProductOrder}
             onChange={selectSortHandler}
             displayEmpty
             inputProps={{ "aria-label": "Without label" }}
@@ -98,7 +103,7 @@ export default function CategoryProductSection({
         api={getProductsByCategoryApi(categoryId)}
         filterPriceRange={filterPriceRange}
         selectedBrandIds={selectedBrandIds}
-        sortValue={sortValue}
+        sortProductOrder={sortProductOrder}
         searchQuery={searchQuery}
         isInCategory
       />

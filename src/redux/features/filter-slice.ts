@@ -6,10 +6,7 @@ interface FilterState {
   filterPriceRange: [number, number];
   isDisableFilter: boolean;
   totalFilteredProducts: number;
-  sortValue: SortType;
 }
-
-export type SortType = "default" | "lowest" | "highest" | "top";
 
 // -------------------------- VAR --------------------------
 export const maxProductPrice = 100000;
@@ -19,7 +16,6 @@ const initialState: FilterState = {
   filterPriceRange: [0, maxProductPrice],
   isDisableFilter: false,
   totalFilteredProducts: 0,
-  sortValue: "default",
 };
 
 // -------------------------- REDUX --------------------------
@@ -39,9 +35,6 @@ export const filter = createSlice({
     setTotalFilteredProducts: (state, action: PayloadAction<number>) => {
       state.totalFilteredProducts = action.payload;
     },
-    setSortValue: (state, action: PayloadAction<SortType>) => {
-      state.sortValue = action.payload;
-    },
   },
 });
 
@@ -50,7 +43,6 @@ export const {
   setFilterPriceRange,
   setDisableFilter,
   setTotalFilteredProducts,
-  setSortValue,
 } = filter.actions;
 
 export default filter.reducer;

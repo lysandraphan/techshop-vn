@@ -14,6 +14,7 @@ import {
 import categoriesReducer from "./features/categories-slice";
 import bannersReducer from "./features/banners-slice";
 import filterReducer from "./features/filter-slice";
+import sortReducer from "./features/sort-slice";
 import brandsReducer from "./features/brands-slice";
 import customStorage from "./storage";
 
@@ -21,13 +22,14 @@ const rootReducer = combineReducers({
   categories: categoriesReducer,
   banners: bannersReducer,
   filter: filterReducer,
+  sort: sortReducer,
   brands: brandsReducer,
 });
 
 const persistConfig = {
   key: "root",
   storage: customStorage,
-  whitelist: ["categories", "banners", "brands"],
+  whitelist: ["categories", "banners", "brands", "sort"],
 };
 
 //

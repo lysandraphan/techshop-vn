@@ -8,8 +8,8 @@ import { useAppDispatch } from "@/redux/hooks";
 import {
   setDisableFilter,
   setTotalFilteredProducts,
-  SortType,
 } from "@/redux/features/filter-slice";
+import { SortProductType } from "@/redux/features/sort-slice";
 
 //mui
 import ProductCard from "@/components/product-card/product-card.component";
@@ -48,7 +48,7 @@ interface ProductListProps {
   isInCategory?: boolean;
   filterPriceRange?: [number, number];
   selectedBrandIds?: number[];
-  sortValue?: SortType;
+  sortProductOrder?: SortProductType;
   searchQuery?: string;
 }
 
@@ -58,7 +58,7 @@ export default function ProductList({
   isInCategory,
   filterPriceRange,
   selectedBrandIds,
-  sortValue,
+  sortProductOrder,
   searchQuery,
 }: ProductListProps) {
   // -------------------------- STATE --------------------------
@@ -98,18 +98,25 @@ export default function ProductList({
     }
     setFilteredProducts(filtered);
     dispatch(setTotalFilteredProducts(filtered.length));
+
+    if (sortProductOrder && sortProductOrder !== "default") {
+      sortProductList(sortProductOrder, filtered);
+    }
   };
 
   // Sort Products
-  const sortProducts = (sortValue: SortType | undefined) => {
-    if (products.length === 0) return;
-    sortValue === "lowest" &&
-      setFilteredProducts(lodash.orderBy(products, ["price"], ["asc"]));
-    sortValue === "highest" &&
-      setFilteredProducts(lodash.orderBy(products, ["price"], ["desc"]));
-    sortValue === "top" &&
+  const sortProductList = (
+    sortProductOrder: SortProductType | undefined,
+    productlist: ProductData[]
+  ) => {
+    if (productlist.length === 0) return;
+    sortProductOrder === "lowest" &&
+      setFilteredProducts(lodash.orderBy(productlist, ["price"], ["asc"]));
+    sortProductOrder === "highest" &&
+      setFilteredProducts(lodash.orderBy(productlist, ["price"], ["desc"]));
+    sortProductOrder === "top" &&
       setFilteredProducts(
-        lodash.orderBy(products, ["ratingScore", "ratingTotal"], ["desc"])
+        lodash.orderBy(productlist, ["ratingScore", "ratingTotal"], ["desc"])
       );
   };
 
@@ -163,9 +170,9 @@ export default function ProductList({
   }, [filterPriceRange, selectedBrandIds, products]);
 
   useEffect(() => {
-    sortProducts(sortValue);
+    sortProductList(sortProductOrder, products);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [sortValue]);
+  }, [sortProductOrder]);
 
   useEffect(() => {
     if (searchQuery) {
