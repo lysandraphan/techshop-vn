@@ -32,9 +32,9 @@ export default function ProductDescription({
           Description
         </Typography>
         <Typography fontSize={paraFS} textAlign="justify">
-          {description.length < 500
-            ? description.length
-            : description.substring(0, 500) + "..."}
+          {description.length < 1000
+            ? description
+            : description.substring(0, 1000) + "..."}
         </Typography>
       </Grid>
       <Grid item md={3}>
