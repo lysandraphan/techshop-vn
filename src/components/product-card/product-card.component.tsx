@@ -55,7 +55,7 @@ export default function ProductCard({
 
   // -------------------------- RENDER --------------------------
   // Render Product Card in Home Page (Best Selling, New Arrival)
-  const renderProductCardNoBorder = () => {
+  const renderProductCard = () => {
     return (
       <Stack
         spacing={1}
@@ -73,7 +73,7 @@ export default function ProductCard({
             alignItems: "center",
           }}
           width="inherit"
-          height={200}
+          height={240}
         >
           <CustomImage
             src={product.imagePath}
@@ -86,6 +86,8 @@ export default function ProductCard({
           fontSize={16}
           fontWeight={500}
           sx={{
+            letterSpacing: 0.5,
+            wordSpacing: 3,
             overflow: "hidden",
             textOverflow: "ellipsis",
             display: "-webkit-box",
@@ -107,7 +109,7 @@ export default function ProductCard({
   };
 
   // Render Product Card in Category Page
-  const renderProductCard = () => {
+  const renderProductCardInCategory = () => {
     return (
       <Stack
         spacing={1}
@@ -140,9 +142,11 @@ export default function ProductCard({
           smallSize
         />
         <Typography
-          fontSize={12}
+          fontSize={13}
           fontWeight={500}
           sx={{
+            letterSpacing: 0.5,
+            wordSpacing: 3,
             overflow: "hidden",
             textOverflow: "ellipsis",
             display: "-webkit-box",
@@ -160,5 +164,5 @@ export default function ProductCard({
   };
 
   // -------------------------- MAIN --------------------------
-  return isInCategory ? renderProductCard() : renderProductCardNoBorder();
+  return isInCategory ? renderProductCardInCategory() : renderProductCard();
 }
