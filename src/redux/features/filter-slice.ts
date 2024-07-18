@@ -4,6 +4,7 @@ import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 interface FilterState {
   filterCategory: [number, string];
   filterPriceRange: [number, number];
+  selectedBrandIds: number[];
   isDisableFilter: boolean;
   totalFilteredProducts: number;
 }
@@ -14,6 +15,7 @@ export const maxProductPrice = 100000;
 const initialState: FilterState = {
   filterCategory: [0, ""],
   filterPriceRange: [0, maxProductPrice],
+  selectedBrandIds: [],
   isDisableFilter: false,
   totalFilteredProducts: 0,
 };
@@ -29,6 +31,17 @@ export const filter = createSlice({
     setFilterPriceRange: (state, action: PayloadAction<[number, number]>) => {
       state.filterPriceRange = action.payload;
     },
+    addSelectedBrandIds: (state, action: PayloadAction<number>) => {
+      state.selectedBrandIds.push(action.payload);
+    },
+    filterSelectedBrandIds: (state, action: PayloadAction<number>) => {
+      state.selectedBrandIds = state.selectedBrandIds.filter(
+        (brandId) => brandId !== action.payload
+      );
+    },
+    resetSelectedBrandIds: (state) => {
+      state.selectedBrandIds = [];
+    },
     setDisableFilter: (state, action: PayloadAction<boolean>) => {
       state.isDisableFilter = action.payload;
     },
@@ -41,6 +54,9 @@ export const filter = createSlice({
 export const {
   setFilterCategory,
   setFilterPriceRange,
+  addSelectedBrandIds,
+  filterSelectedBrandIds,
+  resetSelectedBrandIds,
   setDisableFilter,
   setTotalFilteredProducts,
 } = filter.actions;

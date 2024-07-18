@@ -1,12 +1,12 @@
 "use client";
 // internal
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
+import { BrandData } from "@/redux/features/brands-slice";
 import {
-  BrandData,
   addSelectedBrandIds,
   filterSelectedBrandIds,
   resetSelectedBrandIds,
-} from "@/redux/features/brands-slice";
+} from "@/redux/features/filter-slice";
 
 // mui
 import FormControl from "@mui/material/FormControl";
@@ -28,7 +28,7 @@ export default function FilterBrand() {
   const brands = useAppSelector((state) => state.brands.brands);
 
   const selectedBrandIds = useAppSelector(
-    (state) => state.brands.selectedBrandIds
+    (state) => state.filter.selectedBrandIds
   );
 
   const isDisableFilter = useAppSelector(

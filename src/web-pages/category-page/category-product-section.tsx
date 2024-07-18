@@ -36,7 +36,7 @@ export default function CategoryProductSection({
     (state) => state.filter.filterPriceRange
   );
   const selectedBrandIds = useAppSelector(
-    (state) => state.brands.selectedBrandIds
+    (state) => state.filter.selectedBrandIds
   );
 
   const sortProductOrder = useAppSelector(

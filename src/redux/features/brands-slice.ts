@@ -7,7 +7,6 @@ import { brandsApi } from "@/api";
 // -------------------------- INTERFACE --------------------------
 export interface BrandsState {
   brands: BrandData[];
-  selectedBrandIds: number[];
   isLoading: boolean;
   error: any;
 }
@@ -25,7 +24,6 @@ export interface BrandData {
 // -------------------------- VAR --------------------------
 const initialState: BrandsState = {
   brands: [],
-  selectedBrandIds: [],
   isLoading: false,
   error: null,
 };
@@ -47,19 +45,7 @@ export const fetchBrands = createAsyncThunk("brands/fetchBrands", async () => {
 export const brands = createSlice({
   name: "brands",
   initialState,
-  reducers: {
-    addSelectedBrandIds: (state, action: PayloadAction<number>) => {
-      state.selectedBrandIds.push(action.payload);
-    },
-    filterSelectedBrandIds: (state, action: PayloadAction<number>) => {
-      state.selectedBrandIds = state.selectedBrandIds.filter(
-        (brandId) => brandId !== action.payload
-      );
-    },
-    resetSelectedBrandIds: (state) => {
-      state.selectedBrandIds = [];
-    },
-  },
+  reducers: {},
   extraReducers(builder) {
     builder.addCase(fetchBrands.pending, (state) => {
       state.isLoading = true;
@@ -74,11 +60,5 @@ export const brands = createSlice({
     });
   },
 });
-
-export const {
-  addSelectedBrandIds,
-  filterSelectedBrandIds,
-  resetSelectedBrandIds,
-} = brands.actions;
 
 export default brands.reducer;
