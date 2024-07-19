@@ -121,60 +121,64 @@ export default function ProductDetail() {
 
   // Fetch product reviews
   useEffect(() => {
-    const abortController = new AbortController();
-    const fetchReviews = async () => {
-      try {
-        setIsLoading(true);
-        const response = await axios.get(getProductReviews(productId), {
-          signal: abortController.signal,
-        });
-        const result = response.data as ReviewData[];
-        setReviews(result);
-        setIsLoading(false);
-      } catch (error: any) {
-        setIsLoading(false);
-        // only log error/call dispatch when we know the fetch was not aborted
-        if (!abortController.signal.aborted) {
-          console.log(error.message);
-        } else {
-          console.log("Fetch request aborted.");
+    if (product && product.rateTotal > 0) {
+      const abortController = new AbortController();
+      const fetchReviews = async () => {
+        try {
+          setIsLoading(true);
+          const response = await axios.get(getProductReviews(productId), {
+            signal: abortController.signal,
+          });
+          const result = response.data as ReviewData[];
+          setReviews(result);
+          setIsLoading(false);
+        } catch (error: any) {
+          setIsLoading(false);
+          // only log error/call dispatch when we know the fetch was not aborted
+          if (!abortController.signal.aborted) {
+            console.log(error.message);
+          } else {
+            console.log("Fetch request aborted.");
+          }
         }
-      }
-    };
-    fetchReviews();
-    // Clean up
-    return () => {
-      abortController.abort();
-    };
+      };
+      fetchReviews();
+      // Clean up
+      return () => {
+        abortController.abort();
+      };
+    }
   }, []);
 
   // Fetch product review summary
   useEffect(() => {
-    const abortController = new AbortController();
-    const fetchReviewSummary = async () => {
-      try {
-        setIsLoading(true);
-        const response = await axios.get(getProductReviewSummary(productId), {
-          signal: abortController.signal,
-        });
-        const result = response.data as ReviewSummaryData;
-        setReviewSummary(result);
-        setIsLoading(false);
-      } catch (error: any) {
-        setIsLoading(false);
-        // only log error/call dispatch when we know the fetch was not aborted
-        if (!abortController.signal.aborted) {
-          console.log(error.message);
-        } else {
-          console.log("Fetch request aborted.");
+    if (product && product.rateTotal > 0) {
+      const abortController = new AbortController();
+      const fetchReviewSummary = async () => {
+        try {
+          setIsLoading(true);
+          const response = await axios.get(getProductReviewSummary(productId), {
+            signal: abortController.signal,
+          });
+          const result = response.data as ReviewSummaryData;
+          setReviewSummary(result);
+          setIsLoading(false);
+        } catch (error: any) {
+          setIsLoading(false);
+          // only log error/call dispatch when we know the fetch was not aborted
+          if (!abortController.signal.aborted) {
+            console.log(error.message);
+          } else {
+            console.log("Fetch request aborted.");
+          }
         }
-      }
-    };
-    fetchReviewSummary();
-    // Clean up
-    return () => {
-      abortController.abort();
-    };
+      };
+      fetchReviewSummary();
+      // Clean up
+      return () => {
+        abortController.abort();
+      };
+    }
   }, []);
 
   // -------------------------- MAIN --------------------------
