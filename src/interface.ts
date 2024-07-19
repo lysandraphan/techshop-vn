@@ -6,7 +6,7 @@ export interface ReviewData {
   avatar: string;
   score: number;
   comment: string;
-  rateTime: Date;
+  rateTime: string;
 }
 
 export interface ReviewSummaryData {
