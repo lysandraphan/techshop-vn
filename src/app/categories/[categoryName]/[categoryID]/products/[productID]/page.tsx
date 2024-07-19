@@ -148,7 +148,7 @@ export default function ProductDetail() {
         abortController.abort();
       };
     }
-  }, []);
+  }, [product?.rateTotal]);
 
   // Fetch product review summary
   useEffect(() => {
@@ -179,7 +179,7 @@ export default function ProductDetail() {
         abortController.abort();
       };
     }
-  }, []);
+  }, [product?.rateTotal]);
 
   // -------------------------- MAIN --------------------------
   if (isLoading) return <LoadingFallback />;

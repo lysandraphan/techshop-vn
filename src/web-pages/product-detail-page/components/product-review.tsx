@@ -14,7 +14,6 @@ import {
 // mui
 import Stack from "@mui/material/Stack";
 import Typography from "@mui/material/Typography";
-import Box from "@mui/material/Box";
 import StarRateRoundedIcon from "@mui/icons-material/StarRateRounded";
 import MenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";
@@ -73,9 +72,6 @@ export default function ProductReview({
     sortReviews(sortReviewOrder);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [sortReviewOrder]);
-
-  console.log("reviews");
-  console.log(reviews);
 
   // -------------------------- MAIN --------------------------
   if (!reviews || !reviewSummary || reviews.length === 0)
