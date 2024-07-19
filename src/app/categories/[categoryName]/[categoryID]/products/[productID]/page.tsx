@@ -5,9 +5,6 @@ import NextLink from "next/link";
 import axios from "axios";
 
 // internal
-import ProductList, {
-  ProductData,
-} from "@/components/product-list/product-list.component";
 import {
   getProductDetailApi,
   getProductReviews,
@@ -15,7 +12,7 @@ import {
   getProductsByCategoryApi,
 } from "@/api";
 import { getCategoryRoute } from "@/redux/features/categories-slice";
-import { ReviewData, ReviewSummaryData } from "@/interface";
+import { ProductData, ReviewData, ReviewSummaryData } from "@/interface";
 
 // mui
 import Link from "@mui/material/Link";
@@ -29,6 +26,7 @@ import ImageSection from "@/web-pages/product-detail-page/images-section";
 import MainInfoSection from "@/web-pages/product-detail-page/main-info-section";
 import MoreDetailSection from "@/web-pages/product-detail-page/more-detail-section";
 import SectionHeader from "@/components/section-header/section-header.component";
+import ProductList from "@/components/product-list/product-list.component";
 
 // EXPORT DEFAULT
 export default function ProductDetail() {

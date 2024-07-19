@@ -4,6 +4,7 @@ import axios from "axios";
 import lodash from "lodash";
 
 // internal
+import { ProductData } from "@/interface";
 import { useAppDispatch } from "@/redux/hooks";
 import {
   setDisableFilter,
@@ -11,38 +12,14 @@ import {
 } from "@/redux/features/filter-slice";
 import { SortProductType } from "@/redux/features/sort-slice";
 
-//mui
-import ProductCard from "@/components/product-card/product-card.component";
+// mui
 import Grid from "@mui/material/Grid";
 import LoadingFallback from "../loading-fallback/loading-fallback.component";
 
-// interface
-export interface ProductData {
-  productId: number;
-  name: string;
-  quantity: number;
-  description: string;
-  price: number;
-  ratingScore: number;
-  rateTotal: number;
-  categoryDto: {
-    categoryId: number;
-    name: string;
-    imagePath: string;
-    deletedAt: null;
-    quantityProduct: null;
-  };
-  brand: {
-    id: number;
-    name: string;
-  };
-  createdAt: string;
-  deletedAt: null;
-  inWishList: false;
-  imagePath: string;
-  imagesPath: [];
-}
+// component
+import ProductCard from "@/components/product-card/product-card.component";
 
+// interface
 interface ProductListProps {
   api: string;
   isInCategory?: boolean;

@@ -1,7 +1,7 @@
 "use client";
 // internal
-import { ProductData } from "../product-list/product-list.component";
 import { useRouter } from "next/navigation";
+import { ProductData } from "@/interface";
 
 //mui
 import Typography from "@mui/material/Typography";
