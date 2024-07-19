@@ -3,14 +3,10 @@ import Box from "@mui/material/Box";
 import CircularProgress from "@mui/material/CircularProgress";
 
 interface LoadingFallbackProps {
-  fallback?: boolean;
   message?: string;
 }
 
-export default function LoadingFallback({
-  fallback,
-  message,
-}: LoadingFallbackProps) {
+export default function LoadingFallback({ message }: LoadingFallbackProps) {
   const renderSpinner = () => (
     <Box
       sx={{
@@ -38,5 +34,5 @@ export default function LoadingFallback({
     </Box>
   );
 
-  return fallback ? renderFallBack() : renderSpinner();
+  return message ? renderFallBack() : renderSpinner();
 }

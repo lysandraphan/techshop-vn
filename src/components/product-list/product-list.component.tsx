@@ -185,11 +185,7 @@ export default function ProductList({
           </Grid>
         ))
       ) : (
-        <LoadingFallback
-          fallback
-          message="
-          No Product Found"
-        />
+        <LoadingFallback message="No Product Found" />
       )}
     </Grid>
   );

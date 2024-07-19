@@ -46,7 +46,7 @@ export default function ProductReview({
   const dispatch = useAppDispatch();
 
   const fzSX = { fontSize: 16 };
-  
+
   // -------------------------- FUNCTION --------------------------
   const selectSortHandler = (event: SelectChangeEvent) => {
     dispatch(setSortReviewOrder(event.target.value as SortReviewType));
@@ -74,37 +74,42 @@ export default function ProductReview({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [sortReviewOrder]);
 
+  console.log("reviews");
+  console.log(reviews);
+
   // -------------------------- MAIN --------------------------
-  if (!reviews || reviews.length === 0)
+  if (!reviews || !reviewSummary || reviews.length === 0)
     return <LoadingFallback message="No Reviews Found." />;
   return (
     <Stack>
       <Container maxWidth="xs" sx={{ my: 3 }}>
-        <RatingSummary
-          ratings={reviewSummary}
-          barColors={{
-            5: "#FAAF00",
-            4: "#FAAF00",
-            3: "#FAAF00",
-            2: "#FAAF00",
-            1: "#FAAF00",
-          }}
-          ratingAverageIconProps={{
-            fillColor: "#FAAF00",
-          }}
-          renderLabel={(ratingId: string) => (
-            <Stack direction="row">
-              <StarRateRoundedIcon
-                style={{ opacity: 0.55 }}
-                fontSize="inherit"
-                sx={{ color: "#f98000" }}
-              />
-              <Typography ml={0.3} mr={1} fontSize={12}>
-                {ratingId}
-              </Typography>
-            </Stack>
-          )}
-        />
+        {reviewSummary && (
+          <RatingSummary
+            ratings={reviewSummary}
+            barColors={{
+              5: "#FAAF00",
+              4: "#FAAF00",
+              3: "#FAAF00",
+              2: "#FAAF00",
+              1: "#FAAF00",
+            }}
+            ratingAverageIconProps={{
+              fillColor: "#FAAF00",
+            }}
+            renderLabel={(ratingId: string) => (
+              <Stack direction="row">
+                <StarRateRoundedIcon
+                  style={{ opacity: 0.55 }}
+                  fontSize="inherit"
+                  sx={{ color: "#f98000" }}
+                />
+                <Typography ml={0.3} mr={1} fontSize={12}>
+                  {ratingId}
+                </Typography>
+              </Stack>
+            )}
+          />
+        )}
       </Container>
       <Stack direction="row" justifyContent="space-between" alignItems="center">
         <Typography fontSize={18} fontWeight={600} mb={-1.5}>
