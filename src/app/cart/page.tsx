@@ -1,7 +1,211 @@
-import React from 'react'
+"use client";
+import NextLink from "next/link";
+
+// mui
+import Container from "@mui/material/Container";
+import Link from "@mui/material/Link";
+import Breadcrumbs from "@mui/material/Breadcrumbs";
+import Grid from "@mui/material/Grid";
+import Stack from "@mui/material/Stack";
+import Box from "@mui/material/Box";
+import Typography from "@mui/material/Typography";
+import Button from "@mui/material/Button";
+import IconButton from "@mui/material/IconButton";
+import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
+import ChevronRightIcon from "@mui/icons-material/ChevronRight";
+import Divider from "@mui/material/Divider";
+import TextField from "@mui/material/TextField";
+
+// component
+import CustomImage from "@/components/custom-image/custom-image.component";
 
 export default function Cart() {
   return (
-    <div>Cart</div>
-  )
+    <Container>
+      <Breadcrumbs aria-label="breadcrumb" sx={{ mt: 5 }}>
+        <Link underline="hover" color="inherit" component={NextLink} href="/">
+          Home
+        </Link>
+        <Link
+          underline="hover"
+          color="text.primary"
+          aria-current="page"
+          component={NextLink}
+          href="/cart"
+        >
+          Cart
+        </Link>
+      </Breadcrumbs>
+      <Stack direction="row" mt={7} boxShadow="0 1px 10px #d7d7d7">
+        <Grid container spacing={5} p={3} pr={6}>
+          <Grid item md={7}>
+            <Typography fontWeight={500}>Product</Typography>
+          </Grid>
+          <Grid item md={2}>
+            <Typography textAlign="center" fontWeight={500}>
+              Price
+            </Typography>
+          </Grid>
+          <Grid item md={2}>
+            <Typography textAlign="center" fontWeight={500}>
+              Quantity
+            </Typography>
+          </Grid>
+          <Grid item md={1}>
+            <Typography textAlign="center" fontWeight={500}>
+              Subtotal
+            </Typography>
+          </Grid>
+        </Grid>
+      </Stack>
+
+      <Stack direction="row" mt={7} mb={3} boxShadow="0 1px 10px #d7d7d7">
+        <Grid container spacing={5} p={3} pr={6}>
+          <Grid item md={7}>
+            <Stack direction="row" alignItems="center" spacing={2}>
+              <CustomImage
+                src="/product.webp"
+                alt="product"
+                width={50}
+                height={50}
+                mb={2}
+              />
+              <Typography fontSize={16}>
+                Olympus Tough TG-6 Waterproof Camera, Red
+              </Typography>
+            </Stack>
+          </Grid>
+          <Grid item md={2} alignSelf="center">
+            <Typography textAlign="center">$650</Typography>
+          </Grid>
+          <Grid item md={2} alignSelf="center">
+            <Stack
+              direction="row"
+              alignItems="center"
+              justifyContent="center"
+              spacing={2}
+            >
+              <IconButton aria-label="delete" size="small">
+                <ChevronLeftIcon fontSize="inherit" />
+              </IconButton>
+              <Typography textAlign="center">2</Typography>
+              <IconButton aria-label="delete" size="small">
+                <ChevronRightIcon fontSize="inherit" />
+              </IconButton>
+            </Stack>
+          </Grid>
+          <Grid item md={1} alignSelf="center">
+            <Typography textAlign="center">$1,300</Typography>
+          </Grid>
+        </Grid>
+      </Stack>
+
+      <Stack direction="row" mt={7} mb={3} boxShadow="0 1px 10px #d7d7d7">
+        <Grid container spacing={5} p={3} pr={6}>
+          <Grid item md={7}>
+            <Stack direction="row" alignItems="center" spacing={2}>
+              <CustomImage
+                src="/product.webp"
+                alt="product"
+                width={50}
+                height={50}
+                mb={2}
+              />
+              <Typography fontSize={16}>
+                Olympus Tough TG-6 Waterproof Camera, Red
+              </Typography>
+            </Stack>
+          </Grid>
+          <Grid item md={2} alignSelf="center">
+            <Typography textAlign="center">$650</Typography>
+          </Grid>
+          <Grid item md={2} alignSelf="center">
+            <Stack
+              direction="row"
+              alignItems="center"
+              justifyContent="center"
+              spacing={2}
+            >
+              <IconButton aria-label="delete" size="small">
+                <ChevronLeftIcon fontSize="inherit" />
+              </IconButton>
+              <Typography textAlign="center">2</Typography>
+              <IconButton aria-label="delete" size="small">
+                <ChevronRightIcon fontSize="inherit" />
+              </IconButton>
+            </Stack>
+          </Grid>
+          <Grid item md={1} alignSelf="center">
+            <Typography textAlign="center">$1,300</Typography>
+          </Grid>
+        </Grid>
+      </Stack>
+
+      <Stack direction="row" justifyContent="space-between" mt={5} mb={8}>
+        {/* <Grid container spacing={5} justifyContent="space-between">
+          <Grid item md={6}> */}
+        <Button variant="outlined">Return To Shop</Button>
+        {/* </Grid>
+          <Grid item md={6}> */}
+        <Button variant="outlined">Update Cart</Button>
+        {/* </Grid>
+        </Grid> */}
+      </Stack>
+
+      <Stack direction="row" justifyContent="space-between">
+        <Stack direction="row" height={50} spacing={2}>
+          <TextField
+            id="coupon-input-field"
+            label="Coupon Code"
+            variant="outlined"
+            maxRows={1}
+            size="medium"
+            inputProps={{ sx: { fontSize: 13 }, enterKeyHint: "go" }}
+            InputLabelProps={{ sx: { fontSize: 14 } }}
+          />
+          <Button
+            variant="contained"
+            color="secondary"
+            sx={{ px: 5, wordSpacing: 3 }}
+          >
+            Apply Coupon
+          </Button>
+        </Stack>
+        <Stack
+          mb={10}
+          p={3}
+          width={500}
+          spacing={4}
+          border="1px solid"
+          borderColor="primary.dark"
+          borderRadius={1}
+        >
+          <Typography fontWeight={500} fontSize={20}>
+            Cart Total
+          </Typography>
+          <Stack spacing={2}>
+            <Stack direction="row" justifyContent="space-between">
+              <Typography>Subtotal</Typography>
+              <Typography>$2,600</Typography>
+            </Stack>
+            <Divider />
+            <Stack direction="row" justifyContent="space-between">
+              <Typography>Shipping</Typography>
+              <Typography>Free</Typography>
+            </Stack>
+            <Divider />
+            <Stack direction="row" justifyContent="space-between">
+              <Typography>Total</Typography>
+              <Typography>$2,600</Typography>
+            </Stack>
+          </Stack>
+          <Stack direction="row" justifyContent="center">
+            <Button variant="contained" color="secondary" sx={{ width: 200, height: 50 }}>
+              Checkout
+            </Button>
+          </Stack>
+        </Stack>
+      </Stack>
+    </Container>
+  );
 }
