@@ -15,9 +15,10 @@ export const brandsApi =
 
 export const getProductsByCategoryApi = (
   categoryId: number,
+  pageSize: number = 10,
   pageNumber: number = 1
 ) => {
-  return `https://g5-likelion-ecommerce.onrender.com/api/product/public/${categoryId}/paginate?page=${pageNumber}`;
+  return `https://g5-likelion-ecommerce.onrender.com/api/product/public/${categoryId}/paginate?page=${pageNumber}&pageSize=${pageSize}`;
 };
 
 export const getProductDetailApi = (productId: number) => {
