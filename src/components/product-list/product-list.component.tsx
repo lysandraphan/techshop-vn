@@ -23,6 +23,7 @@ import ProductCard from "@/components/product-card/product-card.component";
 interface ProductListProps {
   api: string;
   isInCategory?: boolean;
+  height?: number;
   filterPriceRange?: [number, number];
   selectedBrandIds?: number[];
   sortProductOrder?: SortProductType;
@@ -33,6 +34,7 @@ interface ProductListProps {
 export default function ProductList({
   api,
   isInCategory,
+  height,
   filterPriceRange,
   selectedBrandIds,
   sortProductOrder,
@@ -181,7 +183,11 @@ export default function ProductList({
       {filteredProducts.length !== 0 ? (
         filteredProducts.map((product) => (
           <Grid item xs={6} sm={4} md={3} key={product.productId}>
-            <ProductCard product={product} isInCategory={isInCategory} />
+            <ProductCard
+              product={product}
+              isInCategory={isInCategory}
+              height={height}
+            />
           </Grid>
         ))
       ) : (

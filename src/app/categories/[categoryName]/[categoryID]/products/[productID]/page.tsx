@@ -230,6 +230,7 @@ export default function ProductDetail() {
       <ProductList
         api={getProductsByCategoryApi(product.categoryDto.categoryId, 4)}
         isInCategory
+        height={240}
       />
     </Container>
   );

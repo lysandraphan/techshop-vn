@@ -4,7 +4,6 @@ import { Fragment } from "react";
 import ProductList from "@/components/product-list/product-list.component";
 import SectionHeader from "@/components/section-header/section-header.component";
 
-
 interface BestSellingSectionProps {
   api: string;
   smallHeader: string;
@@ -19,7 +18,7 @@ export default function BestSellingSection({
   return (
     <Fragment>
       <SectionHeader smallHeader={smallHeader} largeHeader={largeHeader} />
-      <ProductList api={api} />
+      <ProductList api={api} height={240} />
     </Fragment>
   );
 }

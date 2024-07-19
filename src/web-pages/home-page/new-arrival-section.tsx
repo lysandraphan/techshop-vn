@@ -18,7 +18,7 @@ export default function NewArrivalSection({
   return (
     <Fragment>
       <SectionHeader smallHeader={smallHeader} largeHeader={largeHeader} />
-      <ProductList api={api} />
+      <ProductList api={api} height={240} />
     </Fragment>
   );
 }

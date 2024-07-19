@@ -16,6 +16,7 @@ import RatingInfo from "../rating-info/rating-info";
 interface ProductCardProps {
   product: ProductData;
   isInCategory?: boolean;
+  height?: number;
 }
 
 // function
@@ -27,6 +28,7 @@ export const displayPrice = (price: number) => {
 export default function ProductCard({
   product,
   isInCategory,
+  height = 200,
 }: ProductCardProps) {
   // -------------------------- VAR --------------------------
   const router = useRouter();
@@ -72,7 +74,7 @@ export default function ProductCard({
             alignItems: "center",
           }}
           width="inherit"
-          height={240}
+          height={height}
         >
           <CustomImage
             src={product.imagePath}
@@ -126,7 +128,7 @@ export default function ProductCard({
             alignItems: "center",
           }}
           width="inherit"
-          height={180}
+          height={height}
         >
           <CustomImage
             src={product.imagePath}
