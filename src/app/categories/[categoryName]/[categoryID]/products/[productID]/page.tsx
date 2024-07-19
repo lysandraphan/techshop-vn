@@ -9,10 +9,10 @@ import ProductList, {
   ProductData,
 } from "@/components/product-list/product-list.component";
 import {
-  bestSellingApi,
   getProductDetailApi,
   getProductReviews,
   getProductReviewSummary,
+  getProductsByCategoryApi,
 } from "@/api";
 import { getCategoryRoute } from "@/redux/features/categories-slice";
 import { ReviewData, ReviewSummaryData } from "@/interface";
@@ -225,8 +225,10 @@ export default function ProductDetail() {
         reviewSummary={reviewSummary}
       />
       <SectionHeader smallHeader="Related Products" mt={7} noButton />
-      {/* Testing API - Need to update new API later */}
-      <ProductList api={bestSellingApi} />
+      <ProductList
+        api={getProductsByCategoryApi(product.categoryDto.categoryId, 4)}
+        isInCategory
+      />
     </Container>
   );
 }

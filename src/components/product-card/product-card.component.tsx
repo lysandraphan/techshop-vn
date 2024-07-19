@@ -49,7 +49,6 @@ export default function ProductCard({
       .replace(/ /g, "-");
     const productId = product.productId;
     const route = `/categories/${categoryName}/${categoryId}/products/${productId}`;
-    console.log(route);
     return route;
   };
 
