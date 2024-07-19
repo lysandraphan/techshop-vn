@@ -108,8 +108,8 @@ export default function ProductReview({
         )}
       </Container>
       <Stack direction="row" justifyContent="space-between" alignItems="center">
-        <Typography fontSize={18} fontWeight={600} mb={-1.5}>
-          1-3 of 3 Reviews
+        <Typography fontSize={18} fontWeight={600} mb={-2}>
+          1-{reviews.length} of {reviews.length} Reviews
         </Typography>
         <FormControl sx={{ m: 1, minWidth: 170 }}>
           <Select
