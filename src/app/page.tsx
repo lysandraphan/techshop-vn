@@ -42,7 +42,7 @@ export default function Home() {
         largeHeader="Best Selling"
         api={bestSellingApi}
       />
-      <CustomImage src="/banner-2.jpg" alt="banner" height={450} mt={50} />
+      <CustomImage src="/banner-2.jpg" alt="banner" height={450} mt={60} />
       <NewArrivalSection
         smallHeader="Our Products"
         largeHeader="New Arrival"

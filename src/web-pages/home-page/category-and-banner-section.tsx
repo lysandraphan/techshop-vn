@@ -55,6 +55,7 @@ const CategoryAndBannerSection = () => {
                   getCategoryRoute(category.name, category.categoryId)
                 )
               }
+              sx={{py: 1.5}}
             >
               <ListItemText>{category.name}</ListItemText>
               <ListItemIcon sx={{ ml: 3 }}>
@@ -76,7 +77,7 @@ const CategoryAndBannerSection = () => {
         {banners.map((banner: BannerData) => (
           <CustomImage
             key={banner.id}
-            height={270}
+            height={400}
             src={banner.imagePath}
             alt={banner.alt}
           />

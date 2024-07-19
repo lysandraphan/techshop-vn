@@ -54,7 +54,7 @@ export default function BrowseCategorySection({
   // -------------------------- MAIN --------------------------
   return (
     <Fragment>
-      <SectionHeader smallHeader={smallHeader} largeHeader={largeHeader} />
+      <SectionHeader smallHeader={smallHeader} largeHeader={largeHeader} noButton />
       <div style={{ marginTop: 50 }}>
         <Carousel
           responsive={carouselResponsive}
