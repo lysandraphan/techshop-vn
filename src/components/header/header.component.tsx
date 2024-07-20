@@ -29,7 +29,7 @@ export default function Header() {
 
   // -------------------------- VAR --------------------------
 
-  const isLoggedIn = true; //test
+  const isLoggedIn = false; //test
   const router = useRouter();
   const theme = useTheme();
 
@@ -75,7 +75,6 @@ export default function Header() {
       <Container>
         <Grid container spacing={2} py={3} alignItems="center">
           {/*-------------------------- Brand Logo --------------------------*/}
-
           <Grid item md={3}>
             <Link
               href="/"

@@ -7,8 +7,8 @@ import axios from "axios";
 // internal
 import {
   getProductDetailApi,
-  getProductReviews,
-  getProductReviewSummary,
+  getProductReviewsApi,
+  getProductReviewSummaryApi,
   getProductsByCategoryApi,
 } from "@/api";
 import { getCategoryRoute } from "@/redux/features/categories-slice";
@@ -126,7 +126,7 @@ export default function ProductDetail() {
       const fetchReviews = async () => {
         try {
           setIsLoading(true);
-          const response = await axios.get(getProductReviews(productId), {
+          const response = await axios.get(getProductReviewsApi(productId), {
             signal: abortController.signal,
           });
           const result = response.data as ReviewData[];
@@ -157,7 +157,7 @@ export default function ProductDetail() {
       const fetchReviewSummary = async () => {
         try {
           setIsLoading(true);
-          const response = await axios.get(getProductReviewSummary(productId), {
+          const response = await axios.get(getProductReviewSummaryApi(productId), {
             signal: abortController.signal,
           });
           const result = response.data as ReviewSummaryData;

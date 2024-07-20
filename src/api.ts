@@ -25,10 +25,13 @@ export const getProductDetailApi = (productId: number) => {
   return `https://g5-likelion-ecommerce.onrender.com/api/product/public/${productId}`;
 };
 
-export const getProductReviews = (productId: number) => {
+export const getProductReviewsApi = (productId: number) => {
   return `https://g5-likelion-ecommerce.onrender.com/api/product-rate/public/${productId}`;
 };
 
-export const getProductReviewSummary = (productId: number) => {
+export const getProductReviewSummaryApi = (productId: number) => {
   return `https://g5-likelion-ecommerce.onrender.com/api/product-rate/public/group/${productId}`;
 };
+
+export const signInApi =
+  "https://g5-likelion-ecommerce.onrender.com/api/auth/signin";

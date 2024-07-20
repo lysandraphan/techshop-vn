@@ -48,7 +48,7 @@ export default function AccountIcon({ isLoggedIn }: { isLoggedIn: boolean }) {
           color="secondary"
           aria-label="login"
           sx={{ p: 0 }}
-          onClick={() => router.push("/account")}
+          onClick={() => router.push("/login")}
         >
           <AccountCircleRoundedIcon sx={{ fontSize: 37 }} />
         </IconButton>
