@@ -12,7 +12,6 @@ import { BannerData } from "@/redux/features/banners-slice";
 
 // mui
 import Stack from "@mui/material/Stack";
-import Box from "@mui/material/Box";
 import MenuList from "@mui/material/MenuList";
 import MenuItem from "@mui/material/MenuItem";
 import ListItemText from "@mui/material/ListItemText";
@@ -23,7 +22,6 @@ import ChevronRightRoundedIcon from "@mui/icons-material/ChevronRightRounded";
 // component
 import CustomImage from "@/components/custom-image/custom-image.component";
 import LoadingFallback from "@/components/loading-fallback/loading-fallback.component";
-import { Typography } from "@mui/material";
 
 const CategoryAndBannerSection = () => {
   // -------------------------- VAR --------------------------
@@ -79,6 +77,12 @@ const CategoryAndBannerSection = () => {
             position: "relative",
             marginTop: -40,
             zIndex: 1,
+          },
+        }}
+        navButtonsAlwaysVisible
+        navButtonsProps={{
+          style: {
+            backgroundColor: "transparent",
           },
         }}
       >
