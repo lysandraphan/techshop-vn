@@ -54,7 +54,7 @@ export default function FilterBrand() {
   };
 
   // -------------------------- MAIN --------------------------
-  if (isLoading) return <LoadingFallback />;
+  // if (isLoading) return <LoadingFallback />;
   return (
     <Stack direction="column" spacing={2}>
       <Typography fontWeight={600} sx={{ wordSpacing: 3 }}>
