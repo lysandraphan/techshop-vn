@@ -12,6 +12,7 @@ import { BannerData } from "@/redux/features/banners-slice";
 
 // mui
 import Stack from "@mui/material/Stack";
+import Box from "@mui/material/Box";
 import MenuList from "@mui/material/MenuList";
 import MenuItem from "@mui/material/MenuItem";
 import ListItemText from "@mui/material/ListItemText";
@@ -22,6 +23,7 @@ import ChevronRightRoundedIcon from "@mui/icons-material/ChevronRightRounded";
 // component
 import CustomImage from "@/components/custom-image/custom-image.component";
 import LoadingFallback from "@/components/loading-fallback/loading-fallback.component";
+import { Typography } from "@mui/material";
 
 const CategoryAndBannerSection = () => {
   // -------------------------- VAR --------------------------
@@ -29,10 +31,9 @@ const CategoryAndBannerSection = () => {
 
   const isLoadingCategories = useAppSelector(
     (state) => state.categories.isLoading
-
   );
   const isLoadingBanners = useAppSelector((state) => state.banners.isLoading);
-  
+
   const banners = useAppSelector((state) => state.banners.banners);
 
   const router = useRouter();
@@ -55,7 +56,14 @@ const CategoryAndBannerSection = () => {
                   getCategoryRoute(category.name, category.categoryId)
                 )
               }
-              sx={{py: 1.5}}
+              sx={{
+                py: 1.5,
+                "&:hover, &:hover .MuiSvgIcon-root": {
+                  bgcolor: "primary.contrastText",
+                  color: "secondary.main",
+                  fontWeight: "bold",
+                },
+              }}
             >
               <ListItemText>{category.name}</ListItemText>
               <ListItemIcon sx={{ ml: 3 }}>
