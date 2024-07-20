@@ -212,11 +212,13 @@ export default function ProductDetail() {
         </Link>
       </Breadcrumbs>
       <Grid container spacing={5} mt={1} mb={5}>
-        <ImageSection
-          mainImage={product.imagePath}
-          otherImages={product.imagesPath}
-          name={product.name}
-        />
+        <Grid item md={7}>
+          <ImageSection
+            mainImage={product.imagePath}
+            otherImages={product.imagesPath}
+            name={product.name}
+          />
+        </Grid>
         <Grid item md={5}>
           <MainInfoSection product={product} />
         </Grid>

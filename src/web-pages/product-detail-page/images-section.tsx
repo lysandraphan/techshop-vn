@@ -1,8 +1,6 @@
-import { Fragment, useState } from "react";
+import Carousel from "react-material-ui-carousel/dist/components/Carousel";
 
 // mui
-import Grid from "@mui/material/Grid";
-import Stack from "@mui/material/Stack";
 import Box from "@mui/material/Box";
 
 // component
@@ -21,50 +19,37 @@ export default function ImageSection({
   otherImages,
   name,
 }: ImageSectionProps) {
-  // -------------------------- STATE --------------------------
-  const [largeImage, setLargeImage] = useState(mainImage);
-  const [sideImages, setSideImages] = useState(otherImages);
-
-  // -------------------------- FUNCTION --------------------------
-  const swapImagesHandler = (selected: string, index: number) => {
-    setLargeImage(selected);
-    setSideImages((prev) => {
-      prev[index] = largeImage;
-      return prev;
-    });
-  };
+  // -------------------------- VAR --------------------------
+  const images = [mainImage, ...otherImages];
 
   // -------------------------- MAIN --------------------------
   return (
-    <Fragment>
-      <Grid item md={1.5}>
-        <Stack direction="column" spacing={5}>
-          {sideImages &&
-            sideImages.map((image, index) => (
-              <Box
-                key={image}
-                onClick={() => swapImagesHandler(image, index)}
-                sx={{ cursor: "pointer" }}
-              >
-                <CustomImage src={image} alt={name} width={110} height={85} />
-              </Box>
-            ))}
-        </Stack>
-      </Grid>
-      <Grid
-        item
-        xs={12}
-        md={5.5}
-        direction="column"
-        display="flex"
-        alignSelf="center"
-        justifyItems="center"
-        alignItems="center"
-      >
-        {largeImage && (
-          <CustomImage src={largeImage} alt={name} width="80%" height={350} />
-        )}
-      </Grid>
-    </Fragment>
+    <Carousel
+      duration={1000}
+      navButtonsAlwaysVisible
+      navButtonsProps={{
+        style: {
+          backgroundColor: "#878686",
+        },
+      }}
+      indicatorContainerProps={{
+        style: {
+          position: "relative",
+          marginTop: 40,
+          zIndex: 1,
+        },
+      }}
+    >
+      {images.map((image) => (
+        <Box
+          key={image}
+          display="flex"
+          justifyContent="center"
+          alignItems="center"
+        >
+          <CustomImage src={image} alt={name} width="80%" height={400} />
+        </Box>
+      ))}
+    </Carousel>
   );
 }
