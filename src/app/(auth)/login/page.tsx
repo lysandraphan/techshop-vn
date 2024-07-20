@@ -21,13 +21,18 @@ import TextField from "@mui/material/TextField";
 // component
 import CustomImage from "@/components/custom-image/custom-image.component";
 import { signInApi } from "@/api";
+import { useAppDispatch } from "@/redux/hooks";
+import { fetchUserDetail, signIn } from "@/redux/features/user-slice";
 
 // EXPORT DEFAULT
 export default function Login() {
   // -------------------------- STATE --------------------------
   const [showPassword, setShowPassword] = useState(false);
-  // const [username, setShowPassword] = useState(false);
-  // const [password, setShowPassword] = useState(false);
+  // const [username, setUsername] = useState(false);
+  // const [password, setPassword] = useState(false);
+
+  // -------------------------- VAR --------------------------
+  const dispatch = useAppDispatch();
 
   // -------------------------- FUNCTION --------------------------
   const handleClickShowPassword = () => setShowPassword((show) => !show);
@@ -41,19 +46,29 @@ export default function Login() {
   const signInSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
-    // console.log({
-    //   username: data.get("username"),
-    //   password: data.get("password"),
-    // });
-    try {
-      const response = await axios.post(signInApi, {
-        username: data.get("username"),
-        password: data.get("password"),
-      });
-      console.log(response);
-    } catch (error: any) {
-      console.log(error.message);
-    }
+    const username = data.get("username") as string;
+    const password = data.get("password") as string;
+
+    const result = (await dispatch(signIn({ username, password }))).payload;
+
+    console.log(result);
+    const accountId = result.accountId;
+    const token = result.token;
+
+    const user = (await dispatch(fetchUserDetail({ accountId, token })))
+      .payload;
+
+    console.log(user);
+
+    // try {
+    //   const response = await axios.post(signInApi, {
+    //     username: data.get("username"),
+    //     password: data.get("password"),
+    //   });
+    //   console.log(response);
+    // } catch (error: any) {
+    //   console.log(error.message);
+    // }
   };
 
   const signInHandler = () => {};
