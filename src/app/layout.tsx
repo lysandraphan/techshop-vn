@@ -33,13 +33,13 @@ export default function RootLayout({
     <html lang="en">
       <AppRouterCacheProvider>
         <ThemeProvider theme={theme}>
-          <StoreProvider>
-            <body className={poppins.className}>
+          <body className={poppins.className}>
+            <StoreProvider>
               <Header />
               {children}
               <Footer />
-            </body>
-          </StoreProvider>
+            </StoreProvider>
+          </body>
         </ThemeProvider>
       </AppRouterCacheProvider>
     </html>
