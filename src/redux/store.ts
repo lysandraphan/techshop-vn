@@ -16,6 +16,7 @@ import bannersReducer from "./features/banners-slice";
 import filterReducer from "./features/filter-slice";
 import sortReducer from "./features/sort-slice";
 import brandsReducer from "./features/brands-slice";
+import userReducer from "./features/user-slice";
 import customStorage from "./storage";
 
 const rootReducer = combineReducers({
@@ -24,12 +25,13 @@ const rootReducer = combineReducers({
   filter: filterReducer,
   sort: sortReducer,
   brands: brandsReducer,
+  user: userReducer,
 });
 
 const persistConfig = {
   key: "root",
   storage: customStorage,
-  whitelist: ["categories", "banners", "brands"],
+  whitelist: ["categories", "banners", "brands", "user"],
 };
 
 //

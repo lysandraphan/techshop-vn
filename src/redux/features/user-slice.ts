@@ -42,7 +42,7 @@ const initialState: UserState = {
 const abortController = new AbortController();
 
 // -------------------------- FUNCTION --------------------------
-// Sign In
+// Sign In & Fetch User Detail
 export const signIn = createAsyncThunk(
   "user/signIn",
   async ({ username, password }: { username: string; password: string }) => {
@@ -51,35 +51,19 @@ export const signIn = createAsyncThunk(
         username,
         password,
       });
-      return { accountId: response.data.id, token: response.data.token };
-    } catch (error: any) {
-      console.log(error.message);
-    }
-  }
-);
-
-// Get User from API
-export const fetchUserDetail = createAsyncThunk(
-  "user/fetchUserDetail",
-  async ({ accountId, token }: { accountId: number; token: number }) => {
-    try {
-      //   console.log(accountId);
-      const response = await fetch(getUserDetailApi(accountId), {
+      console.log("Signed In");
+      const accountId = response.data.id;
+      const token = response.data.token;
+      const responseUser = await axios.get(getUserDetailApi(accountId), {
         signal: abortController.signal,
         headers: {
           Authorization: `Bearer ${token}`,
         },
       });
-      const result = (await response.json()) as UserData;
-      console.log("User");
-      console.log(result);
+      const result = responseUser.data[0] as UserData;
       return result;
     } catch (error: any) {
-      if (!abortController.signal.aborted) {
-        console.log(error.message);
-      } else {
-        console.log("Fetch request aborted.");
-      }
+      console.log(error.message);
     }
   }
 );
@@ -94,21 +78,10 @@ export const user = createSlice({
       state.isLoading = true;
     });
     builder.addCase(signIn.fulfilled, (state, action) => {
-      //   state.user = action.payload;
-      state.isLoading = false;
-    });
-    builder.addCase(signIn.rejected, (state, action) => {
-      state.error = action.error;
-      state.isLoading = false;
-    });
-    builder.addCase(fetchUserDetail.pending, (state) => {
-      state.isLoading = true;
-    });
-    builder.addCase(fetchUserDetail.fulfilled, (state, action) => {
       state.user = action.payload;
       state.isLoading = false;
     });
-    builder.addCase(fetchUserDetail.rejected, (state, action) => {
+    builder.addCase(signIn.rejected, (state, action) => {
       state.error = action.error;
       state.isLoading = false;
     });

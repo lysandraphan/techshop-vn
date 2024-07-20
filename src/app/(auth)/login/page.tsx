@@ -2,7 +2,10 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import NextLink from "next/link";
-import axios from "axios";
+
+// internal
+import { useAppDispatch, useAppSelector } from "@/redux/hooks";
+import { signIn } from "@/redux/features/user-slice";
 
 // mui
 import Link from "@mui/material/Link";
@@ -17,12 +20,12 @@ import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
 import Box from "@mui/material/Box";
 import TextField from "@mui/material/TextField";
+import LoadingButton from "@mui/lab/LoadingButton";
+
+import SaveIcon from "@mui/icons-material/Save";
 
 // component
 import CustomImage from "@/components/custom-image/custom-image.component";
-import { signInApi } from "@/api";
-import { useAppDispatch } from "@/redux/hooks";
-import { fetchUserDetail, signIn } from "@/redux/features/user-slice";
 
 // EXPORT DEFAULT
 export default function Login() {
@@ -33,6 +36,8 @@ export default function Login() {
 
   // -------------------------- VAR --------------------------
   const dispatch = useAppDispatch();
+
+  const isLoading = useAppSelector((state) => state.user.isLoading);
 
   // -------------------------- FUNCTION --------------------------
   const handleClickShowPassword = () => setShowPassword((show) => !show);
@@ -45,30 +50,12 @@ export default function Login() {
 
   const signInSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
+
     const data = new FormData(event.currentTarget);
     const username = data.get("username") as string;
     const password = data.get("password") as string;
 
-    const result = (await dispatch(signIn({ username, password }))).payload;
-
-    console.log(result);
-    const accountId = result.accountId;
-    const token = result.token;
-
-    const user = (await dispatch(fetchUserDetail({ accountId, token })))
-      .payload;
-
-    console.log(user);
-
-    // try {
-    //   const response = await axios.post(signInApi, {
-    //     username: data.get("username"),
-    //     password: data.get("password"),
-    //   });
-    //   console.log(response);
-    // } catch (error: any) {
-    //   console.log(error.message);
-    // }
+    dispatch(signIn({ username, password }));
   };
 
   const signInHandler = () => {};
@@ -81,7 +68,7 @@ export default function Login() {
           <CustomImage src="/side-image.png" alt="Side Image" height="70vh" />
         </Grid>
         <Grid item md={5}>
-          <Typography variant="h4" mb={2}>
+          <Typography variant="h5" mb={2} fontWeight={500}>
             Log In
           </Typography>
           <Box
@@ -110,15 +97,28 @@ export default function Login() {
               id="password"
               autoComplete="current-password"
             />
-            <Button
-              type="submit"
-              fullWidth
-              variant="contained"
-              sx={{ mt: 3, mb: 2 }}
-              color="secondary"
-            >
-              Sign In
-            </Button>
+            {isLoading ? (
+              <LoadingButton
+                loading
+                loadingPosition="start"
+                startIcon={<SaveIcon />}
+                fullWidth
+                variant="contained"
+                sx={{ mt: 3, mb: 2 }}
+              >
+                <span>Log In</span>
+              </LoadingButton>
+            ) : (
+              <Button
+                type="submit"
+                fullWidth
+                variant="contained"
+                sx={{ mt: 3, mb: 2 }}
+                color="secondary"
+              >
+                Log In
+              </Button>
+            )}
             <Grid container>
               <Grid item xs>
                 <Link href="#" variant="body2">
