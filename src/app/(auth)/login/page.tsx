@@ -52,7 +52,7 @@ export default function Login() {
     const data = new FormData(event.currentTarget);
     const username = data.get("username") as string;
     const password = data.get("password") as string;
-    dispatch(signIn({ username, password }));
+    await dispatch(signIn({ username, password }));
     router.push("/");
   };
 

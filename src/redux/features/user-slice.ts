@@ -2,7 +2,7 @@ import { createSlice, createAsyncThunk, PayloadAction } from "@reduxjs/toolkit";
 import axios from "axios";
 
 // internal
-import { brandsApi, getUserDetailApi, signInApi } from "@/api";
+import { getUserDetailApi, signInApi, signOutApi } from "@/api";
 
 // -------------------------- INTERFACE --------------------------
 export interface UserState {
@@ -67,11 +67,25 @@ export const signIn = createAsyncThunk(
   }
 );
 
+// Sign out
+const signOut = createAsyncThunk("user/signOut", async () => {
+  try {
+    await axios.post(signOutApi);
+  } catch (error: any) {
+    console.log(error.message);
+  }
+});
+
 // -------------------------- REDUX --------------------------
 export const user = createSlice({
   name: "user",
   initialState,
-  reducers: {},
+  reducers: {
+    signUserOut: (state) => {
+      signOut();
+      state.user = undefined;
+    },
+  },
   extraReducers(builder) {
     builder.addCase(signIn.pending, (state) => {
       state.isLoading = true;
@@ -86,5 +100,7 @@ export const user = createSlice({
     });
   },
 });
+
+export const { signUserOut } = user.actions
 
 export default user.reducer;

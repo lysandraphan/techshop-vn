@@ -1,7 +1,12 @@
 "use client";
-
 import React, { Fragment } from "react";
 import { useRouter } from "next/navigation";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+
+// internal
+import { UserData, signUserOut } from "@/redux/features/user-slice";
+import { useAppDispatch } from "@/redux/hooks";
 
 // mui
 import IconButton from "@mui/material/IconButton";
@@ -17,11 +22,18 @@ import ShoppingBagOutlinedIcon from "@mui/icons-material/ShoppingBagOutlined";
 import StarBorderRoundedIcon from "@mui/icons-material/StarBorderRounded";
 import LogoutRoundedIcon from "@mui/icons-material/LogoutRounded";
 
-export default function AccountIcon({ isLoggedIn }: { isLoggedIn: boolean }) {
+export default function AccountSection({ user }: { user: UserData }) {
+  // -------------------------- STATE --------------------------
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
 
+  // -------------------------- VAR --------------------------
   const open = Boolean(anchorEl);
 
+  const router = useRouter();
+
+  const dispatch = useAppDispatch();
+
+  // -------------------------- FUNCTION --------------------------
   const handleClick = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorEl(event.currentTarget);
   };
@@ -29,11 +41,16 @@ export default function AccountIcon({ isLoggedIn }: { isLoggedIn: boolean }) {
     setAnchorEl(null);
   };
 
-  const router = useRouter();
+  const logoutHandler = () => {
+    dispatch(signUserOut());
+    toast.info("You have signed out.");
+  };
 
+  // -------------------------- MAIN --------------------------
   return (
     <Fragment>
-      {isLoggedIn ? (
+      <ToastContainer />
+      {user ? (
         <IconButton
           onClick={handleClick}
           size="small"
@@ -110,7 +127,7 @@ export default function AccountIcon({ isLoggedIn }: { isLoggedIn: boolean }) {
 
         <Divider />
 
-        <MenuItem onClick={() => router.push("/")}>
+        <MenuItem onClick={logoutHandler}>
           <ListItemIcon>
             <LogoutRoundedIcon fontSize="small" />
           </ListItemIcon>

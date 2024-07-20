@@ -3,6 +3,9 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import NextLink from "next/link";
 
+// internal
+import { useAppSelector } from "@/redux/hooks";
+
 // mui
 import { Inter } from "next/font/google";
 import { useTheme } from "@mui/material";
@@ -10,13 +13,15 @@ import Link from "@mui/material/Link";
 import IconButton from "@mui/material/IconButton";
 import FavoriteBorderOutlinedIcon from "@mui/icons-material/FavoriteBorderOutlined";
 import ShoppingCartOutlinedIcon from "@mui/icons-material/ShoppingCartOutlined";
-import AccountIcon from "./account-icon/account-icon.component";
 import Stack from "@mui/material/Stack";
 import Divider from "@mui/material/Divider";
 import Typography from "@mui/material/Typography";
 import Grid from "@mui/material/Grid";
 import Container from "@mui/material/Container";
 import SearchBar from "../search-bar/search-bar";
+
+// component
+import AccountSection from "./account-section/account-section";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -28,8 +33,8 @@ export default function Header() {
   const [searchQuery, setSearchQuery] = useState("");
 
   // -------------------------- VAR --------------------------
+  const user = useAppSelector((state) => state.user.user);
 
-  const isLoggedIn = false; //test
   const router = useRouter();
   const theme = useTheme();
 
@@ -107,7 +112,7 @@ export default function Header() {
                 onClick={() => router.push("/wishlist")}
               >
                 <FavoriteBorderOutlinedIcon sx={{ fontSize: 30 }} />
-                {isLoggedIn && <span style={quantityStyle}>4</span>}
+                {user && <span style={quantityStyle}>4</span>}
               </IconButton>
               <IconButton
                 color="primary"
@@ -115,9 +120,9 @@ export default function Header() {
                 onClick={() => router.push("/cart")}
               >
                 <ShoppingCartOutlinedIcon sx={{ fontSize: 30 }} />
-                {isLoggedIn && <span style={quantityStyle}>2</span>}
+                {user && <span style={quantityStyle}>2</span>}
               </IconButton>
-              <AccountIcon isLoggedIn={isLoggedIn} />
+              <AccountSection user={user} />
             </Stack>
           </Grid>
         </Grid>
