@@ -51,7 +51,6 @@ export const signIn = createAsyncThunk(
         username,
         password,
       });
-      console.log("Signed In");
       const accountId = response.data.id;
       const token = response.data.token;
       const responseUser = await axios.get(getUserDetailApi(accountId), {

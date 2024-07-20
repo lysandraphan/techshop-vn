@@ -18,9 +18,8 @@ import Input from "@mui/material/Input";
 import InputAdornment from "@mui/material/InputAdornment";
 import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
-import Box from "@mui/material/Box";
-import TextField from "@mui/material/TextField";
 import LoadingButton from "@mui/lab/LoadingButton";
+import IconButton from "@mui/material/IconButton";
 
 import SaveIcon from "@mui/icons-material/Save";
 
@@ -31,13 +30,13 @@ import CustomImage from "@/components/custom-image/custom-image.component";
 export default function Login() {
   // -------------------------- STATE --------------------------
   const [showPassword, setShowPassword] = useState(false);
-  // const [username, setUsername] = useState(false);
-  // const [password, setPassword] = useState(false);
 
   // -------------------------- VAR --------------------------
   const dispatch = useAppDispatch();
 
   const isLoading = useAppSelector((state) => state.user.isLoading);
+
+  const router = useRouter();
 
   // -------------------------- FUNCTION --------------------------
   const handleClickShowPassword = () => setShowPassword((show) => !show);
@@ -50,15 +49,12 @@ export default function Login() {
 
   const signInSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-
     const data = new FormData(event.currentTarget);
     const username = data.get("username") as string;
     const password = data.get("password") as string;
-
     dispatch(signIn({ username, password }));
+    router.push("/");
   };
-
-  const signInHandler = () => {};
 
   // -------------------------- MAIN --------------------------
   return (
@@ -68,34 +64,41 @@ export default function Login() {
           <CustomImage src="/side-image.png" alt="Side Image" height="70vh" />
         </Grid>
         <Grid item md={5}>
-          <Typography variant="h5" mb={2} fontWeight={500}>
+          <Typography variant="h5" mb={3} fontWeight={500}>
             Log In
           </Typography>
-          <Box
+          <Stack
             component="form"
+            id="sign-in-form"
             onSubmit={signInSubmit}
-            noValidate
-            sx={{ mt: 1 }}
+            spacing={4}
           >
-            <TextField
-              margin="normal"
-              required
+            <Input
+              placeholder="Username"
               fullWidth
               id="username"
-              label="Username"
               name="username"
               autoComplete="username"
               autoFocus
             />
-            <TextField
-              margin="normal"
-              required
+            <Input
+              placeholder="Password"
               fullWidth
+              required
               name="password"
-              label="Password"
-              type="password"
               id="password"
-              autoComplete="current-password"
+              type={showPassword ? "text" : "password"}
+              endAdornment={
+                <InputAdornment position="end">
+                  <IconButton
+                    aria-label="toggle password visibility"
+                    onClick={handleClickShowPassword}
+                    onMouseDown={handleMouseDownPassword}
+                  >
+                    {showPassword ? <VisibilityOff /> : <Visibility />}
+                  </IconButton>
+                </InputAdornment>
+              }
             />
             {isLoading ? (
               <LoadingButton
@@ -119,70 +122,16 @@ export default function Login() {
                 Log In
               </Button>
             )}
-            <Grid container>
-              <Grid item xs>
-                <Link href="#" variant="body2">
-                  Forgot password?
-                </Link>
-              </Grid>
-              <Grid item>
-                <Link href="#" variant="body2">
-                  {"Don't have an account? Sign Up"}
-                </Link>
-              </Grid>
-            </Grid>
-          </Box>
-        </Grid>
-
-        {/* <Grid item md={5}>
-          <Typography variant="h4" mb={5}>
-            Log In
-          </Typography>
-          <Stack spacing={3}>
-            <Input placeholder="Username"  />
-            <Input
-              placeholder="Password"
-              id="standard-adornment-password"
-              type={showPassword ? "text" : "password"}
-              endAdornment={
-                <InputAdornment position="end">
-                  <IconButton
-                    aria-label="toggle password visibility"
-                    onClick={handleClickShowPassword}
-                    onMouseDown={handleMouseDownPassword}
-                  >
-                    {showPassword ? <VisibilityOff /> : <Visibility />}
-                  </IconButton>
-                </InputAdornment>
-              }
-            />
           </Stack>
-          <Stack spacing={3} mt={4}>
-            <Button
-              variant="contained"
-              color="secondary"
-              fullWidth
-              onClick={signInHandler}
-            >
-              Log in
-            </Button>
-          </Stack>
-
-          <Stack alignItems="center" my={5}>
+          <Stack alignItems="center" my={5} spacing={2}>
             <Stack
               direction="row"
               justifyContent="center"
               alignItems="center"
               py={2}
             >
-              <Typography>New to TechShop?</Typography>
-              <Link
-                href="/signup"
-                component={NextLink}
-                ml={2}
-                fontWeight={500}
-                fontSize={18}
-              >
+              <Typography>New to TechShopVn?</Typography>
+              <Link href="/signup" component={NextLink} ml={2} fontSize={18}>
                 Create account
               </Link>
             </Stack>
@@ -195,7 +144,7 @@ export default function Login() {
               Forget Password?
             </Link>
           </Stack>
-        </Grid> */}
+        </Grid>
       </Grid>
     </Container>
   );
