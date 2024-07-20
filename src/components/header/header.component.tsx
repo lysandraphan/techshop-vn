@@ -8,7 +8,6 @@ import { useAppSelector } from "@/redux/hooks";
 
 // mui
 import { Inter } from "next/font/google";
-import { useTheme } from "@mui/material";
 import Link from "@mui/material/Link";
 import IconButton from "@mui/material/IconButton";
 import FavoriteBorderOutlinedIcon from "@mui/icons-material/FavoriteBorderOutlined";
@@ -18,9 +17,10 @@ import Divider from "@mui/material/Divider";
 import Typography from "@mui/material/Typography";
 import Grid from "@mui/material/Grid";
 import Container from "@mui/material/Container";
-import SearchBar from "../search-bar/search-bar";
+import Badge from "@mui/material/Badge";
 
 // component
+import SearchBar from "../search-bar/search-bar";
 import AccountSection from "./account-section/account-section";
 
 const inter = Inter({
@@ -36,20 +36,6 @@ export default function Header() {
   const user = useAppSelector((state) => state.user.user);
 
   const router = useRouter();
-  const theme = useTheme();
-
-  const quantityStyle = {
-    position: "absolute",
-    top: 3,
-    right: 0,
-    borderRadius: "50%",
-    width: 18,
-    height: 18,
-    fontSize: 12,
-    backgroundColor: `${theme.palette.secondary.main}`,
-    color: "white",
-    padding: 3,
-  } as React.CSSProperties;
 
   // -------------------------- MAIN --------------------------
   return (
@@ -105,23 +91,47 @@ export default function Header() {
 
           {/*-------------------------- Icon Button Group --------------------------*/}
           <Grid item md={2}>
-            <Stack direction="row" spacing={1} justifyContent="flex-end">
-              <IconButton
-                color="primary"
-                aria-label="cart"
-                onClick={() => router.push("/wishlist")}
-              >
-                <FavoriteBorderOutlinedIcon sx={{ fontSize: 30 }} />
-                {user && <span style={quantityStyle}>4</span>}
-              </IconButton>
-              <IconButton
-                color="primary"
-                aria-label="cart"
-                onClick={() => router.push("/cart")}
-              >
-                <ShoppingCartOutlinedIcon sx={{ fontSize: 30 }} />
-                {user && <span style={quantityStyle}>2</span>}
-              </IconButton>
+            <Stack
+              direction="row"
+              justifyContent="flex-end"
+              alignItems="center"
+            >
+              {user ? (
+                <Badge badgeContent={4} color="secondary">
+                  <FavoriteBorderOutlinedIcon
+                    color="primary"
+                    sx={{ fontSize: 30 }}
+                  />
+                </Badge>
+              ) : (
+                <IconButton
+                  color="primary"
+                  aria-label="cart"
+                  onClick={() => router.push("/wishlist")}
+                >
+                  <FavoriteBorderOutlinedIcon sx={{ fontSize: 30 }} />
+                </IconButton>
+              )}
+              {user ? (
+                <Badge
+                  badgeContent={4}
+                  color="secondary"
+                  sx={{ ml: 3, mr: 2.5 }}
+                >
+                  <ShoppingCartOutlinedIcon
+                    color="primary"
+                    sx={{ fontSize: 30 }}
+                  />
+                </Badge>
+              ) : (
+                <IconButton
+                  color="primary"
+                  aria-label="cart"
+                  onClick={() => router.push("/cart")}
+                >
+                  <ShoppingCartOutlinedIcon sx={{ fontSize: 30 }} />
+                </IconButton>
+              )}
               <AccountSection user={user} />
             </Stack>
           </Grid>
