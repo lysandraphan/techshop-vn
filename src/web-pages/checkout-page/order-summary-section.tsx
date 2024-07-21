@@ -1,3 +1,5 @@
+import { useRouter } from "next/navigation";
+
 // mui
 import Stack from "@mui/material/Stack";
 import Typography from "@mui/material/Typography";
@@ -9,6 +11,9 @@ import CustomImage from "@/components/custom-image/custom-image.component";
 
 export default function OrderSummary() {
   const fz = 12;
+
+  const router = useRouter()
+
   return (
     <Stack
       mb={10}
@@ -92,7 +97,8 @@ export default function OrderSummary() {
           variant="contained"
           color="secondary"
           fullWidth
-          sx={{ py: 2, wordSpacing: 5, fontSize: 16 }}
+          sx={{ py: 2, wordSpacing: 5, letterSpacing: 0.7, fontSize: 16 }}
+          onClick={() => router.push("/cart/checkout/success")}
         >
           Place Order
         </Button>
