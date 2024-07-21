@@ -36,6 +36,9 @@ export const getProductReviewSummaryApi = (productId: number) => {
 export const signInApi =
   "https://g5-likelion-ecommerce.onrender.com/api/auth/signin";
 
+export const signUpApi =
+  "https://g5-likelion-ecommerce.onrender.com/api/auth/signup";
+
 export const getUserDetailApi = (accountId: number) => {
   return `https://g5-likelion-ecommerce.onrender.com/api/user/get-details/${accountId}`;
 };

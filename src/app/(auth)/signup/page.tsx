@@ -1,10 +1,12 @@
 "use client";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import { toast } from "react-toastify";
 import NextLink from "next/link";
+import axios from "axios";
 
 // internal
-import { useAppDispatch, useAppSelector } from "@/redux/hooks";
+import { signUpApi } from "@/api";
 
 // mui
 import Link from "@mui/material/Link";
@@ -28,12 +30,9 @@ export default function Signup() {
   // -------------------------- STATE --------------------------
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
 
   // -------------------------- VAR --------------------------
-  const dispatch = useAppDispatch();
-
-  const isLoading = useAppSelector((state) => state.user.isLoading); // test
-
   const router = useRouter();
 
   // -------------------------- FUNCTION --------------------------
@@ -52,12 +51,48 @@ export default function Signup() {
     event.preventDefault();
   };
 
+  // Sign up
   const signUpSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
+    const data = new FormData(event.currentTarget);
+    const email = data.get("email") as string;
+    const firstName = data.get("firstname") as string;
+    const lastName = data.get("lastname") as string;
+    const phoneNumber = data.get("phonenumber") as string;
+    const password = data.get("password") as string;
+    const confirmpassword = data.get("confirmpassword") as string;
 
-    router.push("/login");
+    if (password !== confirmpassword) {
+      toast.error("Password not match.");
+      return;
+    }
+
+    if (isNaN(parseInt(phoneNumber))) {
+      toast.error("Please enter a valid phone number.");
+      return;
+    }
+
+    try {
+      setIsLoading(true);
+      console.log("Signing up...");
+      const response = await axios.post(signUpApi, {
+        role: ["USER"],
+        email,
+        password,
+        firstName,
+        lastName,
+        phoneNumber,
+      });
+      toast.success("Succesfully signed up.");
+      setIsLoading(false);
+      router.push("/login");
+    } catch (error: any) {
+      setIsLoading(false);
+      console.log(error.message);
+    }
   };
 
+  // -------------------------- MAIN --------------------------
   return (
     <Container>
       <Grid container spacing={7} py={3} alignItems="center">
