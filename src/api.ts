@@ -45,3 +45,6 @@ export const getUserDetailApi = (accountId: number) => {
 
 export const signOutApi =
   "https://g5-likelion-ecommerce.onrender.com/api/auth/signout";
+
+export const forgotPasswordApi =
+  "https://g5-likelion-ecommerce.onrender.com/api/public/forgot-password";

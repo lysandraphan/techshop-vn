@@ -1,11 +1,12 @@
 "use client";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import { toast } from "react-toastify";
 import NextLink from "next/link";
+import axios from "axios";
 
 // internal
-import { useAppDispatch, useAppSelector } from "@/redux/hooks";
-import { signIn } from "@/redux/features/user-slice";
+import { forgotPasswordApi } from "@/api";
 
 // mui
 import Link from "@mui/material/Link";
@@ -26,16 +27,10 @@ import SaveIcon from "@mui/icons-material/Save";
 import CustomImage from "@/components/custom-image/custom-image.component";
 
 // EXPORT DEFAULT
-export default function Login() {
+export default function ForgotPassword() {
   // -------------------------- STATE --------------------------
   const [showPassword, setShowPassword] = useState(false);
-
-  // -------------------------- VAR --------------------------
-  const dispatch = useAppDispatch();
-
-  const isLoading = useAppSelector((state) => state.user.isLoading);
-
-  const router = useRouter();
+  const [isLoading, setIsLoading] = useState(false);
 
   // -------------------------- FUNCTION --------------------------
   const handleClickShowPassword = () => setShowPassword((show) => !show);
@@ -46,13 +41,23 @@ export default function Login() {
     event.preventDefault();
   };
 
-  const signInSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+  const emailSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
     const email = data.get("email") as string;
-    const password = data.get("password") as string;
-    await dispatch(signIn({ email, password }));
-    router.push("/");
+    const newPassword = data.get("password") as string;
+    try {
+      setIsLoading(true);
+      await axios.post(forgotPasswordApi, {
+        email,
+        newPassword,
+      });
+      toast.success("Succesfully signed up.");
+      setIsLoading(false);
+    } catch (error: any) {
+      setIsLoading(false);
+      console.log(error.message);
+    }
   };
 
   // -------------------------- MAIN --------------------------
@@ -63,13 +68,16 @@ export default function Login() {
           <CustomImage src="/side-image.png" alt="Side Image" height="70vh" />
         </Grid>
         <Grid item md={5}>
-          <Typography variant="h5" mb={3} fontWeight={500}>
-            Log In
+          <Typography variant="h5" mb={2} fontWeight={500}>
+            Forgot Password?
+          </Typography>
+          <Typography mb={4} fontSize={13}>
+            Enter the email address associated with your account.
           </Typography>
           <Stack
             component="form"
-            id="sign-in-form"
-            onSubmit={signInSubmit}
+            id="forget-password-form"
+            onSubmit={emailSubmit}
             spacing={4}
           >
             <Input
@@ -82,7 +90,7 @@ export default function Login() {
               autoFocus
             />
             <Input
-              placeholder="Password"
+              placeholder="New Password"
               fullWidth
               required
               name="password"
@@ -109,7 +117,7 @@ export default function Login() {
                 variant="contained"
                 sx={{ mt: 3, mb: 2 }}
               >
-                <span>Logging In</span>
+                <span>Sending Email</span>
               </LoadingButton>
             ) : (
               <Button
@@ -119,11 +127,22 @@ export default function Login() {
                 sx={{ mt: 3, mb: 2 }}
                 color="secondary"
               >
-                Log In
+                Send Email
               </Button>
             )}
           </Stack>
-          <Stack alignItems="center" my={5} spacing={2}>
+          <Stack alignItems="center" my={5}>
+            <Stack
+              direction="row"
+              justifyContent="center"
+              alignItems="center"
+              py={2}
+            >
+              <Typography fontSize={14}>Already have an account?</Typography>
+              <Link href="/login" component={NextLink} ml={2} fontSize={18}>
+                Log In
+              </Link>
+            </Stack>
             <Stack
               direction="row"
               justifyContent="center"
@@ -135,14 +154,6 @@ export default function Login() {
                 Create account
               </Link>
             </Stack>
-            <Link
-              href="/forgot-password"
-              component={NextLink}
-              underline="none"
-              color="primary.dark"
-            >
-              Forget Password?
-            </Link>
           </Stack>
         </Grid>
       </Grid>

@@ -76,13 +76,13 @@ export default function Signup() {
       setIsLoading(true);
       console.log("Signing up...");
       const response = await axios.post(signUpApi, {
-        role: ["USER"],
         email,
         password,
         firstName,
         lastName,
         phoneNumber,
       });
+      console.log(response);
       toast.success("Succesfully signed up.");
       setIsLoading(false);
       router.push("/login");
@@ -187,7 +187,7 @@ export default function Signup() {
                 variant="contained"
                 sx={{ mt: 3, mb: 2 }}
               >
-                <span>Log In</span>
+                <span>Signing Up</span>
               </LoadingButton>
             ) : (
               <Button
@@ -206,7 +206,7 @@ export default function Signup() {
               alignItems="center"
               py={2}
             >
-              <Typography>Already have an account?</Typography>
+              <Typography fontSize={14}>Already have an account?</Typography>
               <Link href="/login" component={NextLink} ml={2} fontSize={18}>
                 Log In
               </Link>
