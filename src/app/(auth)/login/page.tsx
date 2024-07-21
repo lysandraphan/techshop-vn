@@ -49,9 +49,9 @@ export default function Login() {
   const signInSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
-    const username = data.get("username") as string;
+    const email = data.get("email") as string;
     const password = data.get("password") as string;
-    await dispatch(signIn({ username, password }));
+    await dispatch(signIn({ email, password }));
     router.push("/");
   };
 
@@ -73,11 +73,12 @@ export default function Login() {
             spacing={4}
           >
             <Input
-              placeholder="Username"
+              placeholder="Email"
+              type="email"
               fullWidth
-              id="username"
-              name="username"
-              autoComplete="username"
+              id="email"
+              name="email"
+              autoComplete="email"
               autoFocus
             />
             <Input

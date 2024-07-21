@@ -16,13 +16,13 @@ export interface UserData {
   region: string;
   fullName: string;
   status: 0;
-  username: string;
+  email: string;
   password: string;
   accountId: 0;
   avatar: string;
   createdAt: string;
   phoneNumber: string;
-  email: string;
+  username: string;
   birthdate: string;
   addressLine1: string;
   addressLine2: string;
@@ -45,10 +45,10 @@ const abortController = new AbortController();
 // Sign In & Fetch User Detail
 export const signIn = createAsyncThunk(
   "user/signIn",
-  async ({ username, password }: { username: string; password: string }) => {
+  async ({ email, password }: { email: string; password: string }) => {
     try {
       const response = await axios.post(signInApi, {
-        username,
+        email,
         password,
       });
       const accountId = response.data.id;
@@ -101,6 +101,6 @@ export const user = createSlice({
   },
 });
 
-export const { signUserOut } = user.actions
+export const { signUserOut } = user.actions;
 
 export default user.reducer;
