@@ -1,8 +1,7 @@
 "use client";
-import { useEffect, useState } from "react";
-import { useParams, usePathname, useRouter } from "next/navigation";
+import { useEffect } from "react";
+import { useParams, usePathname } from "next/navigation";
 import NextLink from "next/link";
-import axios from "axios";
 
 // internal
 import {
@@ -13,6 +12,7 @@ import {
 } from "@/api";
 import { getCategoryRoute } from "@/redux/features/categories-slice";
 import { ProductData, ReviewData, ReviewSummaryData } from "@/interface";
+import { useFetchHook } from "@/custom-hooks/use-fetch-hook";
 
 // mui
 import Link from "@mui/material/Link";
@@ -27,16 +27,9 @@ import MainInfoSection from "@/web-pages/product-detail-page/main-info-section";
 import MoreDetailSection from "@/web-pages/product-detail-page/more-detail-section";
 import SectionHeader from "@/components/section-header/section-header.component";
 import ProductList from "@/components/product-list/product-list.component";
-import { useFetchHook } from "@/custom-hooks/use-fetch-hook";
 
 // EXPORT DEFAULT
 export default function ProductDetail() {
-  // -------------------------- STATE --------------------------
-  const [product, setProduct] = useState<ProductData>();
-  const [reviews, setReviews] = useState<ReviewData[]>();
-  const [reviewSummary, setReviewSummary] = useState<ReviewSummaryData>();
-  // const [isLoading, setIsLoading] = useState(false);
-
   // -------------------------- VAR --------------------------
   const params = useParams<{
     categoryName: string;
@@ -48,16 +41,23 @@ export default function ProductDetail() {
 
   const productId = parseInt(params.productID);
 
-  const api = getProductDetailApi(productId);
+  const productApi = getProductDetailApi(productId);
 
-  let [data, isLoading, fetchApi, abortController] = useFetchHook();
+  const [product, fetchApiProduct, abortControllerProduct, isLoading, error] =
+    useFetchHook<ProductData>();
+
+  const [reviews, fetchApiReview, abortControllerReview] =
+    useFetchHook<ReviewData[]>();
+
+  const [reviewSummary, fetchApiReviewSummary, abortControllerReviewSummary] =
+    useFetchHook<ReviewSummaryData>();
 
   const mockProduct = {
     productId: 89,
     name: "Fujifilm X-S20 Mirrorless Digital Camera XC15-45mm Lens Kit Black",
     quantity: 10,
     description:
-      "X-S20 offers the perfect blend of power and portability to turn thoughts and ideas into reality. Weighing just 491g (1.08 lb), with a deep handgrip that ensures a confident, comfortable hold with even the most sizable lens attached. X-S20 delivers stunning 26.1 megapixel images straight out of camera using Fujifilm's acclaimed color science, at up to 20fps in electronic shutter mode. Its 180° Vari-Angle LCD touchscreen makes selfie-style shots or wild angles a snap and intuitive layout enables creatives of any level to create as soon as their hands touch the camera.\r\nX-S20 combines powerful sensor and processor technologies to deliver a blistering performance for stills and video—allowing you to capture the moment any way you need. For the first time in an X-S series model, the X-Trans CMOS 4 sensor is paired with the X-Processor 5 imaging engine, resulting in high-speed image and video processing alongside improved autofocus speed and accuracy. A new AF algorithm offers the same subject detection functionality as the range-topping X-H2S so you can move as fast as the world around you. X-S20 also features Auto Subject Detection AF, perfect for hassle-free creativity.\r\nThoughtful ergonomics and cutting-edge technology make camera shake and blurry imagery a distant memory with X-S20. The camera's large handgrip makes for a secure hold. At the same time, five-axis in-body image stabilization (IBIS) has been improved, offering up to seven stops of compensation, ensuring that handheld videography and low-light image-making are nothing to fear. The X-S20 represents a one-stop gain over the previous IBIS system found in the X-S10.\r\nAs well as being a competent stills machine, X-S20 excels at video creation – whether vlogging, live streaming, or making full-length features. The new Vlog mode puts professional-quality footage in easy reach, enabling users to focus on products while unboxing or defocus cluttered backgrounds with a tap. A 3.5mm jack makes it effortless to connect accessories, including the optional TG-BT1 grip can be added for hands-free wireless operation. Stream 4K/60P footage directly from USB-C*, or internally record up to 6.2K/30p video in 4:2:2 10-bit color when story calls for it.\r\n",
+      "X-S20 offers the perfect blend of power and portability to turn thoughts and ideas into reality. Weighing just 491g (1.08 lb), with a deep handgrip that ensures a confident, comfortable hold with even the most sizable lens attached. X-S20 delivers stunning 26.1 megproductApixel images straight out of camera using Fujifilm's acclaimed color science, at up to 20fps in electronic shutter mode. Its 180° Vari-Angle LCD touchscreen makes selfie-style shots or wild angles a snap and intuitive layout enables creatives of any level to create as soon as their hands touch the camera.\r\nX-S20 combines powerful sensor and processor technologies to deliver a blistering performance for stills and video—allowing you to capture the moment any way you need. For the first time in an X-S series model, the X-Trans CMOS 4 sensor is paired with the X-Processor 5 imaging engine, resulting in high-speed image and video processing alongside improved autofocus speed and accuracy. A new AF algorithm offers the same subject detection functionality as the range-topping X-H2S so you can move as fast as the world around you. X-S20 also features Auto Subject Detection AF, perfect for hassle-free creativity.\r\nThoughtful ergonomics and cutting-edge technology make camera shake and blurry imagery a distant memory with X-S20. The camera's large handgrip makes for a secure hold. At the same time, five-axis in-body image stabilization (IBIS) has been improved, offering up to seven stops of compensation, ensuring that handheld videography and low-light image-making are nothing to fear. The X-S20 represents a one-stop gain over the previous IBIS system found in the X-S10.\r\nAs well as being a competent stills machine, X-S20 excels at video creation – whether vlogging, live streaming, or making full-length features. The new Vlog mode puts professional-quality footage in easy reach, enabling users to focus on products while unboxing or defocus cluttered backgrounds with a tap. A 3.5mm jack makes it effortless to connect accessories, including the optional TG-BT1 grip can be added for hands-free wireless operation. Stream 4K/60P footage directly from USB-C*, or internally record up to 6.2K/30p video in 4:2:2 10-bit color when story calls for it.\r\n",
     price: 1399,
     ratingScore: 4.5,
     rateTotal: 2,
@@ -86,8 +86,6 @@ export default function ProductDetail() {
     ],
   };
 
-  // -------------------------- FUNCTION --------------------------
-
   // -------------------------- EFFECT --------------------------
   // useEffect(() => {
   //   setProduct(mockProduct as ProductData);
@@ -95,112 +93,42 @@ export default function ProductDetail() {
 
   // Fetch product detail
   useEffect(() => {
-    fetchApi(api);
+    fetchApiProduct(productApi);
     // Clean up
     return () => {
-      abortController.abort();
+      abortControllerProduct.abort();
     };
-    // const abortController = new AbortController();
-    // const fetchProductDetail = async () => {
-    //   try {
-    //     setIsLoading(true);
-    //     const response = await axios.get(api, {
-    //       signal: abortController.signal,
-    //     });
-    //     const result = response.data as ProductData;
-    //     setProduct(result);
-    //     setIsLoading(false);
-    //   } catch (error: any) {
-    //     setIsLoading(false);
-    //     // only log error/call dispatch when we know the fetch was not aborted
-    //     if (!abortController.signal.aborted) {
-    //       console.log(error.message);
-    //     } else {
-    //       console.log("Fetch request aborted.");
-    //     }
-    //   }
-    // };
-    // fetchProductDetail();
-    // // Clean up
-    // return () => {
-    //   abortController.abort();
-    // };
-  }, [api]);
-
-  useEffect(() => {
-    setProduct(data as ProductData);
-  }, [data]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [productApi]);
 
   // Fetch product reviews
-  // useEffect(() => {
-  //   if (product && product.rateTotal > 0) {
-  //     const abortController = new AbortController();
-  //     const fetchReviews = async () => {
-  //       try {
-  //         setIsLoading(true);
-  //         const response = await axios.get(getProductReviewsApi(productId), {
-  //           signal: abortController.signal,
-  //         });
-  //         const result = response.data as ReviewData[];
-  //         setReviews(result);
-  //         setIsLoading(false);
-  //       } catch (error: any) {
-  //         setIsLoading(false);
-  //         // only log error/call dispatch when we know the fetch was not aborted
-  //         if (!abortController.signal.aborted) {
-  //           console.log(error.message);
-  //         } else {
-  //           console.log("Fetch request aborted.");
-  //         }
-  //       }
-  //     };
-  //     fetchReviews();
-  //     // Clean up
-  //     return () => {
-  //       abortController.abort();
-  //     };
-  //   }
-  // }, [product?.rateTotal]);
+  useEffect(() => {
+    if (product && product.rateTotal > 0) {
+      fetchApiReview(getProductReviewsApi(productId));
+      return () => {
+        abortControllerReview.abort();
+      };
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [product?.rateTotal]);
 
   // Fetch product review summary
-  // useEffect(() => {
-  //   if (product && product.rateTotal > 0) {
-  //     const abortController = new AbortController();
-  //     const fetchReviewSummary = async () => {
-  //       try {
-  //         setIsLoading(true);
-  //         const response = await axios.get(
-  //           getProductReviewSummaryApi(productId),
-  //           {
-  //             signal: abortController.signal,
-  //           }
-  //         );
-  //         const result = response.data as ReviewSummaryData;
-  //         setReviewSummary(result);
-  //         setIsLoading(false);
-  //       } catch (error: any) {
-  //         setIsLoading(false);
-  //         // only log error/call dispatch when we know the fetch was not aborted
-  //         if (!abortController.signal.aborted) {
-  //           console.log(error.message);
-  //         } else {
-  //           console.log("Fetch request aborted.");
-  //         }
-  //       }
-  //     };
-  //     fetchReviewSummary();
-  //     // Clean up
-  //     return () => {
-  //       abortController.abort();
-  //     };
-  //   }
-  // }, [product?.rateTotal]);
-
-  console.log("Product");
-  console.log(product);
+  useEffect(() => {
+    if (product && product.rateTotal > 0) {
+      fetchApiReviewSummary(getProductReviewSummaryApi(productId));
+      return () => {
+        abortControllerReviewSummary.abort();
+      };
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [product?.rateTotal]);
 
   // -------------------------- MAIN --------------------------
   if (isLoading) return <LoadingFallback />;
+  if (error)
+    return (
+      <LoadingFallback message="Error occurred while fetching product detail." />
+    );
   if (!product) return <LoadingFallback message="No Product Found." />;
   return (
     <Container sx={{ mb: 10 }}>
@@ -217,7 +145,7 @@ export default function ProductDetail() {
             parseInt(params.categoryID)
           )}
         >
-          {product.categoryDto.name}
+          {product?.categoryDto.name}
         </Link>
         <Link
           underline="hover"

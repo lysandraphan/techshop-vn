@@ -6,12 +6,13 @@ export type HTTPmethods = "put" | "patch" | "post" | "get" | "Delete";
 export function useFetchHook<T>(
   body?: any
 ): [
-  T | T[] | undefined,
-  boolean,
+  T | undefined,
   (api: string) => Promise<void>,
-  AbortController
+  AbortController,
+  boolean,
+  boolean
 ] {
-  const [data, setData] = useState<T | T[]>();
+  const [data, setData] = useState<T>();
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<boolean>(false);
 
@@ -24,8 +25,7 @@ export function useFetchHook<T>(
         const response = await axios.get(api, {
           signal: abortController.signal,
         });
-        const result: T | T[] = response.data;
-        console.log(result);
+        const result: T = response.data;
         setData(result);
       } catch (error: any) {
         if (!abortController.signal.aborted) {
@@ -37,6 +37,6 @@ export function useFetchHook<T>(
       }
     }
   };
-
-  return [data, loading, fetchGetData, abortController];
+  // console.log(data)
+  return [data, fetchGetData, abortController, loading, error];
 }

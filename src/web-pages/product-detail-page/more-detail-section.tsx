@@ -25,7 +25,7 @@ interface MoreDetailSectionProps {
 export default function MoreDetailSection({
   description,
   reviews,
-  reviewSummary
+  reviewSummary,
 }: MoreDetailSectionProps) {
   // -------------------------- STATE --------------------------
   const [tabValue, setTabValue] = useState(0);
@@ -34,7 +34,7 @@ export default function MoreDetailSection({
   const handleChange = (event: React.SyntheticEvent, newValue: number) => {
     setTabValue(newValue);
   };
-
+  
   // -------------------------- MAIN --------------------------
   return (
     <Box
@@ -59,10 +59,7 @@ export default function MoreDetailSection({
         <ProductDescription description={description} />
       </TabPanel>
       <TabPanel value={tabValue} index={1}>
-        <ProductReview
-          reviews={reviews}
-          reviewSummary={reviewSummary}
-        />
+        <ProductReview reviews={reviews} reviewSummary={reviewSummary} />
       </TabPanel>
     </Box>
   );
