@@ -12,14 +12,14 @@ export interface UserState {
 }
 
 export interface UserData {
-  type: 0;
+  type: number;
   region: string;
   firstName: string;
   lastName: string;
-  status: 0;
+  status: number;
   email: string;
   password: string;
-  accountId: 0;
+  accountId: number;
   avatar: string;
   createdAt: string;
   phoneNumber: string;
@@ -30,7 +30,7 @@ export interface UserData {
   apartment: string;
   suburb: string;
   city: string;
-  userId: 0;
+  userId: number;
 }
 
 // -------------------------- VAR --------------------------
@@ -61,6 +61,7 @@ export const signIn = createAsyncThunk(
         },
       });
       const result = responseUser.data[0] as UserData;
+      console.log(result);
       return result;
     } catch (error: any) {
       console.log(error.message);
