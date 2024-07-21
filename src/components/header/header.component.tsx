@@ -97,7 +97,13 @@ export default function Header() {
               alignItems="center"
             >
               {user ? (
-                <Badge badgeContent={4} color="secondary">
+                <Badge
+                  badgeContent={100}
+                  max={99}
+                  color="secondary"
+                  onClick={() => router.push("/wishlist")}
+                  sx={{ cursor: "pointer" }}
+                >
                   <FavoriteBorderOutlinedIcon
                     color="primary"
                     sx={{ fontSize: 30 }}
@@ -115,8 +121,10 @@ export default function Header() {
               {user ? (
                 <Badge
                   badgeContent={4}
+                  max={99}
                   color="secondary"
-                  sx={{ ml: 3, mr: 2.5 }}
+                  sx={{ ml: 3, mr: 2.5, cursor: "pointer" }}
+                  onClick={() => router.push("/cart")}
                 >
                   <ShoppingCartOutlinedIcon
                     color="primary"

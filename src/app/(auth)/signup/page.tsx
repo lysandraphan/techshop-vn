@@ -105,7 +105,7 @@ export default function Signup() {
           </Typography>
           <Stack
             component="form"
-            id="sign-in-form"
+            id="sign-up-form"
             onSubmit={signUpSubmit}
             spacing={4}
           >

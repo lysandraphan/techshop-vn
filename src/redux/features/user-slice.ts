@@ -14,7 +14,8 @@ export interface UserState {
 export interface UserData {
   type: 0;
   region: string;
-  fullName: string;
+  firstName: string;
+  lastName: string;
   status: 0;
   email: string;
   password: string;

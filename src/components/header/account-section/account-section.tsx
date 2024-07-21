@@ -58,7 +58,7 @@ export default function AccountSection({ user }: { user: UserData }) {
           aria-haspopup="true"
           aria-expanded={open ? "true" : undefined}
         >
-          <Avatar sx={{ width: 32, height: 30 }}>T</Avatar>
+          <Avatar sx={{ width: 32, height: 30 }}>{user.firstName[0]}</Avatar>
         </IconButton>
       ) : (
         <IconButton
