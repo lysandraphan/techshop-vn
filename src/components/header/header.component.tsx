@@ -49,7 +49,7 @@ export default function Header() {
         color="primary.contrastText"
       >
         <Typography fontSize={14} color="primary.contrastText">
-          Summer Sale For All Laptops And Free Delivery - OFF 30%
+          Summer Sale For All Camera And Free Delivery - OFF 20%
         </Typography>
         <Link
           href="/"

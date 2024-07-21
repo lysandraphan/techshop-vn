@@ -102,25 +102,21 @@ export default function ProductList({
   // Search Products
   const searchProducts = (searchQuery: string | undefined) => {
     if (!searchQuery || products.length === 0) return;
-
     const filtered = products.filter((product) => {
       return product.name
         .toLocaleLowerCase()
         .includes(searchQuery.toLocaleLowerCase());
     });
     setFilteredProducts(filtered);
-    console.log(filtered);
   };
 
   // -------------------------- EFFECT --------------------------
   useEffect(() => {
     const abortController = new AbortController();
-
     const fetchProducts = async () => {
       try {
         setIsLoading(true);
         isInCategory && dispatch(setDisableFilter(true));
-
         const response = await axios.get(api, {
           signal: abortController.signal,
         });
@@ -130,7 +126,6 @@ export default function ProductList({
         } else {
           result = response.data as ProductData[];
         }
-
         setProducts(result);
         setIsLoading(false);
         isInCategory && dispatch(setDisableFilter(false));
@@ -140,8 +135,6 @@ export default function ProductList({
         // only log error/call dispatch when we know the fetch was not aborted
         if (!abortController.signal.aborted) {
           console.log(error.message);
-        } else {
-          console.log("Fetch request aborted.");
         }
       }
     };
@@ -191,7 +184,7 @@ export default function ProductList({
           </Grid>
         ))
       ) : (
-        <LoadingFallback message="No Product Found" />
+        <LoadingFallback message="No Product Found." />
       )}
     </Grid>
   );
