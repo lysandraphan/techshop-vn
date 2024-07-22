@@ -27,10 +27,10 @@ const CategoryAndBannerSection = () => {
   // -------------------------- VAR --------------------------
   const categories = useAppSelector((state) => state.categories.categories);
 
-  const isLoadingCategories = useAppSelector(
-    (state) => state.categories.isLoading
-  );
-  const isLoadingBanners = useAppSelector((state) => state.banners.isLoading);
+  // const isLoadingCategories = useAppSelector(
+  //   (state) => state.categories.isLoading
+  // );
+  // const isLoadingBanners = useAppSelector((state) => state.banners.isLoading);
 
   const banners = useAppSelector((state) => state.banners.banners);
 
@@ -56,11 +56,12 @@ const CategoryAndBannerSection = () => {
               }
               sx={{
                 py: 1.5,
-                "&:hover, &:hover .MuiSvgIcon-root": {
-                  bgcolor: "primary.contrastText",
-                  color: "secondary.main",
-                  fontWeight: "bold",
-                },
+                "&:hover, &:hover .MuiSvgIcon-root, &:hover .MuiTypography-root":
+                  {
+                    bgcolor: "primary.contrastText",
+                    color: "secondary.main",
+                    fontWeight: "bold",
+                  },
               }}
             >
               <ListItemText>{category.name}</ListItemText>
