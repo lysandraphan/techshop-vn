@@ -4,7 +4,7 @@ import { useRouter } from "next/navigation";
 // internal
 import { CartProduct } from "@/redux/features/cart-slice";
 import { displayPrice } from "@/utils/functions";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { getProductDetailApi } from "@/api";
 
 // mui
@@ -41,7 +41,7 @@ export default function ProductInCart({ cartProduct }: ProductInCartProps) {
   // -------------------------- FUNCTION --------------------------
   const changeQuantity = (type: "increment" | "decrement") => {
     setQuantity((prev) => {
-      if (type === "increment") {
+      if (type === "decrement") {
         --prev;
         if (prev < 0) prev = 0;
       } else {
@@ -50,11 +50,6 @@ export default function ProductInCart({ cartProduct }: ProductInCartProps) {
       return prev;
     });
   };
-
-  // -------------------------- EFFECT --------------------------
-  // useEffect(() => {
-  //
-  // }, []);
 
   // -------------------------- MAIN --------------------------
   return (
@@ -93,7 +88,7 @@ export default function ProductInCart({ cartProduct }: ProductInCartProps) {
             <IconButton
               aria-label="delete"
               size="small"
-              onClick={() => changeQuantity("increment")}
+              onClick={() => changeQuantity("decrement")}
             >
               <ChevronLeftIcon fontSize="inherit" />
             </IconButton>
@@ -101,7 +96,7 @@ export default function ProductInCart({ cartProduct }: ProductInCartProps) {
             <IconButton
               aria-label="delete"
               size="small"
-              onClick={() => changeQuantity("decrement")}
+              onClick={() => changeQuantity("increment")}
             >
               <ChevronRightIcon fontSize="inherit" />
             </IconButton>
