@@ -6,8 +6,9 @@ import { useEffect } from "react";
 // internal
 import { getCartApi } from "@/api";
 import { useFetchHook } from "@/custom-hooks/use-fetch-hook";
-import { useAppSelector } from "@/redux/hooks";
+import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import { getToken } from "../utils/functions";
+import { fetchCart } from "@/redux/features/cart-slice";
 
 // mui
 import Container from "@mui/material/Container";
@@ -32,28 +33,31 @@ export default function Cart() {
   // -------------------------- VAR --------------------------
   const router = useRouter();
 
-  const user = useAppSelector((state) => state.user.user);
+  // const user = useAppSelector((state) => state.user.user);
+  // const accountId = user?.accountId;
 
-  // let [data, fetchApi, abortController, isLoading, error] =
-  //   useFetchHook<CartData>(getToken);
+  // const isLoading = useAppSelector((state) => state.cart.isLoading);
 
-  // const cart = data?.data;
+  // const cart = useAppSelector((state) => state.cart.cart);
+
+  // const dispatch = useAppDispatch();
 
   // -------------------------- EFFECT --------------------------
   // useEffect(() => {
-  //   fetchApi(getCartApi(user.accountId));
-  // }, []);
+  //   dispatch(fetchCart({ accountId }));
+  // // eslint-disable-next-line react-hooks/exhaustive-deps
+  // }, [accountId]);
 
   // useEffect(() => {
   //   console.log(cart);
   // }, [cart]);
 
+  // useEffect(() => {
+  //   fetchApi(getCartApi(user.accountId));
+  // }, []);
+
   // -------------------------- MAIN --------------------------
   // if (isLoading) return <LoadingFallback />;
-  // if (error)
-  //   return (
-  //     <LoadingFallback message="Error occurred while fetching cart detail." />
-  //   );
   // if (!cart) return <LoadingFallback message="No Item In Cart." />;
   return (
     <Container>
@@ -71,111 +75,80 @@ export default function Cart() {
           Cart
         </Link>
       </Breadcrumbs>
-      <Stack direction="row" mt={7} boxShadow="0 1px 10px #d7d7d7">
-        <Grid container spacing={5} p={3} pr={6}>
-          <Grid item md={7}>
-            <Typography fontWeight={500}>Product</Typography>
-          </Grid>
-          <Grid item md={2}>
-            <Typography textAlign="center" fontWeight={500}>
-              Price
-            </Typography>
-          </Grid>
-          <Grid item md={2}>
-            <Typography textAlign="center" fontWeight={500}>
-              Quantity
-            </Typography>
-          </Grid>
-          <Grid item md={1}>
-            <Typography textAlign="center" fontWeight={500}>
-              Subtotal
-            </Typography>
-          </Grid>
-        </Grid>
-      </Stack>
 
-      <Stack direction="row" mt={7} mb={3} boxShadow="0 1px 10px #d7d7d7">
-        <Grid container spacing={5} p={3} pr={6}>
-          <Grid item md={7}>
-            <Stack direction="row" alignItems="center" spacing={2}>
-              <CustomImage
-                src="/product.webp"
-                alt="product"
-                width={50}
-                height={50}
-                mb={2}
-              />
-              <Typography fontSize={16}>
-                Olympus Tough TG-6 Waterproof Camera, Red
+      <Stack
+        boxShadow="0 1px 10px #d7d7d7"
+        mt={7}
+        divider={<Divider flexItem />}
+      >
+        <Stack direction="row">
+          <Grid container spacing={5} p={3} pr={6}>
+            <Grid item md={7}>
+              <Typography fontWeight={500}>Product</Typography>
+            </Grid>
+            <Grid item md={2}>
+              <Typography textAlign="center" fontWeight={500}>
+                Price
               </Typography>
-            </Stack>
-          </Grid>
-          <Grid item md={2} alignSelf="center">
-            <Typography textAlign="center">$650</Typography>
-          </Grid>
-          <Grid item md={2} alignSelf="center">
-            <Stack
-              direction="row"
-              alignItems="center"
-              justifyContent="center"
-              spacing={2}
-            >
-              <IconButton aria-label="delete" size="small">
-                <ChevronLeftIcon fontSize="inherit" />
-              </IconButton>
-              <Typography textAlign="center">2</Typography>
-              <IconButton aria-label="delete" size="small">
-                <ChevronRightIcon fontSize="inherit" />
-              </IconButton>
-            </Stack>
-          </Grid>
-          <Grid item md={1} alignSelf="center">
-            <Typography textAlign="center">$1,300</Typography>
-          </Grid>
-        </Grid>
-      </Stack>
-
-      <Stack direction="row" mt={7} mb={3} boxShadow="0 1px 10px #d7d7d7">
-        <Grid container spacing={5} p={3} pr={6}>
-          <Grid item md={7}>
-            <Stack direction="row" alignItems="center" spacing={2}>
-              <CustomImage
-                src="/product.webp"
-                alt="product"
-                width={50}
-                height={50}
-                mb={2}
-              />
-              <Typography fontSize={16}>
-                Olympus Tough TG-6 Waterproof Camera, Red
+            </Grid>
+            <Grid item md={2}>
+              <Typography textAlign="center" fontWeight={500}>
+                Quantity
               </Typography>
-            </Stack>
+            </Grid>
+            <Grid item md={1}>
+              <Typography textAlign="center" fontWeight={500}>
+                Subtotal
+              </Typography>
+            </Grid>
           </Grid>
-          <Grid item md={2} alignSelf="center">
-            <Typography textAlign="center">$650</Typography>
+        </Stack>
+
+        
+        <Stack direction="row" mt={2} mb={3}>
+          <Grid container spacing={5} p={3} pr={6}>
+            <Grid item md={7}>
+              <Stack direction="row" alignItems="center" spacing={2}>
+                <CustomImage
+                  src="/product.webp"
+                  alt="product"
+                  width={50}
+                  height={50}
+                  mb={2}
+                />
+                <Typography fontSize={16}>
+                  Olympus Tough TG-6 Waterproof Camera, Red
+                </Typography>
+              </Stack>
+            </Grid>
+            <Grid item md={2} alignSelf="center">
+              <Typography textAlign="center">$650</Typography>
+            </Grid>
+            <Grid item md={2} alignSelf="center">
+              <Stack
+                direction="row"
+                alignItems="center"
+                justifyContent="center"
+                spacing={2}
+              >
+                <IconButton aria-label="delete" size="small">
+                  <ChevronLeftIcon fontSize="inherit" />
+                </IconButton>
+                <Typography textAlign="center">2</Typography>
+                <IconButton aria-label="delete" size="small">
+                  <ChevronRightIcon fontSize="inherit" />
+                </IconButton>
+              </Stack>
+            </Grid>
+            <Grid item md={1} alignSelf="center">
+              <Typography textAlign="center">$1,300</Typography>
+            </Grid>
           </Grid>
-          <Grid item md={2} alignSelf="center">
-            <Stack
-              direction="row"
-              alignItems="center"
-              justifyContent="center"
-              spacing={2}
-            >
-              <IconButton aria-label="delete" size="small">
-                <ChevronLeftIcon fontSize="inherit" />
-              </IconButton>
-              <Typography textAlign="center">2</Typography>
-              <IconButton aria-label="delete" size="small">
-                <ChevronRightIcon fontSize="inherit" />
-              </IconButton>
-            </Stack>
-          </Grid>
-          <Grid item md={1} alignSelf="center">
-            <Typography textAlign="center">$1,300</Typography>
-          </Grid>
-        </Grid>
+        </Stack>
+  
       </Stack>
 
+     
       <Stack direction="row" justifyContent="space-between" mt={5} mb={8}>
         <Button variant="outlined" onClick={() => router.back()}>
           Return To Shop
