@@ -17,6 +17,7 @@ import filterReducer from "./features/filter-slice";
 import sortReducer from "./features/sort-slice";
 import brandsReducer from "./features/brands-slice";
 import userReducer from "./features/user-slice";
+import cartReducer from "./features/cart-slice";
 import customStorage from "./storage";
 
 const rootReducer = combineReducers({
@@ -26,6 +27,7 @@ const rootReducer = combineReducers({
   sort: sortReducer,
   brands: brandsReducer,
   user: userReducer,
+  cart: cartReducer,
 });
 
 const persistConfig = {

@@ -1,10 +1,11 @@
 "use client";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import NextLink from "next/link";
 
 // internal
-import { useAppSelector } from "@/redux/hooks";
+import { useAppDispatch, useAppSelector } from "@/redux/hooks";
+import { fetchCart } from "@/redux/features/cart-slice";
 
 // mui
 import { Inter } from "next/font/google";
@@ -31,11 +32,57 @@ const inter = Inter({
 export default function Header() {
   // -------------------------- STATE --------------------------
   const [searchQuery, setSearchQuery] = useState("");
+  const [totalCartItems, setTotalCartItem] = useState(0);
 
   // -------------------------- VAR --------------------------
   const user = useAppSelector((state) => state.user.user);
-
+  const accountId = user?.accountId;
   const router = useRouter();
+
+  // let [cart, fetchApi, abortController, isLoading, error] =
+  //   useFetchHook<CartData>(getToken);
+
+  const dispatch = useAppDispatch();
+  const total = useAppSelector((state) => state.cart.total);
+
+  // -------------------------- EFFECT --------------------------
+  useEffect(() => {
+    dispatch(fetchCart({ accountId }));
+  }, [accountId]);
+
+  useEffect(() => {
+    setTotalCartItem(total);
+  }, [total]);
+
+  // useEffect(() => {
+  //   if (cartItems) {
+  //     const totalItems = cartItems.reduce(
+  //       (total: number, cartItem: CartItemData) => {
+  //         return total + cartItem.product.quantity;
+  //       },
+  //       0
+  //     );
+  //     setTotalCartItem(totalItems);
+  //   }
+  // }, [cartItems]);
+
+  // useEffect(() => {
+  //   fetchApi(getCartApi(user.accountId));
+  //   return () => {
+  //     abortController.abort();
+  //   };
+  // }, []);
+
+  // Count total items with quantity in Cart
+  // useEffect(() => {
+  //   if (cart?.data) {
+  //     const cartItems = cart.data;
+  //     const totalItems = cartItems.reduce((total, cartItem) => {
+  //       return total + cartItem.product.quantity;
+  //     }, 0);
+  //     setTotalCartItem(totalItems);
+  //   }
+  // }, [cart]);
 
   // -------------------------- MAIN --------------------------
   return (
@@ -118,9 +165,9 @@ export default function Header() {
                   <FavoriteBorderOutlinedIcon sx={{ fontSize: 30 }} />
                 </IconButton>
               )}
-              {user ? (
+              {totalCartItems > 0 && user ? (
                 <Badge
-                  badgeContent={4}
+                  badgeContent={totalCartItems}
                   max={99}
                   color="secondary"
                   sx={{ ml: 3, mr: 2.5, cursor: "pointer" }}
