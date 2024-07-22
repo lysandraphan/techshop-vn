@@ -26,16 +26,15 @@ interface MainInfoSectionProps {
 
 // EXPORT DEFAULT
 export default function MainInfoSection({ product }: MainInfoSectionProps) {
-  // -------------------------- STATE --------------------------
-  const [isLoading, setIsLoading] = useState(false);
-
   // -------------------------- VAR --------------------------
   // let [data, fetchApi, abortController] = useFetchHook(getToken);
 
   const dispatch = useAppDispatch();
 
   const user = useAppSelector((state) => state.user.user);
-  
+
+  const isLoading = useAppSelector((state) => state.cart.isLoading);
+
   // -------------------------- FUNCTION --------------------------
   const addToCartHandler = () => {
     const productId = product.productId;
