@@ -14,11 +14,13 @@ import TextField from "@mui/material/TextField";
 // interface
 interface CouponAndCartTotalSectionProps {
   subTotalAll: number;
+  isLoadingRemove: boolean;
 }
 
 // EXPORT DEFAULT
 export default function CouponAndCartTotalSection({
   subTotalAll,
+  isLoadingRemove,
 }: CouponAndCartTotalSectionProps) {
   const router = useRouter();
 
@@ -39,6 +41,7 @@ export default function CouponAndCartTotalSection({
             variant="contained"
             color="secondary"
             sx={{ px: 5, wordSpacing: 3 }}
+            disabled={isLoadingRemove}
           >
             Apply Coupon
           </Button>
@@ -77,6 +80,7 @@ export default function CouponAndCartTotalSection({
               variant="contained"
               color="secondary"
               sx={{ width: "50%", height: 50 }}
+              disabled={isLoadingRemove}
               onClick={() => router.push("/cart/checkout")}
             >
               Checkout

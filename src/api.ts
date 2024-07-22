@@ -66,3 +66,7 @@ export const createCartApi =
 
 export const updateCartApi =
   "https://g5-likelion-ecommerce.onrender.com/api/cart/update";
+
+export const deleteCartItemApi = (cartId: number) => {
+  return `https://g5-likelion-ecommerce.onrender.com/api/cart/delete/${cartId}`;
+};

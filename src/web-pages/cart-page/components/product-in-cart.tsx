@@ -1,11 +1,12 @@
 "use client";
 import { useRouter } from "next/navigation";
+import axios from "axios";
 
 // internal
 import { CartProductData } from "@/redux/features/cart-slice";
-import { displayPrice } from "@/utils/functions";
+import { displayPrice, getToken } from "@/utils/functions";
 import { Dispatch, SetStateAction, useEffect, useState } from "react";
-import { getProductDetailApi } from "@/api";
+import { deleteCartItemApi } from "@/api";
 
 // mui
 import Grid from "@mui/material/Grid";
@@ -14,20 +15,30 @@ import Typography from "@mui/material/Typography";
 import IconButton from "@mui/material/IconButton";
 import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
+import CancelOutlinedIcon from "@mui/icons-material/CancelOutlined";
+import Tooltip from "@mui/material/Tooltip";
+import SaveIcon from "@mui/icons-material/Save";
+import LoadingButton from "@mui/lab/LoadingButton";
 
 // component
 import CustomImage from "@/components/custom-image/custom-image.component";
 
 // interface
 interface ProductInCartProps {
+  cartId: number;
   cartProduct: CartProductData;
   setSubTotalAll: Dispatch<SetStateAction<number>>;
+  isLoadingRemove: boolean;
+  setIsLoadingRemove: Dispatch<SetStateAction<boolean>>;
 }
 
 // EXPORT DEFAULT
 export default function ProductInCart({
+  cartId,
   cartProduct,
   setSubTotalAll,
+  isLoadingRemove,
+  setIsLoadingRemove,
 }: ProductInCartProps) {
   // -------------------------- STATE --------------------------
   const [quantity, setQuantity] = useState<number>(cartProduct.quantity);
@@ -36,17 +47,18 @@ export default function ProductInCart({
   const subtotal = cartProduct.price * quantity;
 
   const name =
-    cartProduct.name.length > 65
-      ? cartProduct.name.substring(0, 63) + "..."
+    cartProduct.name.length > 60
+      ? cartProduct.name.substring(0, 57) + "..."
       : cartProduct.name;
 
   const router = useRouter();
 
   // -------------------------- FUNCTION --------------------------
   const changeQuantity = (type: "increment" | "decrement") => {
+    if (isLoadingRemove) return;
     if (type === "decrement") {
       setQuantity((prev) => {
-        return prev <= 0 ? 0 : --prev;
+        return prev <= 1 ? 1 : --prev;
       });
       if (quantity > 0) setSubTotalAll((prev) => prev - cartProduct.price);
     } else {
@@ -65,6 +77,24 @@ export default function ProductInCart({
     return `/categories/${categoryName}/${categoryId}/products/${productId}`;
   };
 
+  // Remove product in Cart
+  const removeProductHandler = async () => {
+    try {
+      setIsLoadingRemove(true);
+      await axios.post(deleteCartItemApi(cartId), {
+        headers: {
+          Authorization: `Bearer ${getToken}`,
+        },
+      });
+      setIsLoadingRemove(false);
+    } catch (error: any) {
+      setIsLoadingRemove(false);
+      console.log(error.message);
+    }
+  };
+
+  console.log(isLoadingRemove);
+
   // -------------------------- EFFECT --------------------------
   useEffect(() => {
     setSubTotalAll((prev) => prev + subtotal);
@@ -73,31 +103,61 @@ export default function ProductInCart({
   // -------------------------- MAIN --------------------------
   return (
     <Stack direction="row" mt={2} mb={3}>
-      <Grid container spacing={5} p={3} pr={6}>
+      <Grid container spacing={3} px={4}>
         <Grid item md={7}>
-          <Stack
-            direction="row"
-            alignItems="center"
-            spacing={2}
-            onClick={() =>
-              router.push(
-                getProductRoute(
-                  cartProduct.categoryDto.name,
-                  cartProduct.categoryDto.categoryId,
-                  cartProduct.productId
+          <Stack direction="row" alignItems="center">
+            <Stack
+              direction="row"
+              alignItems="center"
+              onClick={() =>
+                router.push(
+                  getProductRoute(
+                    cartProduct.categoryDto.name,
+                    cartProduct.categoryDto.categoryId,
+                    cartProduct.productId
+                  )
                 )
-              )
-            }
-            sx={{ cursor: "pointer" }}
-          >
-            <CustomImage
-              src={cartProduct.imagePath}
-              alt={name}
-              width={50}
-              height={50}
-              mb={2}
-            />
-            <Typography fontSize={16}>{name}</Typography>
+              }
+              sx={{
+                cursor: "pointer",
+                "&:hover .MuiTypography-root": {
+                  color: "secondary.main",
+                },
+              }}
+            >
+              <CustomImage
+                src={cartProduct.imagePath}
+                alt={name}
+                width={50}
+                height={50}
+                mb={2}
+              />
+              <Typography fontSize={16} ml={2} mr={1}>
+                {name}
+              </Typography>
+            </Stack>
+            {isLoadingRemove ? (
+              <LoadingButton
+                loading
+                loadingPosition="start"
+                startIcon={<SaveIcon />}
+              ></LoadingButton>
+            ) : (
+              <Tooltip title="Remove" placement="top" arrow>
+                <IconButton
+                  aria-label="delete"
+                  size="small"
+                  onClick={removeProductHandler}
+                >
+                  <CancelOutlinedIcon
+                    fontSize="inherit"
+                    sx={{
+                      color: "primary.dark",
+                    }}
+                  />
+                </IconButton>
+              </Tooltip>
+            )}
           </Stack>
         </Grid>
         <Grid item md={2} alignSelf="center">
@@ -113,7 +173,7 @@ export default function ProductInCart({
             spacing={2}
           >
             <IconButton
-              aria-label="delete"
+              aria-label="decrement"
               size="small"
               onClick={() => changeQuantity("decrement")}
             >
@@ -121,7 +181,7 @@ export default function ProductInCart({
             </IconButton>
             <Typography textAlign="center">{quantity}</Typography>
             <IconButton
-              aria-label="delete"
+              aria-label="increment"
               size="small"
               onClick={() => changeQuantity("increment")}
             >

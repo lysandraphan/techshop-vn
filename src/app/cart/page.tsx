@@ -26,6 +26,8 @@ import CouponAndCartTotalSection from "@/web-pages/cart-page/coupon-and-cart-tot
 export default function Cart() {
   // -------------------------- STATE --------------------------
   const [subTotalAll, setSubTotalAll] = useState<number>(0);
+  const [isLoadingRemove, setIsLoadingRemove] = useState(false);
+
   // -------------------------- VAR --------------------------
   const router = useRouter();
 
@@ -78,7 +80,7 @@ export default function Cart() {
             divider={<Divider flexItem />}
           >
             <Stack direction="row">
-              <Grid container spacing={5} p={3} pr={6}>
+              <Grid container spacing={3} px={4} py={3}>
                 <Grid item md={7}>
                   <Typography fontWeight={500}>Product</Typography>
                 </Grid>
@@ -102,20 +104,32 @@ export default function Cart() {
             {cartItems.map((cartItem: CartItemData) => (
               <ProductInCart
                 key={cartItem.cartId}
+                cartId={cartItem.cartId}
                 cartProduct={cartItem.product}
                 setSubTotalAll={setSubTotalAll}
+                isLoadingRemove={isLoadingRemove}
+                setIsLoadingRemove={setIsLoadingRemove}
               />
             ))}
           </Stack>
 
           <Stack direction="row" justifyContent="space-between" mt={5} mb={8}>
-            <Button variant="outlined" onClick={() => router.back()}>
+            <Button
+              variant="outlined"
+              disabled={isLoadingRemove}
+              onClick={() => router.back()}
+            >
               Return To Shop
             </Button>
-            <Button variant="outlined">Update Cart</Button>
+            <Button variant="outlined" disabled={isLoadingRemove}>
+              Update Cart
+            </Button>
           </Stack>
 
-          <CouponAndCartTotalSection subTotalAll={subTotalAll} />
+          <CouponAndCartTotalSection
+            subTotalAll={subTotalAll}
+            isLoadingRemove={isLoadingRemove}
+          />
         </Fragment>
       ) : (
         <LoadingFallback message="No Item In Cart." />
