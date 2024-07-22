@@ -7,7 +7,7 @@ import axios from "axios";
 
 // -------------------------- INTERFACE --------------------------
 export interface CartState {
-  cart: CartItemsData[] | null | undefined;
+  cart: CartItemData[] | null | undefined;
   total: number;
   isLoading: boolean;
   error: any;
@@ -15,19 +15,21 @@ export interface CartState {
 
 interface ServerData {
   message: string;
-  data: CartItemsData[] | null;
+  data: CartItemData[] | null;
 }
 
-export interface CartItemsData {
+export interface CartItemData {
   accountId: number;
   cartId: number;
-  product: {
-    imagePath: string;
-    name: string;
-    price: number;
-    productId: number;
-    quantity: number;
-  };
+  product: CartProduct;
+}
+
+export interface CartProduct {
+  imagePath: string;
+  name: string;
+  price: number;
+  productId: number;
+  quantity: number;
 }
 
 // -------------------------- VAR --------------------------
@@ -42,7 +44,7 @@ const abortController = new AbortController();
 
 // -------------------------- FUNCTION --------------------------
 // Count total items in Cart
-export const getTotalCart = (cartItems: CartItemsData[] | undefined) => {
+export const getTotalCart = (cartItems: CartItemData[] | undefined) => {
   if (cartItems) {
     const totalItems = cartItems.reduce((total, cartItem) => {
       return total + cartItem.product.quantity;
@@ -67,7 +69,7 @@ export const fetchCart = createAsyncThunk(
           },
         });
         const result = (await response.data) as ServerData;
-        const cart = result.data as CartItemsData[];
+        const cart = result.data as CartItemData[];
         return cart;
       } catch (error: any) {
         console.log(error.message);
@@ -110,7 +112,7 @@ export const addToCart = createAsyncThunk(
           },
         });
         const result = (await response.data) as ServerData;
-        const cart = result.data as CartItemsData[];
+        const cart = result.data as CartItemData[];
         return cart;
       } catch (error: any) {
         console.log(error.message);

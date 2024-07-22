@@ -1,11 +1,11 @@
 "use client";
 import NextLink from "next/link";
 import { useRouter } from "next/navigation";
-import { useEffect } from "react";
+import { Fragment, useEffect } from "react";
 
 // internal
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
-import { fetchCart } from "@/redux/features/cart-slice";
+import { CartItemData, fetchCart } from "@/redux/features/cart-slice";
 
 // mui
 import Container from "@mui/material/Container";
@@ -32,7 +32,7 @@ export default function Cart() {
 
   const isLoading = useAppSelector((state) => state.cart.isLoading);
 
-  const cart = useAppSelector((state) => state.cart.cart);
+  const cartItems = useAppSelector((state) => state.cart.cart);
 
   const dispatch = useAppDispatch();
 
@@ -43,8 +43,8 @@ export default function Cart() {
   }, [accountId]);
 
   useEffect(() => {
-    console.log(cart);
-  }, [cart]);
+    console.log(cartItems);
+  }, [cartItems]);
 
   // useEffect(() => {
   //   fetchApi(getCartApi(user.accountId));
@@ -52,7 +52,7 @@ export default function Cart() {
 
   // -------------------------- MAIN --------------------------
   if (isLoading) return <LoadingFallback />;
-  // if (!cart) return <LoadingFallback message="No Item In Cart." />;
+  if (!cartItems) return <LoadingFallback message="No Item In Cart." />;
   return (
     <Container>
       <Breadcrumbs aria-label="breadcrumb" sx={{ mt: 5 }}>
@@ -70,44 +70,55 @@ export default function Cart() {
         </Link>
       </Breadcrumbs>
 
-      <Stack
-        boxShadow="0 1px 10px #d7d7d7"
-        mt={7}
-        divider={<Divider flexItem />}
-      >
-        <Stack direction="row">
-          <Grid container spacing={5} p={3} pr={6}>
-            <Grid item md={7}>
-              <Typography fontWeight={500}>Product</Typography>
-            </Grid>
-            <Grid item md={2}>
-              <Typography textAlign="center" fontWeight={500}>
-                Price
-              </Typography>
-            </Grid>
-            <Grid item md={2}>
-              <Typography textAlign="center" fontWeight={500}>
-                Quantity
-              </Typography>
-            </Grid>
-            <Grid item md={1}>
-              <Typography textAlign="center" fontWeight={500}>
-                Subtotal
-              </Typography>
-            </Grid>
-          </Grid>
-        </Stack>
-        <ProductInCart />
-      </Stack>
+      {cartItems ? (
+        <Fragment>
+          <Stack
+            boxShadow="0 1px 10px #d7d7d7"
+            mt={7}
+            divider={<Divider flexItem />}
+          >
+            <Stack direction="row">
+              <Grid container spacing={5} p={3} pr={6}>
+                <Grid item md={7}>
+                  <Typography fontWeight={500}>Product</Typography>
+                </Grid>
+                <Grid item md={2}>
+                  <Typography textAlign="center" fontWeight={500}>
+                    Price
+                  </Typography>
+                </Grid>
+                <Grid item md={2}>
+                  <Typography textAlign="center" fontWeight={500}>
+                    Quantity
+                  </Typography>
+                </Grid>
+                <Grid item md={1}>
+                  <Typography textAlign="center" fontWeight={500}>
+                    Subtotal
+                  </Typography>
+                </Grid>
+              </Grid>
+            </Stack>
+            {cartItems.map((cartItem: CartItemData) => (
+              <ProductInCart
+                key={cartItem.cartId}
+                cartProduct={cartItem.product}
+              />
+            ))}
+          </Stack>
 
-      <Stack direction="row" justifyContent="space-between" mt={5} mb={8}>
-        <Button variant="outlined" onClick={() => router.back()}>
-          Return To Shop
-        </Button>
-        <Button variant="outlined">Update Cart</Button>
-      </Stack>
+          <Stack direction="row" justifyContent="space-between" mt={5} mb={8}>
+            <Button variant="outlined" onClick={() => router.back()}>
+              Return To Shop
+            </Button>
+            <Button variant="outlined">Update Cart</Button>
+          </Stack>
 
-      <CouponAndCartTotalSection />
+          <CouponAndCartTotalSection />
+        </Fragment>
+      ) : (
+        <LoadingFallback message="No Item In Cart." />
+      )}
     </Container>
   );
 }
