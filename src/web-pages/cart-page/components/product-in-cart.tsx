@@ -1,8 +1,11 @@
 "use client";
+import { useRouter } from "next/navigation";
 
 // internal
 import { CartProduct } from "@/redux/features/cart-slice";
 import { displayPrice } from "@/utils/functions";
+import { useEffect, useState } from "react";
+import { getProductDetailApi } from "@/api";
 
 // mui
 import Grid from "@mui/material/Grid";
@@ -22,19 +25,49 @@ interface ProductInCartProps {
 
 // EXPORT DEFAULT
 export default function ProductInCart({ cartProduct }: ProductInCartProps) {
-  // -------------------------- FUNCTION --------------------------
+  // -------------------------- STATE --------------------------
+  const [quantity, setQuantity] = useState<number>(cartProduct.quantity);
+
+  // -------------------------- VAR --------------------------
+  const subtotal = cartProduct.price * quantity;
+
   const name =
     cartProduct.name.length > 65
       ? cartProduct.name.substring(0, 63) + "..."
       : cartProduct.name;
-  const subtotal = cartProduct.price * cartProduct.quantity;
+
+  const router = useRouter();
+
+  // -------------------------- FUNCTION --------------------------
+  const changeQuantity = (type: "increment" | "decrement") => {
+    setQuantity((prev) => {
+      if (type === "increment") {
+        --prev;
+        if (prev < 0) prev = 0;
+      } else {
+        ++prev;
+      }
+      return prev;
+    });
+  };
+
+  // -------------------------- EFFECT --------------------------
+  // useEffect(() => {
+  //
+  // }, []);
 
   // -------------------------- MAIN --------------------------
   return (
     <Stack direction="row" mt={2} mb={3}>
       <Grid container spacing={5} p={3} pr={6}>
         <Grid item md={7}>
-          <Stack direction="row" alignItems="center" spacing={2}>
+          <Stack
+            direction="row"
+            alignItems="center"
+            spacing={2}
+            onClick={() => router.push("/")}
+            sx={{ cursor: "pointer" }}
+          >
             <CustomImage
               src={cartProduct.imagePath}
               alt={name}
@@ -57,11 +90,19 @@ export default function ProductInCart({ cartProduct }: ProductInCartProps) {
             justifyContent="center"
             spacing={2}
           >
-            <IconButton aria-label="delete" size="small">
+            <IconButton
+              aria-label="delete"
+              size="small"
+              onClick={() => changeQuantity("increment")}
+            >
               <ChevronLeftIcon fontSize="inherit" />
             </IconButton>
-            <Typography textAlign="center">{cartProduct.quantity}</Typography>
-            <IconButton aria-label="delete" size="small">
+            <Typography textAlign="center">{quantity}</Typography>
+            <IconButton
+              aria-label="delete"
+              size="small"
+              onClick={() => changeQuantity("decrement")}
+            >
               <ChevronRightIcon fontSize="inherit" />
             </IconButton>
           </Stack>
