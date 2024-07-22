@@ -2,6 +2,7 @@
 // internal
 import { useRouter } from "next/navigation";
 import { ProductData } from "@/interface";
+import { displayPrice } from "@/app/utils/functions";
 
 //mui
 import Typography from "@mui/material/Typography";
@@ -18,11 +19,6 @@ interface ProductCardProps {
   isInCategory?: boolean;
   height?: number;
 }
-
-// function
-export const displayPrice = (price: number) => {
-  return price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-};
 
 // EXPORT DEFAULT
 export default function ProductCard({

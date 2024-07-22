@@ -20,6 +20,7 @@ import NewArrivalSection from "@/web-pages/home-page/new-arrival-section";
 import InfoSection from "@/web-pages/home-page/info-section";
 // import { fetchProducts } from "@/redux/features/products-slice";
 
+// EXPORT DEFAULT
 export default function Home() {
   // -------------------------- VAR --------------------------
   const dispatch = useAppDispatch();

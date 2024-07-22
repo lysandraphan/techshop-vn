@@ -52,3 +52,9 @@ export const forgotPasswordApi =
 export const getCartApi = (accountId: number) => {
   return `https://g5-likelion-ecommerce.onrender.com/api/cart/get-by-account?accountId=${accountId}`;
 };
+
+export const createCartApi =
+  "https://g5-likelion-ecommerce.onrender.com/api/cart/create";
+
+export const updateCartApi =
+  "https://g5-likelion-ecommerce.onrender.com/api/cart/update";
