@@ -4,7 +4,7 @@ import { useState } from "react";
 export type HTTPmethods = "put" | "patch" | "post" | "get" | "Delete";
 
 export function useFetchHook<T>(
-  body?: any
+  token?: any
 ): [
   T | undefined,
   (api: string) => Promise<void>,
@@ -22,9 +22,20 @@ export function useFetchHook<T>(
     if (api.length) {
       setLoading(true);
       try {
-        const response = await axios.get(api, {
-          signal: abortController.signal,
-        });
+        let response;
+        if (token) {
+          response = await axios.get(api, {
+            signal: abortController.signal,
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          });
+          console.log(response.data);
+        } else {
+          response = await axios.get(api, {
+            signal: abortController.signal,
+          });
+        }
         const result: T = response.data;
         setData(result);
       } catch (error: any) {

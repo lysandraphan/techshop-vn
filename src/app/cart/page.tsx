@@ -1,6 +1,13 @@
 "use client";
 import NextLink from "next/link";
 import { useRouter } from "next/navigation";
+import { useEffect } from "react";
+
+// internal
+import { getCartApi } from "@/api";
+import { useFetchHook } from "@/custom-hooks/use-fetch-hook";
+import { useAppSelector } from "@/redux/hooks";
+import { getToken } from "../utils/functions";
 
 // mui
 import Container from "@mui/material/Container";
@@ -18,10 +25,36 @@ import TextField from "@mui/material/TextField";
 
 // component
 import CustomImage from "@/components/custom-image/custom-image.component";
+import LoadingFallback from "@/components/loading-fallback/loading-fallback.component";
 
+// EXPORT DEFAULT
 export default function Cart() {
+  // -------------------------- VAR --------------------------
   const router = useRouter();
 
+  const user = useAppSelector((state) => state.user.user);
+
+  // let [data, fetchApi, abortController, isLoading, error] =
+  //   useFetchHook<CartData>(getToken);
+
+  // const cart = data?.data;
+
+  // -------------------------- EFFECT --------------------------
+  // useEffect(() => {
+  //   fetchApi(getCartApi(user.accountId));
+  // }, []);
+
+  // useEffect(() => {
+  //   console.log(cart);
+  // }, [cart]);
+
+  // -------------------------- MAIN --------------------------
+  // if (isLoading) return <LoadingFallback />;
+  // if (error)
+  //   return (
+  //     <LoadingFallback message="Error occurred while fetching cart detail." />
+  //   );
+  // if (!cart) return <LoadingFallback message="No Item In Cart." />;
   return (
     <Container>
       <Breadcrumbs aria-label="breadcrumb" sx={{ mt: 5 }}>
@@ -144,7 +177,9 @@ export default function Cart() {
       </Stack>
 
       <Stack direction="row" justifyContent="space-between" mt={5} mb={8}>
-        <Button variant="outlined">Return To Shop</Button>
+        <Button variant="outlined" onClick={() => router.back()}>
+          Return To Shop
+        </Button>
         <Button variant="outlined">Update Cart</Button>
       </Stack>
 
