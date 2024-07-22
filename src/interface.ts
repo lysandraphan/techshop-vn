@@ -28,7 +28,8 @@ export interface ReviewData {
   id: number;
   productId: number;
   accountId: number;
-  userFullname: string;
+  userFirstName: string;
+  userLastName: string;
   avatar: string;
   score: number;
   comment: string;
