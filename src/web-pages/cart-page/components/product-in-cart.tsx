@@ -2,7 +2,7 @@
 
 // internal
 import { CartProduct } from "@/redux/features/cart-slice";
-import { displayPrice } from "@/app/utils/functions";
+import { displayPrice } from "@/utils/functions";
 
 // mui
 import Grid from "@mui/material/Grid";

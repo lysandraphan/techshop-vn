@@ -2,7 +2,7 @@ import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 
 // internal
 import { createCartApi, getCartApi } from "@/api";
-import { getToken } from "@/app/utils/functions";
+import { getToken } from "@/utils/functions";
 import axios from "axios";
 
 // -------------------------- INTERFACE --------------------------

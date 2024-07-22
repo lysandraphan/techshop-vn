@@ -2,7 +2,7 @@
 // internal
 import { useRouter } from "next/navigation";
 import { ProductData } from "@/interface";
-import { displayPrice } from "@/app/utils/functions";
+import { displayPrice } from "@/utils/functions";
 
 //mui
 import Typography from "@mui/material/Typography";
@@ -95,7 +95,7 @@ export default function ProductCard({
           {product.name}
         </Typography>
         <Typography fontSize={16} color="secondary" fontWeight={500}>
-          ${displayPrice(product.price)}
+          {displayPrice(product.price)}
         </Typography>
         <RatingInfo
           ratingScore={product.ratingScore}
@@ -154,7 +154,7 @@ export default function ProductCard({
           {product.name}
         </Typography>
         <Typography fontSize={14} color="secondary" fontWeight={500}>
-          ${displayPrice(product.price)}
+          {displayPrice(product.price)}
         </Typography>
       </Stack>
     );

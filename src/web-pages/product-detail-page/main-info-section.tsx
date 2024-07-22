@@ -2,7 +2,7 @@
 
 // internal
 import { ProductData } from "@/interface";
-import { displayPrice } from "@/app/utils/functions";
+import { displayPrice } from "@/utils/functions";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import { addToCart } from "@/redux/features/cart-slice";
 
@@ -56,7 +56,7 @@ export default function MainInfoSection({ product }: MainInfoSectionProps) {
         color="secondary.main"
         my={3}
       >
-        ${displayPrice(product.price)}
+        {displayPrice(product.price)}
       </Typography>
       <Stack direction="row" spacing={2} mb={5}>
         <Button variant="outlined">
