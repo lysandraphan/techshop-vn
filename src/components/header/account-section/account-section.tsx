@@ -43,6 +43,7 @@ export default function AccountSection({ user }: { user: UserData }) {
 
   const logoutHandler = () => {
     dispatch(signUserOut());
+    router.push("/login")
     toast.info("You have signed out.");
   };
 
