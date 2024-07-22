@@ -115,8 +115,7 @@ export default function Cart() {
             <Button variant="outlined">Update Cart</Button>
           </Stack>
 
-          <CouponAndCartTotalSection 
-                subTotalAll={subTotalAll} />
+          <CouponAndCartTotalSection subTotalAll={subTotalAll} />
         </Fragment>
       ) : (
         <LoadingFallback message="No Item In Cart." />

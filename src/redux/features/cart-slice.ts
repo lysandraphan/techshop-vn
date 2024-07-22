@@ -21,15 +21,22 @@ interface ServerData {
 export interface CartItemData {
   accountId: number;
   cartId: number;
-  product: CartProduct;
+  product: CartProductData;
 }
 
-export interface CartProduct {
+export interface CartProductData {
   imagePath: string;
   name: string;
   price: number;
   productId: number;
   quantity: number;
+  categoryDto: {
+    categoryId: number;
+    name: string;
+    imagePath: string;
+    deleteAt: string | null;
+    quantityProduct: number | null;
+  };
 }
 
 // -------------------------- VAR --------------------------

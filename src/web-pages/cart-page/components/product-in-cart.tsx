@@ -2,7 +2,7 @@
 import { useRouter } from "next/navigation";
 
 // internal
-import { CartProduct } from "@/redux/features/cart-slice";
+import { CartProductData } from "@/redux/features/cart-slice";
 import { displayPrice } from "@/utils/functions";
 import { Dispatch, SetStateAction, useEffect, useState } from "react";
 import { getProductDetailApi } from "@/api";
@@ -20,7 +20,7 @@ import CustomImage from "@/components/custom-image/custom-image.component";
 
 // interface
 interface ProductInCartProps {
-  cartProduct: CartProduct;
+  cartProduct: CartProductData;
   setSubTotalAll: Dispatch<SetStateAction<number>>;
 }
 
@@ -55,6 +55,16 @@ export default function ProductInCart({
     }
   };
 
+  // Get Product Detail Route
+  const getProductRoute = (
+    categoryName: string,
+    categoryId: number,
+    productId: number
+  ) => {
+    categoryName = categoryName.toLocaleLowerCase().replace(/ /g, "-");
+    return `/categories/${categoryName}/${categoryId}/products/${productId}`;
+  };
+
   // -------------------------- EFFECT --------------------------
   useEffect(() => {
     setSubTotalAll((prev) => prev + subtotal);
@@ -69,7 +79,15 @@ export default function ProductInCart({
             direction="row"
             alignItems="center"
             spacing={2}
-            onClick={() => router.push("/")}
+            onClick={() =>
+              router.push(
+                getProductRoute(
+                  cartProduct.categoryDto.name,
+                  cartProduct.categoryDto.categoryId,
+                  cartProduct.productId
+                )
+              )
+            }
             sx={{ cursor: "pointer" }}
           >
             <CustomImage
