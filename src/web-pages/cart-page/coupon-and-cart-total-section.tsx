@@ -1,9 +1,9 @@
 import { useRouter } from "next/navigation";
 
+// internal
+import { displayPrice } from "@/utils/functions";
+
 // mui
-import Container from "@mui/material/Container";
-import Link from "@mui/material/Link";
-import Breadcrumbs from "@mui/material/Breadcrumbs";
 import Grid from "@mui/material/Grid";
 import Stack from "@mui/material/Stack";
 import Typography from "@mui/material/Typography";
@@ -11,7 +11,15 @@ import Button from "@mui/material/Button";
 import Divider from "@mui/material/Divider";
 import TextField from "@mui/material/TextField";
 
-export default function CouponAndCartTotalSection() {
+// interface
+interface CouponAndCartTotalSectionProps {
+  subTotalAll: number;
+}
+
+// EXPORT DEFAULT
+export default function CouponAndCartTotalSection({
+  subTotalAll,
+}: CouponAndCartTotalSectionProps) {
   const router = useRouter();
 
   return (
@@ -51,7 +59,7 @@ export default function CouponAndCartTotalSection() {
           <Stack spacing={2}>
             <Stack direction="row" justifyContent="space-between">
               <Typography>Subtotal</Typography>
-              <Typography>$2,600</Typography>
+              <Typography>{displayPrice(subTotalAll)}</Typography>
             </Stack>
             <Divider />
             <Stack direction="row" justifyContent="space-between">

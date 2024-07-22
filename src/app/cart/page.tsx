@@ -1,7 +1,7 @@
 "use client";
 import NextLink from "next/link";
 import { useRouter } from "next/navigation";
-import { Fragment, useEffect } from "react";
+import { Fragment, useEffect, useState } from "react";
 
 // internal
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
@@ -24,6 +24,8 @@ import CouponAndCartTotalSection from "@/web-pages/cart-page/coupon-and-cart-tot
 
 // EXPORT DEFAULT
 export default function Cart() {
+  // -------------------------- STATE --------------------------
+  const [subTotalAll, setSubTotalAll] = useState<number>(0);
   // -------------------------- VAR --------------------------
   const router = useRouter();
 
@@ -36,6 +38,8 @@ export default function Cart() {
 
   const dispatch = useAppDispatch();
 
+  console.log(subTotalAll);
+
   // -------------------------- EFFECT --------------------------
   useEffect(() => {
     dispatch(fetchCart({ accountId }));
@@ -45,10 +49,6 @@ export default function Cart() {
   useEffect(() => {
     console.log(cartItems);
   }, [cartItems]);
-
-  // useEffect(() => {
-  //   fetchApi(getCartApi(user.accountId));
-  // }, []);
 
   // -------------------------- MAIN --------------------------
   if (isLoading) return <LoadingFallback />;
@@ -103,6 +103,7 @@ export default function Cart() {
               <ProductInCart
                 key={cartItem.cartId}
                 cartProduct={cartItem.product}
+                setSubTotalAll={setSubTotalAll}
               />
             ))}
           </Stack>
@@ -114,7 +115,8 @@ export default function Cart() {
             <Button variant="outlined">Update Cart</Button>
           </Stack>
 
-          <CouponAndCartTotalSection />
+          <CouponAndCartTotalSection 
+                subTotalAll={subTotalAll} />
         </Fragment>
       ) : (
         <LoadingFallback message="No Item In Cart." />

@@ -4,7 +4,7 @@ import { useRouter } from "next/navigation";
 // internal
 import { CartProduct } from "@/redux/features/cart-slice";
 import { displayPrice } from "@/utils/functions";
-import { useState } from "react";
+import { Dispatch, SetStateAction, useEffect, useState } from "react";
 import { getProductDetailApi } from "@/api";
 
 // mui
@@ -21,10 +21,14 @@ import CustomImage from "@/components/custom-image/custom-image.component";
 // interface
 interface ProductInCartProps {
   cartProduct: CartProduct;
+  setSubTotalAll: Dispatch<SetStateAction<number>>;
 }
 
 // EXPORT DEFAULT
-export default function ProductInCart({ cartProduct }: ProductInCartProps) {
+export default function ProductInCart({
+  cartProduct,
+  setSubTotalAll,
+}: ProductInCartProps) {
   // -------------------------- STATE --------------------------
   const [quantity, setQuantity] = useState<number>(cartProduct.quantity);
 
@@ -40,16 +44,21 @@ export default function ProductInCart({ cartProduct }: ProductInCartProps) {
 
   // -------------------------- FUNCTION --------------------------
   const changeQuantity = (type: "increment" | "decrement") => {
-    setQuantity((prev) => {
-      if (type === "decrement") {
-        --prev;
-        if (prev < 0) prev = 0;
-      } else {
-        ++prev;
-      }
-      return prev;
-    });
+    if (type === "decrement") {
+      setQuantity((prev) => {
+        return prev <= 0 ? 0 : --prev;
+      });
+      if (quantity > 0) setSubTotalAll((prev) => prev - cartProduct.price);
+    } else {
+      setQuantity((prev) => ++prev);
+      setSubTotalAll((prev) => prev + cartProduct.price);
+    }
   };
+
+  // -------------------------- EFFECT --------------------------
+  useEffect(() => {
+    setSubTotalAll((prev) => prev + subtotal);
+  }, []);
 
   // -------------------------- MAIN --------------------------
   return (
