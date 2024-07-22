@@ -8,7 +8,7 @@ import {
   getProductDetailApi,
   getProductReviewsApi,
   getProductReviewSummaryApi,
-  getProductsByCategoryApi,
+  getProductsExcludeApi,
 } from "@/api";
 import { getCategoryRoute } from "@/redux/features/categories-slice";
 import { ProductData, ReviewData, ReviewSummaryData } from "@/interface";
@@ -138,7 +138,10 @@ export default function ProductDetail() {
       />
       <SectionHeader smallHeader="Related Products" mt={7} noButton />
       <ProductList
-        api={getProductsByCategoryApi(product.categoryDto.categoryId, 4)}
+        api={getProductsExcludeApi(
+          product.categoryDto.categoryId,
+          product.productId
+        )}
         isInCategory
         height={240}
       />

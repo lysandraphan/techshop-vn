@@ -21,6 +21,14 @@ export const getProductsByCategoryApi = (
   return `https://g5-likelion-ecommerce.onrender.com/api/product/public/${categoryId}/paginate?page=${pageNumber}&pageSize=${pageSize}`;
 };
 
+export const getProductsExcludeApi = (
+  categoryId: number,
+  productIdExclude: number,
+  pageSize: number = 4
+) => {
+  return `https://g5-likelion-ecommerce.onrender.com/api/product/public/${categoryId}/exclude?pageSize=${pageSize}&productIdNotInclude=${productIdExclude}`;
+};
+
 export const getProductDetailApi = (productId: number) => {
   return `https://g5-likelion-ecommerce.onrender.com/api/product/public/${productId}`;
 };
