@@ -1,9 +1,10 @@
 "use client";
-import { useState } from "react";
 
 // internal
 import { ProductData } from "@/interface";
 import { displayPrice } from "@/app/utils/functions";
+import { useAppDispatch, useAppSelector } from "@/redux/hooks";
+import { addToCart } from "@/redux/features/cart-slice";
 
 // mui
 import Stack from "@mui/material/Stack";
@@ -16,8 +17,6 @@ import FavoriteBorderOutlinedIcon from "@mui/icons-material/FavoriteBorderOutlin
 // component
 import RatingInfo from "@/components/rating-info/rating-info";
 import DeliveryInfoBox from "./components/delivery-info-box";
-import { useAppDispatch, useAppSelector } from "@/redux/hooks";
-import { addToCart } from "@/redux/features/cart-slice";
 
 // interface
 interface MainInfoSectionProps {
@@ -27,13 +26,11 @@ interface MainInfoSectionProps {
 // EXPORT DEFAULT
 export default function MainInfoSection({ product }: MainInfoSectionProps) {
   // -------------------------- VAR --------------------------
-  // let [data, fetchApi, abortController] = useFetchHook(getToken);
-
-  const dispatch = useAppDispatch();
-
   const user = useAppSelector((state) => state.user.user);
 
   const isLoading = useAppSelector((state) => state.cart.isLoading);
+
+  const dispatch = useAppDispatch();
 
   // -------------------------- FUNCTION --------------------------
   const addToCartHandler = () => {
@@ -41,28 +38,6 @@ export default function MainInfoSection({ product }: MainInfoSectionProps) {
     const accountId = user?.accountId;
     dispatch(addToCart({ productId, accountId }));
   };
-
-  // const addToCartHandler = async () => {
-  //   try {
-  //     setIsLoading(true);
-  //     await axios.post(
-  //       createCartApi,
-  //       {
-  //         productId: product.productId,
-  //         quantity: 1,
-  //       },
-  //       {
-  //         headers: {
-  //           Authorization: `Bearer ${getToken}`,
-  //         },
-  //       }
-  //     );
-  //     setIsLoading(false);
-  //   } catch (error: any) {
-  //     setIsLoading(false);
-  //     console.log(error.message);
-  //   }
-  // };
 
   // -------------------------- MAIN --------------------------
   return (

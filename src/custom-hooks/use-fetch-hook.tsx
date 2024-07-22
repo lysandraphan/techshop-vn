@@ -30,7 +30,6 @@ export function useFetchHook<T>(
               Authorization: `Bearer ${token}`,
             },
           });
-          console.log(response.data);
         } else {
           response = await axios.get(api, {
             signal: abortController.signal,
@@ -48,6 +47,5 @@ export function useFetchHook<T>(
       }
     }
   };
-  // console.log(data)
   return [data, fetchGetData, abortController, loading, error];
 }

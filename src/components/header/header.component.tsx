@@ -35,54 +35,24 @@ export default function Header() {
   const [totalCartItems, setTotalCartItem] = useState(0);
 
   // -------------------------- VAR --------------------------
-  const user = useAppSelector((state) => state.user.user);
-  const accountId = user?.accountId;
   const router = useRouter();
 
-  // let [cart, fetchApi, abortController, isLoading, error] =
-  //   useFetchHook<CartData>(getToken);
+  const user = useAppSelector((state) => state.user.user);
+  const accountId = user?.accountId;
+
+  const total = useAppSelector((state) => state.cart.total);
 
   const dispatch = useAppDispatch();
-  const total = useAppSelector((state) => state.cart.total);
 
   // -------------------------- EFFECT --------------------------
   useEffect(() => {
     dispatch(fetchCart({ accountId }));
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [accountId]);
 
   useEffect(() => {
     setTotalCartItem(total);
   }, [total]);
-
-  // useEffect(() => {
-  //   if (cartItems) {
-  //     const totalItems = cartItems.reduce(
-  //       (total: number, cartItem: CartItemData) => {
-  //         return total + cartItem.product.quantity;
-  //       },
-  //       0
-  //     );
-  //     setTotalCartItem(totalItems);
-  //   }
-  // }, [cartItems]);
-
-  // useEffect(() => {
-  //   fetchApi(getCartApi(user.accountId));
-  //   return () => {
-  //     abortController.abort();
-  //   };
-  // }, []);
-
-  // Count total items with quantity in Cart
-  // useEffect(() => {
-  //   if (cart?.data) {
-  //     const cartItems = cart.data;
-  //     const totalItems = cartItems.reduce((total, cartItem) => {
-  //       return total + cartItem.product.quantity;
-  //     }, 0);
-  //     setTotalCartItem(totalItems);
-  //   }
-  // }, [cart]);
 
   // -------------------------- MAIN --------------------------
   return (
