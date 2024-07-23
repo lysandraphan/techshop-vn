@@ -6,7 +6,6 @@ import Container from "@mui/material/Container";
 import Link from "@mui/material/Link";
 import Breadcrumbs from "@mui/material/Breadcrumbs";
 import Grid from "@mui/material/Grid";
-import Box from "@mui/material/Box";
 
 // component
 import OrderSummary from "@/web-pages/checkout-page/order-summary-section";
@@ -39,15 +38,7 @@ export default function Checkout() {
       </Breadcrumbs>
       <Grid container spacing={5}>
         <Grid item xs={12} md={7} mb={7}>
-          <Box
-            sx={{
-              border: "1px solid",
-              borderColor: "primary.dark",
-              borderRadius: 1,
-            }}
-          >
-            <BillingShippingInfoSection />
-          </Box>
+          <BillingShippingInfoSection />
         </Grid>
         <Grid item xs={12} md={5}>
           <OrderSummary />

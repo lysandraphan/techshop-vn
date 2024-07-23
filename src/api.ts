@@ -75,3 +75,10 @@ export const getTotalCartPrice =
 export const deleteCartItemApi = (cartId: number) => {
   return `https://g5-likelion-ecommerce.onrender.com/api/cart/delete/${cartId}`;
 };
+
+export const createOrderApi =
+  "https://g5-likelion-ecommerce.onrender.com/api/order";
+
+export const getOrderApi = (accountId: number) => {
+  return `https://g5-likelion-ecommerce.onrender.com/api/order/by-accountID/${accountId}`;
+};

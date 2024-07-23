@@ -1,8 +1,10 @@
+import { useEffect } from "react";
 import { useRouter } from "next/navigation";
 
 // internal
 import { displayPrice } from "@/utils/functions";
-import { useAppSelector } from "@/redux/hooks";
+import { useAppDispatch, useAppSelector } from "@/redux/hooks";
+import { setTotalFinalPrice } from "@/redux/features/cart-slice";
 
 // mui
 import Grid from "@mui/material/Grid";
@@ -25,6 +27,23 @@ export default function CouponAndCartTotalSection({}: CouponAndCartTotalSectionP
   const isLoadingUpdate = useAppSelector((state) => state.cart.isLoadingUpdate);
 
   const subTotal = useAppSelector((state) => state.cart.totalPrice);
+
+  const discountPrice = useAppSelector((state) => state.cart.discountPrice);
+
+  const totalFinalPrice = useAppSelector((state) => state.cart.totalFinalPrice);
+
+  const dispatch = useAppDispatch();
+
+  // -------------------------- EFFECT --------------------------
+  useEffect(() => {
+    if (discountPrice === 0) {
+      dispatch(setTotalFinalPrice(subTotal));
+    } else {
+      const finalPrice = subTotal - discountPrice;
+      dispatch(setTotalFinalPrice(finalPrice));
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [discountPrice]);
 
   // -------------------------- MAIN --------------------------
   return (
@@ -65,7 +84,9 @@ export default function CouponAndCartTotalSection({}: CouponAndCartTotalSectionP
           <Stack spacing={2}>
             <Stack direction="row" justifyContent="space-between">
               <Typography>Subtotal</Typography>
-              <Typography>{displayPrice(subTotal)}</Typography>
+              <Typography>
+                {subTotal ? displayPrice(subTotal) : "$0"}
+              </Typography>
             </Stack>
             <Divider />
             <Stack direction="row" justifyContent="space-between">
@@ -75,7 +96,7 @@ export default function CouponAndCartTotalSection({}: CouponAndCartTotalSectionP
             <Divider />
             <Stack direction="row" justifyContent="space-between">
               <Typography>Total</Typography>
-              <Typography>{displayPrice(subTotal)}</Typography>
+              <Typography>{displayPrice(totalFinalPrice)}</Typography>
             </Stack>
           </Stack>
           <Stack direction="row" justifyContent="center">

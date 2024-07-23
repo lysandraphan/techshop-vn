@@ -55,6 +55,8 @@ export const signIn = createAsyncThunk(
       const accountId = response.data.id;
       const token = response.data.token;
       document.cookie = `token=${token}`;
+      console.log("Mytoken");
+      console.log(token);
       const responseUser = await axios.get(getUserDetailApi(accountId), {
         signal: abortController.signal,
         headers: {

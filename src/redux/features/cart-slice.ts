@@ -17,6 +17,8 @@ export interface CartState {
   cart: CartItemData[] | null | undefined;
   totalCartItems: number;
   totalPrice: number;
+  discountPrice: number;
+  totalFinalPrice: number;
   isLoading: boolean;
   isLoadingRemove: boolean;
   isLoadingUpdate: boolean;
@@ -58,6 +60,8 @@ const initialState: CartState = {
   cart: undefined,
   totalCartItems: 0,
   totalPrice: 0,
+  discountPrice: 0,
+  totalFinalPrice: 0,
   isLoading: false,
   isLoadingRemove: false,
   isLoadingUpdate: false,
@@ -309,6 +313,9 @@ export const cart = createSlice({
         state.cart = updateCartItem(state.cart, action.payload, "decrement");
       }
     },
+    setTotalFinalPrice: (state, action: PayloadAction<number>) => {
+      state.totalFinalPrice = action.payload;
+    },
   },
   extraReducers(builder) {
     // ---------- Fetch Cart ----------
@@ -317,14 +324,10 @@ export const cart = createSlice({
     });
     builder.addCase(fetchCart.fulfilled, (state, action) => {
       state.cart = action.payload;
-      state.totalCartItems =
-        action.payload && action.payload.length !== 0
-          ? action.payload[0].totalItems
-          : 0;
-      state.totalPrice =
-        action.payload && action.payload.length !== 0
-          ? action.payload[0].totalPrice
-          : 0;
+      if (action.payload) {
+        state.totalCartItems = action.payload[0].totalItems;
+        state.totalPrice = action.payload[0].totalPrice;
+      }
       state.isLoading = false;
     });
     builder.addCase(fetchCart.rejected, (state, action) => {
@@ -406,6 +409,7 @@ export const cart = createSlice({
   },
 });
 
-export const { incrementCartItem, decrementCartItem } = cart.actions;
+export const { incrementCartItem, decrementCartItem, setTotalFinalPrice } =
+  cart.actions;
 
 export default cart.reducer;
