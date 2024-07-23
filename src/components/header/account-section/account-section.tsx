@@ -22,6 +22,7 @@ import ShoppingBagOutlinedIcon from "@mui/icons-material/ShoppingBagOutlined";
 import StarBorderRoundedIcon from "@mui/icons-material/StarBorderRounded";
 import LogoutRoundedIcon from "@mui/icons-material/LogoutRounded";
 
+// EXPORT DEFAULT
 export default function AccountSection({ user }: { user: UserData }) {
   // -------------------------- STATE --------------------------
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
@@ -41,9 +42,9 @@ export default function AccountSection({ user }: { user: UserData }) {
     setAnchorEl(null);
   };
 
-  const logoutHandler = () => {
-    dispatch(signUserOut());
-    router.push("/login")
+  const logoutHandler = async () => {
+    await dispatch(signUserOut());
+    router.push("/login");
     toast.info("You have signed out.");
   };
 
