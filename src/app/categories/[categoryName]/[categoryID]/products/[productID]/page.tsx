@@ -120,7 +120,7 @@ export default function ProductDetail() {
         </Link>
       </Breadcrumbs>
       <Grid container spacing={5} mt={1} mb={5}>
-        <Grid item md={7}>
+        <Grid item xs={12} md={7}>
           <ImageSection
             mainImage={product.imagePath}
             otherImages={product.imagesPath}

@@ -2,6 +2,7 @@ import { useRouter } from "next/navigation";
 
 // internal
 import { displayPrice } from "@/utils/functions";
+import { useAppSelector } from "@/redux/hooks";
 
 // mui
 import Grid from "@mui/material/Grid";
@@ -14,16 +15,18 @@ import TextField from "@mui/material/TextField";
 // interface
 interface CouponAndCartTotalSectionProps {
   subTotalAll: number;
-  isLoadingRemove: boolean;
 }
 
 // EXPORT DEFAULT
 export default function CouponAndCartTotalSection({
   subTotalAll,
-  isLoadingRemove,
 }: CouponAndCartTotalSectionProps) {
+  // -------------------------- VAR --------------------------
   const router = useRouter();
 
+  const isLoadingRemove = useAppSelector((state) => state.cart.isLoadingRemove);
+
+  // -------------------------- MAIN --------------------------
   return (
     <Grid container>
       <Grid item md={7}>

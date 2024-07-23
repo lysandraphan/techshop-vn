@@ -35,8 +35,7 @@ export default function MainInfoSection({ product }: MainInfoSectionProps) {
   // -------------------------- FUNCTION --------------------------
   const addToCartHandler = () => {
     const productId = product.productId;
-    const accountId = user?.accountId;
-    dispatch(addToCart({ productId, accountId }));
+    dispatch(addToCart({ productId }));
   };
 
   // -------------------------- MAIN --------------------------
@@ -69,6 +68,7 @@ export default function MainInfoSection({ product }: MainInfoSectionProps) {
             startIcon={<SaveIcon />}
             fullWidth
             variant="contained"
+            size="large"
             sx={{ mt: 3, mb: 2 }}
           >
             <span>Adding To Cart</span>
@@ -77,7 +77,7 @@ export default function MainInfoSection({ product }: MainInfoSectionProps) {
           <Button
             variant="contained"
             color="secondary"
-            fullWidth={true}
+            fullWidth
             size="large"
             onClick={addToCartHandler}
           >

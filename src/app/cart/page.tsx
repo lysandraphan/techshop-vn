@@ -26,35 +26,32 @@ import CouponAndCartTotalSection from "@/web-pages/cart-page/coupon-and-cart-tot
 export default function Cart() {
   // -------------------------- STATE --------------------------
   const [subTotalAll, setSubTotalAll] = useState<number>(0);
-  const [isLoadingRemove, setIsLoadingRemove] = useState(false);
 
   // -------------------------- VAR --------------------------
   const router = useRouter();
 
-  const user = useAppSelector((state) => state.user.user);
-  const accountId = user?.accountId;
-
   const isLoading = useAppSelector((state) => state.cart.isLoading);
+
+  const isLoadingRemove = useAppSelector((state) => state.cart.isLoadingRemove);
 
   const cartItems = useAppSelector((state) => state.cart.cart);
 
   const dispatch = useAppDispatch();
 
-  console.log(subTotalAll);
+  // console.log(subTotalAll);
 
   // -------------------------- EFFECT --------------------------
   useEffect(() => {
-    dispatch(fetchCart({ accountId }));
+    dispatch(fetchCart());
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [accountId]);
+  }, []);
 
   useEffect(() => {
-    console.log(cartItems);
+    // console.log(cartItems);
   }, [cartItems]);
 
   // -------------------------- MAIN --------------------------
   if (isLoading) return <LoadingFallback />;
-  if (!cartItems) return <LoadingFallback message="No Item In Cart." />;
   return (
     <Container>
       <Breadcrumbs aria-label="breadcrumb" sx={{ mt: 5 }}>
@@ -72,7 +69,7 @@ export default function Cart() {
         </Link>
       </Breadcrumbs>
 
-      {cartItems ? (
+      {cartItems && cartItems.length !== 0 ? (
         <Fragment>
           <Stack
             boxShadow="0 1px 10px #d7d7d7"
@@ -107,8 +104,6 @@ export default function Cart() {
                 cartId={cartItem.cartId}
                 cartProduct={cartItem.product}
                 setSubTotalAll={setSubTotalAll}
-                isLoadingRemove={isLoadingRemove}
-                setIsLoadingRemove={setIsLoadingRemove}
               />
             ))}
           </Stack>
@@ -126,10 +121,7 @@ export default function Cart() {
             </Button>
           </Stack>
 
-          <CouponAndCartTotalSection
-            subTotalAll={subTotalAll}
-            isLoadingRemove={isLoadingRemove}
-          />
+          <CouponAndCartTotalSection subTotalAll={subTotalAll} />
         </Fragment>
       ) : (
         <LoadingFallback message="No Item In Cart." />

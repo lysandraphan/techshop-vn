@@ -5,7 +5,7 @@ import NextLink from "next/link";
 
 // internal
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
-import { fetchCart } from "@/redux/features/cart-slice";
+import { fetchTotalCartItems } from "@/redux/features/cart-slice";
 
 // mui
 import { Inter } from "next/font/google";
@@ -40,19 +40,20 @@ export default function Header() {
   const user = useAppSelector((state) => state.user.user);
   const accountId = user?.accountId;
 
-  const total = useAppSelector((state) => state.cart.total);
+  const totalItems = useAppSelector((state) => state.cart.totalCartItems);
 
   const dispatch = useAppDispatch();
 
   // -------------------------- EFFECT --------------------------
   useEffect(() => {
-    dispatch(fetchCart({ accountId }));
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    dispatch(fetchTotalCartItems());
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [accountId]);
 
   useEffect(() => {
-    setTotalCartItem(total);
-  }, [total]);
+    setTotalCartItem(totalItems);
+  }, [totalItems]);
 
   // -------------------------- MAIN --------------------------
   return (
@@ -119,7 +120,7 @@ export default function Header() {
                   max={99}
                   color="secondary"
                   onClick={() => router.push("/wishlist")}
-                  sx={{ cursor: "pointer" }}
+                  sx={{ cursor: "pointer", mr: 2.5 }}
                 >
                   <FavoriteBorderOutlinedIcon
                     color="primary"
@@ -140,7 +141,7 @@ export default function Header() {
                   badgeContent={totalCartItems}
                   max={99}
                   color="secondary"
-                  sx={{ ml: 3, mr: 2.5, cursor: "pointer" }}
+                  sx={{ mr: 2.5, cursor: "pointer" }}
                   onClick={() => router.push("/cart")}
                 >
                   <ShoppingCartOutlinedIcon

@@ -57,15 +57,20 @@ export const signOutApi =
 export const forgotPasswordApi =
   "https://g5-likelion-ecommerce.onrender.com/api/public/forgot-password";
 
-export const getCartApi = (accountId: number) => {
-  return `https://g5-likelion-ecommerce.onrender.com/api/cart/get-by-account?accountId=${accountId}`;
-};
+export const getCartApi =
+  "https://g5-likelion-ecommerce.onrender.com/api/cart/get-by-account";
 
 export const createCartApi =
   "https://g5-likelion-ecommerce.onrender.com/api/cart/create";
 
 export const updateCartApi =
   "https://g5-likelion-ecommerce.onrender.com/api/cart/update";
+
+export const getTotalCartItems =
+  "https://g5-likelion-ecommerce.onrender.com/api/cart/get-total-items";
+
+export const getTotalCartPrice =
+  "https://g5-likelion-ecommerce.onrender.com/api/cart/get-total-price";
 
 export const deleteCartItemApi = (cartId: number) => {
   return `https://g5-likelion-ecommerce.onrender.com/api/cart/delete/${cartId}`;

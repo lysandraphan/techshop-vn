@@ -1,12 +1,14 @@
 "use client";
 import { useRouter } from "next/navigation";
-import axios from "axios";
 
 // internal
-import { CartProductData } from "@/redux/features/cart-slice";
-import { displayPrice, getToken } from "@/utils/functions";
+import {
+  CartProductData,
+  removeItemFromCart,
+} from "@/redux/features/cart-slice";
+import { displayPrice } from "@/utils/functions";
 import { Dispatch, SetStateAction, useEffect, useState } from "react";
-import { deleteCartItemApi } from "@/api";
+import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 
 // mui
 import Grid from "@mui/material/Grid";
@@ -28,8 +30,6 @@ interface ProductInCartProps {
   cartId: number;
   cartProduct: CartProductData;
   setSubTotalAll: Dispatch<SetStateAction<number>>;
-  isLoadingRemove: boolean;
-  setIsLoadingRemove: Dispatch<SetStateAction<boolean>>;
 }
 
 // EXPORT DEFAULT
@@ -37,8 +37,6 @@ export default function ProductInCart({
   cartId,
   cartProduct,
   setSubTotalAll,
-  isLoadingRemove,
-  setIsLoadingRemove,
 }: ProductInCartProps) {
   // -------------------------- STATE --------------------------
   const [quantity, setQuantity] = useState<number>(cartProduct.quantity);
@@ -52,6 +50,10 @@ export default function ProductInCart({
       : cartProduct.name;
 
   const router = useRouter();
+
+  const dispatch = useAppDispatch();
+
+  const isLoadingRemove = useAppSelector((state) => state.cart.isLoadingRemove);
 
   // -------------------------- FUNCTION --------------------------
   const changeQuantity = (type: "increment" | "decrement") => {
@@ -79,21 +81,8 @@ export default function ProductInCart({
 
   // Remove product in Cart
   const removeProductHandler = async () => {
-    try {
-      setIsLoadingRemove(true);
-      await axios.post(deleteCartItemApi(cartId), {
-        headers: {
-          Authorization: `Bearer ${getToken}`,
-        },
-      });
-      setIsLoadingRemove(false);
-    } catch (error: any) {
-      setIsLoadingRemove(false);
-      console.log(error.message);
-    }
+    dispatch(removeItemFromCart({ cartId }));
   };
-
-  console.log(isLoadingRemove);
 
   // -------------------------- EFFECT --------------------------
   useEffect(() => {
