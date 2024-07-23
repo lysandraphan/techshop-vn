@@ -67,7 +67,7 @@ export default function Header() {
         color="primary.contrastText"
       >
         <Typography fontSize={14} color="primary.contrastText">
-          Summer Sale For All Camera And Free Delivery - OFF 20%
+          Summer Sale All Products 20% OFF & Free Delivery - Code: SALE20
         </Typography>
         <Link
           href="/"
@@ -75,7 +75,7 @@ export default function Header() {
           color="primary.contrastText"
           ml={2}
           fontWeight={600}
-          fontSize={14}
+          fontSize={15}
         >
           Shop Now
         </Link>
