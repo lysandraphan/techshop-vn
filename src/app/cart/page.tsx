@@ -1,11 +1,15 @@
 "use client";
 import NextLink from "next/link";
 import { useRouter } from "next/navigation";
-import { Fragment, useEffect, useState } from "react";
+import { Fragment, useEffect } from "react";
 
 // internal
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
-import { CartItemData, fetchCart } from "@/redux/features/cart-slice";
+import {
+  CartItemData,
+  fetchCart,
+  updateCart,
+} from "@/redux/features/cart-slice";
 
 // mui
 import Container from "@mui/material/Container";
@@ -16,6 +20,8 @@ import Stack from "@mui/material/Stack";
 import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
 import Divider from "@mui/material/Divider";
+import SaveIcon from "@mui/icons-material/Save";
+import LoadingButton from "@mui/lab/LoadingButton";
 
 // component
 import LoadingFallback from "@/components/loading-fallback/loading-fallback.component";
@@ -24,9 +30,6 @@ import CouponAndCartTotalSection from "@/web-pages/cart-page/coupon-and-cart-tot
 
 // EXPORT DEFAULT
 export default function Cart() {
-  // -------------------------- STATE --------------------------
-  // const [subTotalAll, setSubTotalAll] = useState<number>(0);
-
   // -------------------------- VAR --------------------------
   const router = useRouter();
 
@@ -34,24 +37,22 @@ export default function Cart() {
 
   const isLoadingRemove = useAppSelector((state) => state.cart.isLoadingRemove);
 
+  const isLoadingUpdate = useAppSelector((state) => state.cart.isLoadingUpdate);
+
   const cartItems = useAppSelector((state) => state.cart.cart);
 
   const dispatch = useAppDispatch();
 
-  // console.log(subTotalAll);
-
   // -------------------------- FUNCTION --------------------------
-  const updateCartHandler = () => {};
+  const updateCartHandler = () => {
+    dispatch(updateCart({ cartItems }));
+  };
 
   // -------------------------- EFFECT --------------------------
   useEffect(() => {
     dispatch(fetchCart());
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
-
-  useEffect(() => {
-    // console.log(cartItems);
-  }, [cartItems]);
 
   // -------------------------- MAIN --------------------------
   if (isLoading) return <LoadingFallback />;
@@ -107,7 +108,6 @@ export default function Cart() {
                 cartItem={cartItem}
                 cartId={cartItem.cartId}
                 cartProduct={cartItem.product}
-                // setSubTotalAll={setSubTotalAll}
               />
             ))}
           </Stack>
@@ -115,23 +115,33 @@ export default function Cart() {
           <Stack direction="row" justifyContent="space-between" mt={5} mb={8}>
             <Button
               variant="outlined"
-              disabled={isLoadingRemove}
+              disabled={isLoadingRemove || isLoadingUpdate}
               onClick={() => router.back()}
             >
               Return To Shop
             </Button>
-            <Button
-              variant="outlined"
-              disabled={isLoadingRemove}
-              onClick={updateCartHandler}
-            >
-              Update Cart
-            </Button>
+
+            {isLoadingUpdate ? (
+              <LoadingButton
+                loading
+                loadingPosition="start"
+                variant="outlined"
+                startIcon={<SaveIcon />}
+              >
+                <span>Updating Cart</span>
+              </LoadingButton>
+            ) : (
+              <Button
+                variant="outlined"
+                disabled={isLoadingRemove || isLoadingUpdate}
+                onClick={updateCartHandler}
+              >
+                Update Cart
+              </Button>
+            )}
           </Stack>
 
-          <CouponAndCartTotalSection
-          // subTotalAll={subTotalAll}
-          />
+          <CouponAndCartTotalSection />
         </Fragment>
       ) : (
         <LoadingFallback message="No Item In Cart." />

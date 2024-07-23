@@ -13,17 +13,16 @@ import Divider from "@mui/material/Divider";
 import TextField from "@mui/material/TextField";
 
 // interface
-interface CouponAndCartTotalSectionProps {
-  // subTotalAll: number;
-}
+interface CouponAndCartTotalSectionProps {}
 
 // EXPORT DEFAULT
-export default function CouponAndCartTotalSection({}: // subTotalAll,
-CouponAndCartTotalSectionProps) {
+export default function CouponAndCartTotalSection({}: CouponAndCartTotalSectionProps) {
   // -------------------------- VAR --------------------------
   const router = useRouter();
 
   const isLoadingRemove = useAppSelector((state) => state.cart.isLoadingRemove);
+
+  const isLoadingUpdate = useAppSelector((state) => state.cart.isLoadingUpdate);
 
   const subTotal = useAppSelector((state) => state.cart.totalPrice);
 
@@ -45,7 +44,7 @@ CouponAndCartTotalSectionProps) {
             variant="contained"
             color="secondary"
             sx={{ px: 5, wordSpacing: 3 }}
-            disabled={isLoadingRemove}
+            disabled={isLoadingRemove || isLoadingUpdate}
           >
             Apply Coupon
           </Button>
@@ -70,13 +69,13 @@ CouponAndCartTotalSectionProps) {
             </Stack>
             <Divider />
             <Stack direction="row" justifyContent="space-between">
-              <Typography>Shipping</Typography>
-              <Typography>Free</Typography>
+              <Typography>Discount</Typography>
+              <Typography>N/A</Typography>
             </Stack>
             <Divider />
             <Stack direction="row" justifyContent="space-between">
               <Typography>Total</Typography>
-              <Typography>$2,600</Typography>
+              <Typography>{displayPrice(subTotal)}</Typography>
             </Stack>
           </Stack>
           <Stack direction="row" justifyContent="center">
@@ -84,7 +83,7 @@ CouponAndCartTotalSectionProps) {
               variant="contained"
               color="secondary"
               sx={{ width: "50%", height: 50 }}
-              disabled={isLoadingRemove}
+              disabled={isLoadingRemove || isLoadingUpdate}
               onClick={() => router.push("/cart/checkout")}
             >
               Checkout

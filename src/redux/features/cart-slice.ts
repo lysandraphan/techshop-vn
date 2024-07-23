@@ -8,6 +8,7 @@ import {
   getCartApi,
   getTotalCartItems,
   getTotalCartPrice,
+  updateCartApi,
 } from "@/api";
 import { getToken } from "@/utils/functions";
 
@@ -18,6 +19,7 @@ export interface CartState {
   totalPrice: number;
   isLoading: boolean;
   isLoadingRemove: boolean;
+  isLoadingUpdate: boolean;
   removingCartId: number;
   error: any;
 }
@@ -58,23 +60,12 @@ const initialState: CartState = {
   totalPrice: 0,
   isLoading: false,
   isLoadingRemove: false,
+  isLoadingUpdate: false,
   removingCartId: 0,
   error: null,
 };
 
 // -------------------------- FUNCTION --------------------------
-// Count total items in Cart
-// export const getTotalCart = (cartItems: CartItemData[] | undefined) => {
-//   if (cartItems) {
-//     const totalItems = cartItems.reduce((total, cartItem) => {
-//       return total + cartItem.product.quantity;
-//     }, 0);
-//     return totalItems;
-//   } else {
-//     return 0;
-//   }
-// };
-
 // Update cart item's quantity & calculate its new subTotal
 const updateCartItem = (
   cartItems: CartItemData[],
@@ -250,7 +241,7 @@ export const removeItemFromCart = createAsyncThunk(
             Authorization: `Bearer ${token}`,
           },
         });
-        // Fetch cart data after
+        // Fetch updated cart data
         const response = await axios.get(getCartApi, {
           signal: abortController.signal,
           headers: {
@@ -262,6 +253,40 @@ export const removeItemFromCart = createAsyncThunk(
         return cart;
       } catch (error: any) {
         if (!abortController.signal.aborted) {
+          console.log(error.message);
+        }
+      }
+    }
+  }
+);
+
+// Put - Update Cart
+export const updateCart = createAsyncThunk(
+  "cart/updateCart",
+  async ({ cartItems }: { cartItems: CartItemData[] }) => {
+    const token = getToken;
+    if (token) {
+      const abortController = new AbortController();
+      const abortControllerGet = new AbortController();
+      try {
+        await axios.put(updateCartApi, [...cartItems], {
+          signal: abortController.signal,
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+        // Fetch updated cart data
+        const response = await axios.get(getCartApi, {
+          signal: abortController.signal,
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+        const result = (await response.data) as ServerData;
+        const cart = result.data as CartItemData[];
+        return cart;
+      } catch (error: any) {
+        if (!abortControllerGet.signal.aborted) {
           console.log(error.message);
         }
       }
@@ -330,7 +355,7 @@ export const cart = createSlice({
       state.error = action.error;
       state.isLoading = false;
     });
-    // ---------- Add to Cart ----------
+    // ---------- Post Add to Cart ----------
     builder.addCase(addToCart.pending, (state) => {
       state.isLoading = true;
     });
@@ -341,6 +366,21 @@ export const cart = createSlice({
     builder.addCase(addToCart.rejected, (state, action) => {
       state.error = action.error;
       state.isLoading = false;
+    });
+    // ---------- Put Update Cart ----------
+    builder.addCase(updateCart.pending, (state) => {
+      state.isLoadingUpdate = true;
+    });
+    builder.addCase(updateCart.fulfilled, (state, action) => {
+      if (action.payload) {
+        state.totalCartItems = action.payload[0].totalItems;
+        state.totalPrice = action.payload[0].totalPrice;
+      }
+      state.isLoadingUpdate = false;
+    });
+    builder.addCase(updateCart.rejected, (state, action) => {
+      state.error = action.error;
+      state.isLoadingUpdate = false;
     });
     // ---------- Delete Item in Cart ----------
     builder.addCase(removeItemFromCart.pending, (state, action) => {

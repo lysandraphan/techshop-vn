@@ -9,8 +9,7 @@ import {
   incrementCartItem,
   decrementCartItem,
 } from "@/redux/features/cart-slice";
-import { displayPrice } from "@/utils/functions";
-import { Dispatch, SetStateAction, useEffect, useState } from "react";
+import { displayPrice, getProductRoute } from "@/utils/functions";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 
 // mui
@@ -33,7 +32,6 @@ interface ProductInCartProps {
   cartItem: CartItemData;
   cartId: number;
   cartProduct: CartProductData;
-  // setSubTotalAll: Dispatch<SetStateAction<number>>;
 }
 
 // EXPORT DEFAULT
@@ -41,17 +39,8 @@ export default function ProductInCart({
   cartItem,
   cartId,
   cartProduct,
-}: // setSubTotalAll,
-ProductInCartProps) {
-  // -------------------------- STATE --------------------------
-  // const [quantity, setQuantity] = useState<number>(cartProduct.quantity);
-
+}: ProductInCartProps) {
   // -------------------------- VAR --------------------------
-  // const cart = useAppSelector((state) => state.cart.cart);
-  // const quantity = cart.
-
-  // const subtotal = cartProduct.price * quantity;
-
   const name =
     cartProduct.name.length > 60
       ? cartProduct.name.substring(0, 57) + "..."
@@ -65,9 +54,11 @@ ProductInCartProps) {
 
   const removingCartId = useAppSelector((state) => state.cart.removingCartId);
 
+  const isLoadingUpdate = useAppSelector((state) => state.cart.isLoadingUpdate);
+
   // -------------------------- FUNCTION --------------------------
   const changeQuantity = (actionType: "increment" | "decrement") => {
-    if (isLoadingRemove) return;
+    if (isLoadingRemove || isLoadingUpdate) return;
     if (actionType === "decrement") {
       if (cartItem.product.quantity > 1) dispatch(decrementCartItem(cartItem));
     } else {
@@ -75,26 +66,11 @@ ProductInCartProps) {
     }
   };
 
-  // Get Product Detail Route
-  const getProductRoute = (
-    categoryName: string,
-    categoryId: number,
-    productId: number
-  ) => {
-    categoryName = categoryName.toLocaleLowerCase().replace(/ /g, "-");
-    return `/categories/${categoryName}/${categoryId}/products/${productId}`;
-  };
-
   // Remove product in Cart
   const removeProductHandler = async () => {
-    if (isLoadingRemove) return;
+    if (isLoadingRemove || isLoadingUpdate) return;
     dispatch(removeItemFromCart({ cartId }));
   };
-
-  // -------------------------- EFFECT --------------------------
-  useEffect(() => {
-    // setSubTotalAll((prev) => prev + subtotal);
-  }, []);
 
   // -------------------------- MAIN --------------------------
   return (
