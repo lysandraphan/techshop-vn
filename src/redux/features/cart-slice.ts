@@ -18,6 +18,7 @@ export interface CartState {
   totalPrice: number;
   isLoading: boolean;
   isLoadingRemove: boolean;
+  removingCartId: number;
   error: any;
 }
 
@@ -56,6 +57,7 @@ const initialState: CartState = {
   totalPrice: 0,
   isLoading: false,
   isLoadingRemove: false,
+  removingCartId: 0,
   error: null,
 };
 
@@ -281,8 +283,9 @@ export const cart = createSlice({
       state.isLoading = false;
     });
     // ---------- Delete Item in Cart ----------
-    builder.addCase(removeItemFromCart.pending, (state) => {
+    builder.addCase(removeItemFromCart.pending, (state, action) => {
       state.isLoadingRemove = true;
+      state.removingCartId = action.meta.arg.cartId;
     });
     builder.addCase(removeItemFromCart.fulfilled, (state, action) => {
       state.cart = action.payload;

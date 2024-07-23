@@ -25,7 +25,7 @@ import CouponAndCartTotalSection from "@/web-pages/cart-page/coupon-and-cart-tot
 // EXPORT DEFAULT
 export default function Cart() {
   // -------------------------- STATE --------------------------
-  const [subTotalAll, setSubTotalAll] = useState<number>(0);
+  // const [subTotalAll, setSubTotalAll] = useState<number>(0);
 
   // -------------------------- VAR --------------------------
   const router = useRouter();
@@ -39,6 +39,9 @@ export default function Cart() {
   const dispatch = useAppDispatch();
 
   // console.log(subTotalAll);
+
+  // -------------------------- FUNCTION --------------------------
+  const updateCartHandler = () => {};
 
   // -------------------------- EFFECT --------------------------
   useEffect(() => {
@@ -103,7 +106,7 @@ export default function Cart() {
                 key={cartItem.cartId}
                 cartId={cartItem.cartId}
                 cartProduct={cartItem.product}
-                setSubTotalAll={setSubTotalAll}
+                // setSubTotalAll={setSubTotalAll}
               />
             ))}
           </Stack>
@@ -116,12 +119,18 @@ export default function Cart() {
             >
               Return To Shop
             </Button>
-            <Button variant="outlined" disabled={isLoadingRemove}>
+            <Button
+              variant="outlined"
+              disabled={isLoadingRemove}
+              onClick={updateCartHandler}
+            >
               Update Cart
             </Button>
           </Stack>
 
-          <CouponAndCartTotalSection subTotalAll={subTotalAll} />
+          <CouponAndCartTotalSection
+          // subTotalAll={subTotalAll}
+          />
         </Fragment>
       ) : (
         <LoadingFallback message="No Item In Cart." />

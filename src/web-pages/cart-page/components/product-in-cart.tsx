@@ -29,15 +29,15 @@ import CustomImage from "@/components/custom-image/custom-image.component";
 interface ProductInCartProps {
   cartId: number;
   cartProduct: CartProductData;
-  setSubTotalAll: Dispatch<SetStateAction<number>>;
+  // setSubTotalAll: Dispatch<SetStateAction<number>>;
 }
 
 // EXPORT DEFAULT
 export default function ProductInCart({
   cartId,
   cartProduct,
-  setSubTotalAll,
-}: ProductInCartProps) {
+}: // setSubTotalAll,
+ProductInCartProps) {
   // -------------------------- STATE --------------------------
   const [quantity, setQuantity] = useState<number>(cartProduct.quantity);
 
@@ -55,6 +55,8 @@ export default function ProductInCart({
 
   const isLoadingRemove = useAppSelector((state) => state.cart.isLoadingRemove);
 
+  const removingCartId = useAppSelector((state) => state.cart.removingCartId);
+
   // -------------------------- FUNCTION --------------------------
   const changeQuantity = (type: "increment" | "decrement") => {
     if (isLoadingRemove) return;
@@ -62,10 +64,10 @@ export default function ProductInCart({
       setQuantity((prev) => {
         return prev <= 1 ? 1 : --prev;
       });
-      if (quantity > 0) setSubTotalAll((prev) => prev - cartProduct.price);
+      // if (quantity > 0) setSubTotalAll((prev) => prev - cartProduct.price);
     } else {
       setQuantity((prev) => ++prev);
-      setSubTotalAll((prev) => prev + cartProduct.price);
+      // setSubTotalAll((prev) => prev + cartProduct.price);
     }
   };
 
@@ -81,12 +83,13 @@ export default function ProductInCart({
 
   // Remove product in Cart
   const removeProductHandler = async () => {
+    if (isLoadingRemove) return;
     dispatch(removeItemFromCart({ cartId }));
   };
 
   // -------------------------- EFFECT --------------------------
   useEffect(() => {
-    setSubTotalAll((prev) => prev + subtotal);
+    // setSubTotalAll((prev) => prev + subtotal);
   }, []);
 
   // -------------------------- MAIN --------------------------
@@ -125,7 +128,7 @@ export default function ProductInCart({
                 {name}
               </Typography>
             </Stack>
-            {isLoadingRemove ? (
+            {isLoadingRemove && removingCartId === cartId ? (
               <LoadingButton
                 loading
                 loadingPosition="start"

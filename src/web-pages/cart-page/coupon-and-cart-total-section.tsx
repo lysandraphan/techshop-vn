@@ -14,17 +14,18 @@ import TextField from "@mui/material/TextField";
 
 // interface
 interface CouponAndCartTotalSectionProps {
-  subTotalAll: number;
+  // subTotalAll: number;
 }
 
 // EXPORT DEFAULT
-export default function CouponAndCartTotalSection({
-  subTotalAll,
-}: CouponAndCartTotalSectionProps) {
+export default function CouponAndCartTotalSection({}: // subTotalAll,
+CouponAndCartTotalSectionProps) {
   // -------------------------- VAR --------------------------
   const router = useRouter();
 
   const isLoadingRemove = useAppSelector((state) => state.cart.isLoadingRemove);
+
+  const subTotal = useAppSelector((state) => state.cart.totalPrice);
 
   // -------------------------- MAIN --------------------------
   return (
@@ -65,7 +66,7 @@ export default function CouponAndCartTotalSection({
           <Stack spacing={2}>
             <Stack direction="row" justifyContent="space-between">
               <Typography>Subtotal</Typography>
-              <Typography>{displayPrice(subTotalAll)}</Typography>
+              <Typography>{displayPrice(subTotal)}</Typography>
             </Stack>
             <Divider />
             <Stack direction="row" justifyContent="space-between">
