@@ -19,7 +19,7 @@ export default function OrderSummary() {
       mb={10}
       px={5}
       py={4}
-      width={500}
+      width="100%"
       spacing={4}
       border="1px solid"
       borderColor="primary.dark"
@@ -35,9 +35,9 @@ export default function OrderSummary() {
         alignItems="center"
         spacing={2}
       >
-        <CustomImage src="/product.webp" alt="Product" width={60} height={50} />
+        <CustomImage src="/product.webp" alt="Product" width={70} height={50} />
         <Stack spacing={0.5}>
-          <Typography noWrap>
+          <Typography>
             Olympus Tough TG-6 Waterproof Camera, Red
           </Typography>
           <Stack direction="row" spacing={1}>
@@ -55,9 +55,9 @@ export default function OrderSummary() {
         alignItems="center"
         spacing={2}
       >
-        <CustomImage src="/product.webp" alt="Product" width={60} height={50} />
+        <CustomImage src="/product.webp" alt="Product" width={70} height={50} />
         <Stack spacing={0.5}>
-          <Typography noWrap>
+          <Typography >
             Olympus Tough TG-6 Waterproof Camera, Red
           </Typography>
           <Stack direction="row" spacing={1}>

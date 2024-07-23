@@ -38,7 +38,7 @@ export default function Checkout() {
         </Link>
       </Breadcrumbs>
       <Grid container spacing={5}>
-        <Grid item xs={12} md={8} mb={7}>
+        <Grid item xs={12} md={7} mb={7}>
           <Box
             sx={{
               border: "1px solid",
@@ -49,8 +49,7 @@ export default function Checkout() {
             <BillingShippingInfoSection />
           </Box>
         </Grid>
-
-        <Grid item md={3}>
+        <Grid item xs={12} md={5}>
           <OrderSummary />
         </Grid>
       </Grid>

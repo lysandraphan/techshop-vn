@@ -1,7 +1,5 @@
 // mui
 import Grid from "@mui/material/Grid";
-import Stack from "@mui/material/Stack";
-import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import Checkbox from "@mui/material/Checkbox";
 import FormControlLabel from "@mui/material/FormControlLabel";
@@ -57,7 +55,7 @@ export default function BillingShippingInfoSection() {
           id="company-name"
           name="company-name"
           type="company-name"
-          placeholder="Doe"
+          placeholder="ABC Ltd"
           autoComplete="company name"
         />
       </FormGrid>
