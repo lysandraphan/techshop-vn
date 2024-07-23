@@ -1,4 +1,5 @@
-import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
+import { createSlice, createAsyncThunk, PayloadAction } from "@reduxjs/toolkit";
+import axios from "axios";
 
 // internal
 import {
@@ -9,7 +10,6 @@ import {
   getTotalCartPrice,
 } from "@/api";
 import { getToken } from "@/utils/functions";
-import axios from "axios";
 
 // -------------------------- INTERFACE --------------------------
 export interface CartState {
@@ -41,6 +41,7 @@ export interface CartProductData {
   price: number;
   productId: number;
   quantity: number;
+  subTotal: number;
   categoryDto: {
     categoryId: number;
     name: string;
@@ -74,6 +75,109 @@ const initialState: CartState = {
 //   }
 // };
 
+// Add item to cart
+const addCartItem = (
+  cartItems: CartItemData[],
+  cartItemToAdd: CartItemData
+): CartItemData[] => {
+  console.log("Adding cart item")
+
+  // Check if product to add already in cart items
+  const existingCartItem = cartItems.find(
+    (cartItem: CartItemData) =>
+      cartItem.product.productId === cartItemToAdd.product.productId
+  );
+  // If yes, increment the quantity & calculate new subTotal
+  if (existingCartItem) {
+    console.log("Existing product")
+    return cartItems.map((cartItem) =>
+      cartItem.product.productId === cartItemToAdd.product.productId
+        ? {
+            ...cartItem,
+            product: {
+              ...cartItem.product,
+              quantity: cartItem.product.quantity + 1,
+              subTotal:
+                cartItem.product.price * (cartItem.product.quantity + 1),
+            },
+          }
+        : cartItem
+    );
+  }
+  // if no item in cart
+  // return [
+  //   ...cartItems,
+  //   { ...cartItemToAdd, product: { ...cartItemToAdd.product, quantity: 1 } },
+  // ];
+  return cartItems;
+};
+
+// const addCartItem = (
+//   cartItems: CartItemData[],
+//   productToAdd: CartProductData
+// ): CartItemData[] => {
+//   // Check if product to add already in cart items
+//   const existingCartItem = cartItems.find(
+//     (cartItem: CartItemData) =>
+//       cartItem.product.productId === productToAdd.productId
+//   );
+//   // If yes, increment the quantity
+//   if (existingCartItem) {
+//     return cartItems.map((cartItem) =>
+//       cartItem.product.productId === productToAdd.productId
+//         ? {
+//             ...cartItem,
+//             product: {
+//               ...cartItem.product,
+//               quantity: cartItem.product.quantity + 1,
+//             },
+//           }
+//         : cartItem
+//     );
+//   }
+//   // if no item in cart
+//   // must return --> cart: CartItemData[]
+//   return [...cartItems, {...cartItem, } ];
+//   // return [...cartItems, { ...productToAdd, quantity: 1 }];
+// };
+
+// Remove item from cart
+// const removeCartItem = (
+//   cartItems: CartItemData[],
+//   cartItemToRemove: CartItemData
+// ): CartItemData[] => {
+//   // find cart item to remove in cart items
+//   const existingCartItem = cartItems.find(
+//     (cartItem) => cartItem.id === cartItemToRemove.id
+//   );
+//   // Remove the item from card if its quantity is equal to 1
+//   if (existingCartItem && existingCartItem.quantity === 1) {
+//     return cartItems.filter((cartItem) => cartItem.id !== cartItemToRemove.id);
+//   }
+//   return cartItems.map((cartItem) =>
+//     cartItem.id === cartItemToRemove.id
+//       ? { ...cartItem, quantity: cartItem.quantity - 1 }
+//       : cartItem
+//   );
+// };
+
+// export const addItem = (
+//   cartItems: CartItemData[],
+//   productToAdd: CartItemData
+// ) => {
+//   const newCartItems = addCartItem(cartItems, productToAdd);
+//   return setCartItems(newCartItems);
+// };
+
+// export const removeItem = (
+//   cartItems: CartItemData[],
+//   cartItemToRemove: CartItemData
+// ) => {
+//   const newCartItems = removeCartItem(cartItems, cartItemToRemove);
+//   return setCartItems(newCartItems);
+// };
+
+// -------------------------- THUNK --------------------------
 // Get Cart from API
 export const fetchCart = createAsyncThunk("cart/fetchCart", async () => {
   const token = getToken;
@@ -224,7 +328,13 @@ export const removeItemFromCart = createAsyncThunk(
 export const cart = createSlice({
   name: "cart",
   initialState,
-  reducers: {},
+  reducers: {
+    setCartAdd: (state, action: PayloadAction<CartItemData>) => {
+      if (state.cart) {
+        state.cart = addCartItem(state.cart, action.payload);
+      }
+    },
+  },
   extraReducers(builder) {
     // ---------- Fetch Cart ----------
     builder.addCase(fetchCart.pending, (state) => {
@@ -305,5 +415,7 @@ export const cart = createSlice({
     });
   },
 });
+
+export const { setCartAdd } = cart.actions;
 
 export default cart.reducer;

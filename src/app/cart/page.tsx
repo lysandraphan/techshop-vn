@@ -104,6 +104,7 @@ export default function Cart() {
             {cartItems.map((cartItem: CartItemData) => (
               <ProductInCart
                 key={cartItem.cartId}
+                cartItem={cartItem}
                 cartId={cartItem.cartId}
                 cartProduct={cartItem.product}
                 // setSubTotalAll={setSubTotalAll}

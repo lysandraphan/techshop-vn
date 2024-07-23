@@ -3,8 +3,10 @@ import { useRouter } from "next/navigation";
 
 // internal
 import {
+  CartItemData,
   CartProductData,
   removeItemFromCart,
+  setCartAdd,
 } from "@/redux/features/cart-slice";
 import { displayPrice } from "@/utils/functions";
 import { Dispatch, SetStateAction, useEffect, useState } from "react";
@@ -27,6 +29,7 @@ import CustomImage from "@/components/custom-image/custom-image.component";
 
 // interface
 interface ProductInCartProps {
+  cartItem: CartItemData;
   cartId: number;
   cartProduct: CartProductData;
   // setSubTotalAll: Dispatch<SetStateAction<number>>;
@@ -34,15 +37,19 @@ interface ProductInCartProps {
 
 // EXPORT DEFAULT
 export default function ProductInCart({
+  cartItem,
   cartId,
   cartProduct,
 }: // setSubTotalAll,
 ProductInCartProps) {
   // -------------------------- STATE --------------------------
-  const [quantity, setQuantity] = useState<number>(cartProduct.quantity);
+  // const [quantity, setQuantity] = useState<number>(cartProduct.quantity);
 
   // -------------------------- VAR --------------------------
-  const subtotal = cartProduct.price * quantity;
+  // const cart = useAppSelector((state) => state.cart.cart);
+  // const quantity = cart.
+
+  // const subtotal = cartProduct.price * quantity;
 
   const name =
     cartProduct.name.length > 60
@@ -61,12 +68,13 @@ ProductInCartProps) {
   const changeQuantity = (type: "increment" | "decrement") => {
     if (isLoadingRemove) return;
     if (type === "decrement") {
-      setQuantity((prev) => {
-        return prev <= 1 ? 1 : --prev;
-      });
+      // setQuantity((prev) => {
+      //   return prev <= 1 ? 1 : --prev;
+      // });
       // if (quantity > 0) setSubTotalAll((prev) => prev - cartProduct.price);
     } else {
-      setQuantity((prev) => ++prev);
+      // setQuantity((prev) => ++prev);
+      dispatch(setCartAdd(cartItem));
       // setSubTotalAll((prev) => prev + cartProduct.price);
     }
   };
@@ -171,7 +179,7 @@ ProductInCartProps) {
             >
               <ChevronLeftIcon fontSize="inherit" />
             </IconButton>
-            <Typography textAlign="center">{quantity}</Typography>
+            <Typography textAlign="center">{cartProduct.quantity}</Typography>
             <IconButton
               aria-label="increment"
               size="small"
@@ -182,7 +190,9 @@ ProductInCartProps) {
           </Stack>
         </Grid>
         <Grid item md={1} alignSelf="center">
-          <Typography textAlign="center">{displayPrice(subtotal)}</Typography>
+          <Typography textAlign="center">
+            {displayPrice(cartProduct.subTotal)}
+          </Typography>
         </Grid>
       </Grid>
     </Stack>
