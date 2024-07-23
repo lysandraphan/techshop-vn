@@ -5,10 +5,12 @@ import axios from "axios";
 import {
   createCartApi,
   deleteCartItemApi,
+  findCouponApi,
   getCartApi,
   getTotalCartItems,
   getTotalCartPrice,
   updateCartApi,
+  updateCouponApi,
 } from "@/api";
 import { getToken } from "@/utils/functions";
 
@@ -22,6 +24,7 @@ export interface CartState {
   isLoading: boolean;
   isLoadingRemove: boolean;
   isLoadingUpdate: boolean;
+  isLoadingCoupon: boolean;
   removingCartId: number;
   error: any;
 }
@@ -55,6 +58,15 @@ export interface CartProductData {
   };
 }
 
+export interface CouponData {
+  couponId: number;
+  code: string;
+  value: number;
+  quantity: number;
+  quantityUsed: number;
+  createdAt: string;
+}
+
 // -------------------------- VAR --------------------------
 const initialState: CartState = {
   cart: undefined,
@@ -65,6 +77,7 @@ const initialState: CartState = {
   isLoading: false,
   isLoadingRemove: false,
   isLoadingUpdate: false,
+  isLoadingCoupon: false,
   removingCartId: 0,
   error: null,
 };
@@ -117,8 +130,25 @@ const updateCartItem = (
   return cartItems;
 };
 
+// Update totalFinalPrice based on totalPrice(subtotal) & discountPrice
+const calcTotalFinalPrice = (subtotal: number, discountPrice: number) => {
+  if (discountPrice === 0) {
+    return subtotal;
+  } else {
+    const total = subtotal - discountPrice;
+    return total;
+  }
+};
+
+// Calculate discount price based on coupon value
+const calcDiscountPrice = (subtotal: number, couponValue: number) => {
+  if (couponValue === 0) return 0;
+  const discountPrice = (subtotal / 100) * couponValue;
+  return discountPrice;
+};
+
 // -------------------------- THUNK --------------------------
-// Get Cart from API
+// Fetch Cart from API
 export const fetchCart = createAsyncThunk("cart/fetchCart", async () => {
   const token = getToken;
   if (token) {
@@ -298,6 +328,47 @@ export const updateCart = createAsyncThunk(
   }
 );
 
+// Fetch Coupon Code & Update Coupon
+export const fetchCoupon = createAsyncThunk(
+  "cart/fetchCoupon",
+  async ({ couponCode }: { couponCode: string }) => {
+    const token = getToken;
+    if (token) {
+      const abortController = new AbortController();
+      try {
+        const response = await axios.get(findCouponApi(couponCode), {
+          signal: abortController.signal,
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+        const coupon = (await response.data) as CouponData;
+        // Check if coupon is available or not
+        if (coupon.quantity - coupon.quantityUsed <= 0) return 0;
+        // Update coupon quantity being used
+        await axios.put(
+          updateCouponApi,
+          {
+            ...coupon,
+            quantity: coupon.quantity - 1,
+            quantityUsed: coupon.quantityUsed + 1,
+          },
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
+        return coupon.value;
+      } catch (error: any) {
+        if (!abortController.signal.aborted) {
+          console.log(error.message);
+        }
+      }
+    }
+  }
+);
+
 // -------------------------- REDUX --------------------------
 export const cart = createSlice({
   name: "cart",
@@ -313,6 +384,9 @@ export const cart = createSlice({
         state.cart = updateCartItem(state.cart, action.payload, "decrement");
       }
     },
+    setDiscountPrice: (state, action: PayloadAction<number>) => {
+      state.discountPrice = action.payload;
+    },
     setTotalFinalPrice: (state, action: PayloadAction<number>) => {
       state.totalFinalPrice = action.payload;
     },
@@ -327,6 +401,10 @@ export const cart = createSlice({
       if (action.payload) {
         state.totalCartItems = action.payload[0].totalItems;
         state.totalPrice = action.payload[0].totalPrice;
+        state.totalFinalPrice = calcTotalFinalPrice(
+          state.totalPrice,
+          state.discountPrice
+        );
       }
       state.isLoading = false;
     });
@@ -378,6 +456,10 @@ export const cart = createSlice({
       if (action.payload) {
         state.totalCartItems = action.payload[0].totalItems;
         state.totalPrice = action.payload[0].totalPrice;
+        state.totalFinalPrice = calcTotalFinalPrice(
+          state.totalPrice,
+          state.discountPrice
+        );
       }
       state.isLoadingUpdate = false;
     });
@@ -406,10 +488,36 @@ export const cart = createSlice({
       state.error = action.error;
       state.isLoadingRemove = false;
     });
+    // ---------- Fetch Coupon ----------
+    builder.addCase(fetchCoupon.pending, (state) => {
+      state.isLoadingCoupon = true;
+    });
+    builder.addCase(fetchCoupon.fulfilled, (state, action) => {
+      if (action.payload) {
+        const newDiscountPrice = calcDiscountPrice(
+          state.totalPrice,
+          action.payload
+        );
+        state.discountPrice = newDiscountPrice;
+        state.totalFinalPrice = calcTotalFinalPrice(
+          state.totalPrice,
+          newDiscountPrice
+        );
+      }
+      state.isLoadingCoupon = false;
+    });
+    builder.addCase(fetchCoupon.rejected, (state, action) => {
+      state.error = action.error;
+      state.isLoadingCoupon = false;
+    });
   },
 });
 
-export const { incrementCartItem, decrementCartItem, setTotalFinalPrice } =
-  cart.actions;
+export const {
+  incrementCartItem,
+  decrementCartItem,
+  setTotalFinalPrice,
+  setDiscountPrice,
+} = cart.actions;
 
 export default cart.reducer;

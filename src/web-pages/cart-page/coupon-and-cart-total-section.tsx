@@ -1,10 +1,16 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 
 // internal
-import { displayPrice } from "@/utils/functions";
+import { displayPrice, getToken } from "@/utils/functions";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
-import { setTotalFinalPrice } from "@/redux/features/cart-slice";
+import {
+  CouponData,
+  fetchCoupon,
+  setDiscountPrice,
+  setTotalFinalPrice,
+} from "@/redux/features/cart-slice";
+import { useFetchHook } from "@/custom-hooks/use-fetch-hook";
 
 // mui
 import Grid from "@mui/material/Grid";
@@ -13,18 +19,29 @@ import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
 import Divider from "@mui/material/Divider";
 import TextField from "@mui/material/TextField";
+import SaveIcon from "@mui/icons-material/Save";
+import LoadingButton from "@mui/lab/LoadingButton";
+import Chip from "@mui/material/Chip";
 
 // interface
 interface CouponAndCartTotalSectionProps {}
 
 // EXPORT DEFAULT
 export default function CouponAndCartTotalSection({}: CouponAndCartTotalSectionProps) {
+  // -------------------------- STATE --------------------------
+  const [couponCode, setCouponCode] = useState<string>("");
+  const [appliedCoupons, setAppliedCoupons] = useState<string[]>([]);
+  // const [discount, setDiscount] = useState(0);
+  // const [total, setTotal] = useState(0);
+
   // -------------------------- VAR --------------------------
   const router = useRouter();
 
   const isLoadingRemove = useAppSelector((state) => state.cart.isLoadingRemove);
 
   const isLoadingUpdate = useAppSelector((state) => state.cart.isLoadingUpdate);
+
+  const isLoadingCoupon = useAppSelector((state) => state.cart.isLoadingCoupon);
 
   const subTotal = useAppSelector((state) => state.cart.totalPrice);
 
@@ -34,16 +51,47 @@ export default function CouponAndCartTotalSection({}: CouponAndCartTotalSectionP
 
   const dispatch = useAppDispatch();
 
-  // -------------------------- EFFECT --------------------------
-  useEffect(() => {
-    if (discountPrice === 0) {
-      dispatch(setTotalFinalPrice(subTotal));
-    } else {
-      const finalPrice = subTotal - discountPrice;
-      dispatch(setTotalFinalPrice(finalPrice));
+  // const [couponResult, fetchGetCoupon, abortController, isLoadingCoupon] =
+  //   useFetchHook<CouponData>(getToken);
+
+  // -------------------------- FUNCTION --------------------------
+  const applyCouponHandler = async () => {
+    // await fetchGetCoupon(findCouponApi(couponCode));
+    // console.log("Coupon: " + couponCode)
+    // if (couponResult && couponResult.quantity !== 0) {
+    //   console.log(couponResult);
+    //   discountPrice = (subTotal / 100) * couponResult.value;
+    //   totalFinalPrice = subTotal - discountPrice;
+
+    //   await dispatch(setDiscountPrice(discountPrice));
+    //   await dispatch(setTotalFinalPrice(totalFinalPrice));
+    // }
+    if (couponCode) {
+      await dispatch(fetchCoupon({ couponCode }));
+      setCouponCode("");
+      setAppliedCoupons((prev) => [...prev, couponCode]);
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [discountPrice]);
+  };
+
+  const handleDelete = (couponCode: string) => {
+    console.info("You clicked the delete icon.");
+  };
+
+  // -------------------------- EFFECT --------------------------
+  // useEffect(() => {
+  //   if (discountPrice === 0) {
+  //     dispatch(setTotalFinalPrice(subTotal));
+  //   } else {
+  //     const finalPrice = subTotal - discountPrice;
+  //     dispatch(setTotalFinalPrice(finalPrice));
+  //   }
+  //   // eslint-disable-next-line react-hooks/exhaustive-deps
+  // }, [discountPrice]);
+
+  // useEffect(() => {
+  //   if (discountPrice !== 0) setDiscount(discountPrice);
+  //   if (totalFinalPrice !== 0) setTotal(totalFinalPrice);
+  // }, [discountPrice, totalFinalPrice]);
 
   // -------------------------- MAIN --------------------------
   return (
@@ -58,15 +106,42 @@ export default function CouponAndCartTotalSection({}: CouponAndCartTotalSectionP
             size="medium"
             inputProps={{ sx: { fontSize: 13 }, enterKeyHint: "go" }}
             InputLabelProps={{ sx: { fontSize: 14 } }}
+            value={couponCode}
+            onChange={(event) => {
+              setCouponCode(event.target.value);
+            }}
           />
-          <Button
-            variant="contained"
-            color="secondary"
-            sx={{ px: 5, wordSpacing: 3 }}
-            disabled={isLoadingRemove || isLoadingUpdate}
-          >
-            Apply Coupon
-          </Button>
+          {isLoadingCoupon ? (
+            <LoadingButton
+              loading
+              loadingPosition="start"
+              variant="outlined"
+              startIcon={<SaveIcon />}
+              sx={{ px: 5, wordSpacing: 3 }}
+            >
+              <span>Applying Coupon</span>
+            </LoadingButton>
+          ) : (
+            <Button
+              variant="contained"
+              color="secondary"
+              sx={{ px: 5, wordSpacing: 3 }}
+              disabled={isLoadingRemove || isLoadingUpdate}
+              onClick={applyCouponHandler}
+            >
+              Apply Coupon
+            </Button>
+          )}
+        </Stack>
+        <Stack direction="row" spacing={1} mt={-2}>
+          {appliedCoupons.length !== 0 &&
+            appliedCoupons.map((appliedCoupon) => (
+              <Chip
+                key={appliedCoupon}
+                label={appliedCoupon}
+                onDelete={() => handleDelete(appliedCoupon)}
+              />
+            ))}
         </Stack>
       </Grid>
       <Grid item xs={12} md={5}>
@@ -91,7 +166,9 @@ export default function CouponAndCartTotalSection({}: CouponAndCartTotalSectionP
             <Divider />
             <Stack direction="row" justifyContent="space-between">
               <Typography>Discount</Typography>
-              <Typography>N/A</Typography>
+              <Typography>
+                {discountPrice ? displayPrice(discountPrice) : "N/A"}
+              </Typography>
             </Stack>
             <Divider />
             <Stack direction="row" justifyContent="space-between">

@@ -39,6 +39,8 @@ export default function Cart() {
 
   const isLoadingUpdate = useAppSelector((state) => state.cart.isLoadingUpdate);
 
+  const isLoadingCoupon = useAppSelector((state) => state.cart.isLoadingCoupon);
+
   const cartItems = useAppSelector((state) => state.cart.cart);
 
   const dispatch = useAppDispatch();
@@ -115,7 +117,7 @@ export default function Cart() {
           <Stack direction="row" justifyContent="space-between" mt={5} mb={8}>
             <Button
               variant="outlined"
-              disabled={isLoadingRemove || isLoadingUpdate}
+              disabled={isLoadingRemove || isLoadingUpdate || isLoadingCoupon}
               onClick={() => router.back()}
             >
               Return To Shop
@@ -133,7 +135,7 @@ export default function Cart() {
             ) : (
               <Button
                 variant="outlined"
-                disabled={isLoadingRemove || isLoadingUpdate}
+                disabled={isLoadingRemove || isLoadingUpdate || isLoadingCoupon}
                 onClick={updateCartHandler}
               >
                 Update Cart

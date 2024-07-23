@@ -56,9 +56,11 @@ export default function ProductInCart({
 
   const isLoadingUpdate = useAppSelector((state) => state.cart.isLoadingUpdate);
 
+  const isLoadingCoupon = useAppSelector((state) => state.cart.isLoadingCoupon);
+
   // -------------------------- FUNCTION --------------------------
   const changeQuantity = (actionType: "increment" | "decrement") => {
-    if (isLoadingRemove || isLoadingUpdate) return;
+    if (isLoadingRemove || isLoadingUpdate || isLoadingCoupon) return;
     if (actionType === "decrement") {
       if (cartItem.product.quantity > 1) dispatch(decrementCartItem(cartItem));
     } else {
@@ -68,7 +70,7 @@ export default function ProductInCart({
 
   // Remove product in Cart
   const removeProductHandler = async () => {
-    if (isLoadingRemove || isLoadingUpdate) return;
+    if (isLoadingRemove || isLoadingUpdate || isLoadingCoupon) return;
     dispatch(removeItemFromCart({ cartId }));
   };
 

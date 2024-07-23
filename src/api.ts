@@ -82,3 +82,10 @@ export const createOrderApi =
 export const getOrderApi = (accountId: number) => {
   return `https://g5-likelion-ecommerce.onrender.com/api/order/by-accountID/${accountId}`;
 };
+
+export const findCouponApi = (code: string) => {
+  return `https://g5-likelion-ecommerce.onrender.com/api/coupon/find-by-code?code=${code}`;
+};
+
+export const updateCouponApi =
+  "https://g5-likelion-ecommerce.onrender.com/api/coupon/update";

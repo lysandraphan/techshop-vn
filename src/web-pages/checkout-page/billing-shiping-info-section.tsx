@@ -11,23 +11,23 @@ import { useEffect, useState } from "react";
 
 // interface
 interface BillingShippingInfoSectionProps {
-  orderInfo: {
-    firstName: string;
-    lastName: string;
-    phoneNumber: string;
-    apartment: string;
-    addressLine1: string;
-    addressLine2: string;
-    suburb: string;
-    city: string;
-    region: string;
-    country: string;
-  };
+  // orderInfo: {
+  //   firstName: string;
+  //   lastName: string;
+  //   phoneNumber: string;
+  //   apartment: string;
+  //   addressLine1: string;
+  //   addressLine2: string;
+  //   suburb: string;
+  //   city: string;
+  //   region: string;
+  //   country: string;
+  // };
 }
 
 // EXPORT DEFAULT
 export default function BillingShippingInfoSection({
-  orderInfo,
+  // orderInfo,
 }: BillingShippingInfoSectionProps) {
   // -------------------------- STATE --------------------------
   const [firstName, setFirstName] = useState("");
@@ -49,32 +49,32 @@ export default function BillingShippingInfoSection({
 
   // -------------------------- EFFECT --------------------------
   // useEffect(() => {
-  if (
-    firstName &&
-    lastName &&
-    phoneNumber &&
-    apartment &&
-    addressLine1 &&
-    addressLine2 &&
-    suburb &&
-    city &&
-    region &&
-    country
-  ) {
-    orderInfo = {
-      firstName,
-      lastName,
-      phoneNumber,
-      apartment,
-      addressLine1,
-      addressLine2,
-      suburb,
-      city,
-      region,
-      country,
-    };
-    console.log(orderInfo);
-  }
+  // if (
+  //   firstName &&
+  //   lastName &&
+  //   phoneNumber &&
+  //   apartment &&
+  //   addressLine1 &&
+  //   addressLine2 &&
+  //   suburb &&
+  //   city &&
+  //   region &&
+  //   country
+  // ) {
+  //   orderInfo = {
+  //     firstName,
+  //     lastName,
+  //     phoneNumber,
+  //     apartment,
+  //     addressLine1,
+  //     addressLine2,
+  //     suburb,
+  //     city,
+  //     region,
+  //     country,
+  //   };
+  //   console.log(orderInfo);
+  // }
   // }, []);
 
   // -------------------------- MAIN --------------------------
