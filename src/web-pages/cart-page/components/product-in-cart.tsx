@@ -6,7 +6,8 @@ import {
   CartItemData,
   CartProductData,
   removeItemFromCart,
-  setCartAdd,
+  incrementCartItem,
+  decrementCartItem,
 } from "@/redux/features/cart-slice";
 import { displayPrice } from "@/utils/functions";
 import { Dispatch, SetStateAction, useEffect, useState } from "react";
@@ -65,17 +66,12 @@ ProductInCartProps) {
   const removingCartId = useAppSelector((state) => state.cart.removingCartId);
 
   // -------------------------- FUNCTION --------------------------
-  const changeQuantity = (type: "increment" | "decrement") => {
+  const changeQuantity = (actionType: "increment" | "decrement") => {
     if (isLoadingRemove) return;
-    if (type === "decrement") {
-      // setQuantity((prev) => {
-      //   return prev <= 1 ? 1 : --prev;
-      // });
-      // if (quantity > 0) setSubTotalAll((prev) => prev - cartProduct.price);
+    if (actionType === "decrement") {
+      if (cartItem.product.quantity > 1) dispatch(decrementCartItem(cartItem));
     } else {
-      // setQuantity((prev) => ++prev);
-      dispatch(setCartAdd(cartItem));
-      // setSubTotalAll((prev) => prev + cartProduct.price);
+      dispatch(incrementCartItem(cartItem));
     }
   };
 
