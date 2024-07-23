@@ -350,7 +350,6 @@ export const fetchCoupon = createAsyncThunk(
           updateCouponApi,
           {
             ...coupon,
-            quantity: coupon.quantity - 1,
             quantityUsed: coupon.quantityUsed + 1,
           },
           {
@@ -368,6 +367,46 @@ export const fetchCoupon = createAsyncThunk(
     }
   }
 );
+
+// Update Coupon
+// export const updateCoupon = createAsyncThunk(
+//   "cart/updateCoupon",
+//   async ({ couponCode }: { couponCode: string }) => {
+//     const token = getToken;
+//     if (token) {
+//       const abortController = new AbortController();
+//       try {
+//         const response = await axios.get(findCouponApi(couponCode), {
+//           headers: {
+//             Authorization: `Bearer ${token}`,
+//           },
+//         });
+//         const coupon = (await response.data) as CouponData;
+//         // Check if coupon is available or not
+//         if (coupon.quantity - coupon.quantityUsed <= 0) return 0;
+//         // Update coupon quantity being used
+//         await axios.put(
+//           updateCouponApi,
+//           {
+//             ...coupon,
+//             quantityUsed: coupon.quantityUsed - 1,
+//           },
+//           {
+//           signal: abortController.signal,
+//             headers: {
+//               Authorization: `Bearer ${token}`,
+//             },
+//           }
+//         );
+//         return coupon.value;
+//       } catch (error: any) {
+//         if (!abortController.signal.aborted) {
+//           console.log(error.message);
+//         }
+//       }
+//     }
+//   }
+// );
 
 // -------------------------- REDUX --------------------------
 export const cart = createSlice({

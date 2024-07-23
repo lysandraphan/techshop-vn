@@ -1,16 +1,10 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useRouter } from "next/navigation";
 
 // internal
-import { displayPrice, getToken } from "@/utils/functions";
+import { displayPrice } from "@/utils/functions";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
-import {
-  CouponData,
-  fetchCoupon,
-  setDiscountPrice,
-  setTotalFinalPrice,
-} from "@/redux/features/cart-slice";
-import { useFetchHook } from "@/custom-hooks/use-fetch-hook";
+import { fetchCoupon } from "@/redux/features/cart-slice";
 
 // mui
 import Grid from "@mui/material/Grid";
@@ -31,8 +25,6 @@ export default function CouponAndCartTotalSection({}: CouponAndCartTotalSectionP
   // -------------------------- STATE --------------------------
   const [couponCode, setCouponCode] = useState<string>("");
   const [appliedCoupons, setAppliedCoupons] = useState<string[]>([]);
-  // const [discount, setDiscount] = useState(0);
-  // const [total, setTotal] = useState(0);
 
   // -------------------------- VAR --------------------------
   const router = useRouter();
@@ -51,21 +43,8 @@ export default function CouponAndCartTotalSection({}: CouponAndCartTotalSectionP
 
   const dispatch = useAppDispatch();
 
-  // const [couponResult, fetchGetCoupon, abortController, isLoadingCoupon] =
-  //   useFetchHook<CouponData>(getToken);
-
   // -------------------------- FUNCTION --------------------------
   const applyCouponHandler = async () => {
-    // await fetchGetCoupon(findCouponApi(couponCode));
-    // console.log("Coupon: " + couponCode)
-    // if (couponResult && couponResult.quantity !== 0) {
-    //   console.log(couponResult);
-    //   discountPrice = (subTotal / 100) * couponResult.value;
-    //   totalFinalPrice = subTotal - discountPrice;
-
-    //   await dispatch(setDiscountPrice(discountPrice));
-    //   await dispatch(setTotalFinalPrice(totalFinalPrice));
-    // }
     if (couponCode) {
       await dispatch(fetchCoupon({ couponCode }));
       setCouponCode("");
@@ -73,25 +52,9 @@ export default function CouponAndCartTotalSection({}: CouponAndCartTotalSectionP
     }
   };
 
-  const handleDelete = (couponCode: string) => {
+  const handleDeleteCoupon = (couponCode: string) => {
     console.info("You clicked the delete icon.");
   };
-
-  // -------------------------- EFFECT --------------------------
-  // useEffect(() => {
-  //   if (discountPrice === 0) {
-  //     dispatch(setTotalFinalPrice(subTotal));
-  //   } else {
-  //     const finalPrice = subTotal - discountPrice;
-  //     dispatch(setTotalFinalPrice(finalPrice));
-  //   }
-  //   // eslint-disable-next-line react-hooks/exhaustive-deps
-  // }, [discountPrice]);
-
-  // useEffect(() => {
-  //   if (discountPrice !== 0) setDiscount(discountPrice);
-  //   if (totalFinalPrice !== 0) setTotal(totalFinalPrice);
-  // }, [discountPrice, totalFinalPrice]);
 
   // -------------------------- MAIN --------------------------
   return (
@@ -133,13 +96,13 @@ export default function CouponAndCartTotalSection({}: CouponAndCartTotalSectionP
             </Button>
           )}
         </Stack>
-        <Stack direction="row" spacing={1} mt={-2}>
+        <Stack direction="row" spacing={1} mt={-2} mb={5}>
           {appliedCoupons.length !== 0 &&
             appliedCoupons.map((appliedCoupon) => (
               <Chip
                 key={appliedCoupon}
                 label={appliedCoupon}
-                onDelete={() => handleDelete(appliedCoupon)}
+                onDelete={() => handleDeleteCoupon(appliedCoupon)}
               />
             ))}
         </Stack>
