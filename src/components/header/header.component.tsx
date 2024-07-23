@@ -32,13 +32,11 @@ const inter = Inter({
 export default function Header() {
   // -------------------------- STATE --------------------------
   const [searchQuery, setSearchQuery] = useState("");
-  const [totalCartItems, setTotalCartItem] = useState(0);
 
   // -------------------------- VAR --------------------------
   const router = useRouter();
 
   const user = useAppSelector((state) => state.user.user);
-  const accountId = user?.accountId;
 
   const totalItems = useAppSelector((state) => state.cart.totalCartItems);
 
@@ -47,13 +45,8 @@ export default function Header() {
   // -------------------------- EFFECT --------------------------
   useEffect(() => {
     dispatch(fetchTotalCartItems());
-
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [accountId]);
-
-  useEffect(() => {
-    setTotalCartItem(totalItems);
-  }, [totalItems]);
+  }, []);
 
   // -------------------------- MAIN --------------------------
   return (
@@ -136,9 +129,9 @@ export default function Header() {
                   <FavoriteBorderOutlinedIcon sx={{ fontSize: 30 }} />
                 </IconButton>
               )}
-              {totalCartItems > 0 && user ? (
+              {totalItems > 0 && user ? (
                 <Badge
-                  badgeContent={totalCartItems}
+                  badgeContent={totalItems}
                   max={99}
                   color="secondary"
                   sx={{ mr: 2.5, cursor: "pointer" }}
