@@ -89,3 +89,6 @@ export const findCouponApi = (code: string) => {
 
 export const updateCouponApi =
   "https://g5-likelion-ecommerce.onrender.com/api/coupon/update";
+
+export const paypalApi =
+  "https://g5-likelion-ecommerce.onrender.com/api/payment/create";
