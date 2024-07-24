@@ -1,10 +1,11 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import { toast, ToastContainer } from "react-toastify";
 
 // internal
 import { displayPrice } from "@/utils/functions";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
-import { fetchCoupon } from "@/redux/features/cart-slice";
+import { fetchCoupon, updateCoupon } from "@/redux/features/cart-slice";
 
 // mui
 import Grid from "@mui/material/Grid";
@@ -35,6 +36,10 @@ export default function CouponAndCartTotalSection({}: CouponAndCartTotalSectionP
 
   const isLoadingCoupon = useAppSelector((state) => state.cart.isLoadingCoupon);
 
+  const isLoadingRemoveCoupon = useAppSelector(
+    (state) => state.cart.isLoadingRemoveCoupon
+  );
+
   const subTotal = useAppSelector((state) => state.cart.totalPrice);
 
   const discountPrice = useAppSelector((state) => state.cart.discountPrice);
@@ -46,20 +51,33 @@ export default function CouponAndCartTotalSection({}: CouponAndCartTotalSectionP
   // -------------------------- FUNCTION --------------------------
   const applyCouponHandler = async () => {
     if (couponCode) {
-      await dispatch(fetchCoupon({ couponCode }));
-      setCouponCode("");
-      setAppliedCoupons((prev) => [...prev, couponCode]);
+      const duplicated = appliedCoupons.find(
+        (appliedCoupon) => appliedCoupon === couponCode
+      );
+      if (duplicated) {
+        toast.error("This coupon can only be used once.");
+        return;
+      } else {
+        await dispatch(fetchCoupon({ couponCode }));
+        setCouponCode("");
+        setAppliedCoupons((prev) => [...prev, couponCode]);
+      }
     }
   };
 
   const handleDeleteCoupon = (couponCode: string) => {
-    console.info("You clicked the delete icon.");
+    dispatch(updateCoupon({ couponCode }));
+    const updated = appliedCoupons.filter(
+      (appliedCoupon) => appliedCoupon !== couponCode
+    );
+    setAppliedCoupons(updated);
   };
 
   // -------------------------- MAIN --------------------------
   return (
     <Grid container>
       <Grid item md={7}>
+        <ToastContainer />
         <Stack direction="row" height={50} spacing={2} mb={5}>
           <TextField
             id="coupon-input-field"
@@ -82,14 +100,18 @@ export default function CouponAndCartTotalSection({}: CouponAndCartTotalSectionP
               startIcon={<SaveIcon />}
               sx={{ px: 5, wordSpacing: 3 }}
             >
-              <span>Applying Coupon</span>
+              <span>
+                {isLoadingRemoveCoupon ? "Removing Coupon" : "Applying Coupon"}
+              </span>
             </LoadingButton>
           ) : (
             <Button
               variant="contained"
               color="secondary"
               sx={{ px: 5, wordSpacing: 3 }}
-              disabled={isLoadingRemove || isLoadingUpdate}
+              disabled={
+                isLoadingRemove || isLoadingUpdate || isLoadingRemoveCoupon
+              }
               onClick={applyCouponHandler}
             >
               Apply Coupon
@@ -144,7 +166,7 @@ export default function CouponAndCartTotalSection({}: CouponAndCartTotalSectionP
               variant="contained"
               color="secondary"
               sx={{ width: "50%", height: 50 }}
-              disabled={isLoadingRemove || isLoadingUpdate}
+              disabled={isLoadingCoupon || isLoadingRemove || isLoadingUpdate}
               onClick={() => router.push("/cart/checkout")}
             >
               Checkout

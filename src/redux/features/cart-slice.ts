@@ -25,6 +25,7 @@ export interface CartState {
   isLoadingRemove: boolean;
   isLoadingUpdate: boolean;
   isLoadingCoupon: boolean;
+  isLoadingRemoveCoupon: boolean;
   removingCartId: number;
   error: any;
 }
@@ -78,6 +79,7 @@ const initialState: CartState = {
   isLoadingRemove: false,
   isLoadingUpdate: false,
   isLoadingCoupon: false,
+  isLoadingRemoveCoupon: false,
   removingCartId: 0,
   error: null,
 };
@@ -160,7 +162,7 @@ export const fetchCart = createAsyncThunk("cart/fetchCart", async () => {
           Authorization: `Bearer ${token}`,
         },
       });
-      const result = (await response.data) as ServerData;
+      const result = response.data as ServerData;
       const cart = result.data as CartItemData[];
       return cart;
     } catch (error: any) {
@@ -185,7 +187,7 @@ export const fetchTotalCartItems = createAsyncThunk(
             Authorization: `Bearer ${token}`,
           },
         });
-        const result = await response.data;
+        const result = response.data;
         return result.data;
       } catch (error: any) {
         if (!abortController.signal.aborted) {
@@ -209,7 +211,7 @@ export const fetchTotalCartPrice = createAsyncThunk(
             Authorization: `Bearer ${token}`,
           },
         });
-        const result = await response.data;
+        const result = response.data;
         return result.data;
       } catch (error: any) {
         if (!abortController.signal.aborted) {
@@ -250,7 +252,7 @@ export const addToCart = createAsyncThunk(
             Authorization: `Bearer ${token}`,
           },
         });
-        const result = await response.data;
+        const result = response.data;
         return result.data;
       } catch (error: any) {
         if (!abortControllerGet.signal.aborted) {
@@ -282,7 +284,7 @@ export const removeItemFromCart = createAsyncThunk(
             Authorization: `Bearer ${token}`,
           },
         });
-        const result = (await response.data) as ServerData;
+        const result = response.data as ServerData;
         const cart = result.data as CartItemData[];
         return cart;
       } catch (error: any) {
@@ -316,7 +318,7 @@ export const updateCart = createAsyncThunk(
             Authorization: `Bearer ${token}`,
           },
         });
-        const result = (await response.data) as ServerData;
+        const result = response.data as ServerData;
         const cart = result.data as CartItemData[];
         return cart;
       } catch (error: any) {
@@ -342,7 +344,7 @@ export const fetchCoupon = createAsyncThunk(
             Authorization: `Bearer ${token}`,
           },
         });
-        const coupon = (await response.data) as CouponData;
+        const coupon = response.data as CouponData;
         // Check if coupon is available or not
         if (coupon.quantity - coupon.quantityUsed <= 0) return 0;
         // Update coupon quantity being used
@@ -368,45 +370,36 @@ export const fetchCoupon = createAsyncThunk(
   }
 );
 
-// Update Coupon
-// export const updateCoupon = createAsyncThunk(
-//   "cart/updateCoupon",
-//   async ({ couponCode }: { couponCode: string }) => {
-//     const token = getToken;
-//     if (token) {
-//       const abortController = new AbortController();
-//       try {
-//         const response = await axios.get(findCouponApi(couponCode), {
-//           headers: {
-//             Authorization: `Bearer ${token}`,
-//           },
-//         });
-//         const coupon = (await response.data) as CouponData;
-//         // Check if coupon is available or not
-//         if (coupon.quantity - coupon.quantityUsed <= 0) return 0;
-//         // Update coupon quantity being used
-//         await axios.put(
-//           updateCouponApi,
-//           {
-//             ...coupon,
-//             quantityUsed: coupon.quantityUsed - 1,
-//           },
-//           {
-//           signal: abortController.signal,
-//             headers: {
-//               Authorization: `Bearer ${token}`,
-//             },
-//           }
-//         );
-//         return coupon.value;
-//       } catch (error: any) {
-//         if (!abortController.signal.aborted) {
-//           console.log(error.message);
-//         }
-//       }
-//     }
-//   }
-// );
+// Update (removed applied) Coupon
+export const updateCoupon = createAsyncThunk(
+  "cart/updateCoupon",
+  async ({ couponCode }: { couponCode: string }) => {
+    const token = getToken;
+    if (token) {
+      const abortController = new AbortController();
+      try {
+        await axios.put(
+          updateCouponApi,
+          {
+            code: couponCode,
+            quantityUsed: -1,
+          },
+          {
+            signal: abortController.signal,
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
+        return 0; // return discount price value
+      } catch (error: any) {
+        if (!abortController.signal.aborted) {
+          console.log(error.message);
+        }
+      }
+    }
+  }
+);
 
 // -------------------------- REDUX --------------------------
 export const cart = createSlice({
@@ -422,12 +415,6 @@ export const cart = createSlice({
       if (state.cart) {
         state.cart = updateCartItem(state.cart, action.payload, "decrement");
       }
-    },
-    setDiscountPrice: (state, action: PayloadAction<number>) => {
-      state.discountPrice = action.payload;
-    },
-    setTotalFinalPrice: (state, action: PayloadAction<number>) => {
-      state.totalFinalPrice = action.payload;
     },
   },
   extraReducers(builder) {
@@ -549,14 +536,25 @@ export const cart = createSlice({
       state.error = action.error;
       state.isLoadingCoupon = false;
     });
+    // ---------- Update Coupon ----------
+    builder.addCase(updateCoupon.pending, (state) => {
+      state.isLoadingCoupon = true;
+      state.isLoadingRemoveCoupon = true;
+    });
+    builder.addCase(updateCoupon.fulfilled, (state) => {
+      state.discountPrice = 0;
+      state.totalFinalPrice = state.totalPrice;
+      state.isLoadingCoupon = false;
+      state.isLoadingRemoveCoupon = false;
+    });
+    builder.addCase(updateCoupon.rejected, (state, action) => {
+      state.error = action.error;
+      state.isLoadingCoupon = false;
+      state.isLoadingRemoveCoupon = false;
+    });
   },
 });
 
-export const {
-  incrementCartItem,
-  decrementCartItem,
-  setTotalFinalPrice,
-  setDiscountPrice,
-} = cart.actions;
+export const { incrementCartItem, decrementCartItem } = cart.actions;
 
 export default cart.reducer;

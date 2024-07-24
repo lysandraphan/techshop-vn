@@ -57,7 +57,8 @@ export default function Cart() {
   }, []);
 
   // -------------------------- MAIN --------------------------
-  if (isLoading) return <LoadingFallback />;
+  if (isLoading || !cartItems || cartItems.length === 0)
+    return <LoadingFallback />;
   return (
     <Container>
       <Breadcrumbs aria-label="breadcrumb" sx={{ mt: 5 }}>
@@ -75,79 +76,79 @@ export default function Cart() {
         </Link>
       </Breadcrumbs>
 
-      {cartItems && cartItems.length !== 0 ? (
-        <Fragment>
-          <Stack
-            boxShadow="0 1px 10px #d7d7d7"
-            mt={7}
-            divider={<Divider flexItem />}
+      {/* {cartItems && cartItems.length !== 0 ? (
+        <Fragment> */}
+      <Stack
+        boxShadow="0 1px 10px #d7d7d7"
+        mt={7}
+        divider={<Divider flexItem />}
+      >
+        <Stack direction="row">
+          <Grid container spacing={3} px={4} py={3}>
+            <Grid item md={7}>
+              <Typography fontWeight={500}>Product</Typography>
+            </Grid>
+            <Grid item md={2}>
+              <Typography textAlign="center" fontWeight={500}>
+                Price
+              </Typography>
+            </Grid>
+            <Grid item md={2}>
+              <Typography textAlign="center" fontWeight={500}>
+                Quantity
+              </Typography>
+            </Grid>
+            <Grid item md={1}>
+              <Typography textAlign="center" fontWeight={500}>
+                Subtotal
+              </Typography>
+            </Grid>
+          </Grid>
+        </Stack>
+        {cartItems.map((cartItem: CartItemData) => (
+          <ProductInCart
+            key={cartItem.cartId}
+            cartItem={cartItem}
+            cartId={cartItem.cartId}
+            cartProduct={cartItem.product}
+          />
+        ))}
+      </Stack>
+
+      <Stack direction="row" justifyContent="space-between" mt={5} mb={8}>
+        <Button
+          variant="outlined"
+          disabled={isLoadingRemove || isLoadingUpdate || isLoadingCoupon}
+          onClick={() => router.back()}
+        >
+          Return To Shop
+        </Button>
+
+        {isLoadingUpdate ? (
+          <LoadingButton
+            loading
+            loadingPosition="start"
+            variant="outlined"
+            startIcon={<SaveIcon />}
           >
-            <Stack direction="row">
-              <Grid container spacing={3} px={4} py={3}>
-                <Grid item md={7}>
-                  <Typography fontWeight={500}>Product</Typography>
-                </Grid>
-                <Grid item md={2}>
-                  <Typography textAlign="center" fontWeight={500}>
-                    Price
-                  </Typography>
-                </Grid>
-                <Grid item md={2}>
-                  <Typography textAlign="center" fontWeight={500}>
-                    Quantity
-                  </Typography>
-                </Grid>
-                <Grid item md={1}>
-                  <Typography textAlign="center" fontWeight={500}>
-                    Subtotal
-                  </Typography>
-                </Grid>
-              </Grid>
-            </Stack>
-            {cartItems.map((cartItem: CartItemData) => (
-              <ProductInCart
-                key={cartItem.cartId}
-                cartItem={cartItem}
-                cartId={cartItem.cartId}
-                cartProduct={cartItem.product}
-              />
-            ))}
-          </Stack>
+            <span>Updating Cart</span>
+          </LoadingButton>
+        ) : (
+          <Button
+            variant="outlined"
+            disabled={isLoadingRemove || isLoadingUpdate || isLoadingCoupon}
+            onClick={updateCartHandler}
+          >
+            Update Cart
+          </Button>
+        )}
+      </Stack>
 
-          <Stack direction="row" justifyContent="space-between" mt={5} mb={8}>
-            <Button
-              variant="outlined"
-              disabled={isLoadingRemove || isLoadingUpdate || isLoadingCoupon}
-              onClick={() => router.back()}
-            >
-              Return To Shop
-            </Button>
-
-            {isLoadingUpdate ? (
-              <LoadingButton
-                loading
-                loadingPosition="start"
-                variant="outlined"
-                startIcon={<SaveIcon />}
-              >
-                <span>Updating Cart</span>
-              </LoadingButton>
-            ) : (
-              <Button
-                variant="outlined"
-                disabled={isLoadingRemove || isLoadingUpdate || isLoadingCoupon}
-                onClick={updateCartHandler}
-              >
-                Update Cart
-              </Button>
-            )}
-          </Stack>
-
-          <CouponAndCartTotalSection />
-        </Fragment>
+      <CouponAndCartTotalSection />
+      {/* </Fragment>
       ) : (
         <LoadingFallback message="No Item In Cart." />
-      )}
+      )} */}
     </Container>
   );
 }
