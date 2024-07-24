@@ -137,7 +137,7 @@ const calcTotalFinalPrice = (subtotal: number, discountPrice: number) => {
   if (discountPrice === 0) {
     return subtotal;
   } else {
-    const total = subtotal - discountPrice;
+    const total = Math.round(subtotal - discountPrice);
     return total;
   }
 };
@@ -145,7 +145,7 @@ const calcTotalFinalPrice = (subtotal: number, discountPrice: number) => {
 // Calculate discount price based on coupon value
 const calcDiscountPrice = (subtotal: number, couponValue: number) => {
   if (couponValue === 0) return 0;
-  const discountPrice = (subtotal / 100) * couponValue;
+  const discountPrice = Math.round((subtotal / 100) * couponValue);
   return discountPrice;
 };
 
