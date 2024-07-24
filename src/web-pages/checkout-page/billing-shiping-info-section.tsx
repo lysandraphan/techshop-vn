@@ -1,33 +1,24 @@
+import { Dispatch, SetStateAction, useState } from "react";
+
+// internal
+import { OrderBillingInfo } from "@/interface";
+
 // mui
 import Grid from "@mui/material/Grid";
 import Typography from "@mui/material/Typography";
-import Checkbox from "@mui/material/Checkbox";
-import FormControlLabel from "@mui/material/FormControlLabel";
-import FormLabel from "@mui/material/FormLabel";
 import Box from "@mui/material/Box";
 import OutlinedInput from "@mui/material/OutlinedInput";
-import { styled } from "@mui/system";
-import { useEffect, useState } from "react";
+import Checkbox from "@mui/material/Checkbox";
+import Stack from "@mui/material/Stack";
 
 // interface
 interface BillingShippingInfoSectionProps {
-  // orderInfo: {
-  //   firstName: string;
-  //   lastName: string;
-  //   phoneNumber: string;
-  //   apartment: string;
-  //   addressLine1: string;
-  //   addressLine2: string;
-  //   suburb: string;
-  //   city: string;
-  //   region: string;
-  //   country: string;
-  // };
+  setOrderInfo: Dispatch<SetStateAction<OrderBillingInfo | undefined>>;
 }
 
 // EXPORT DEFAULT
 export default function BillingShippingInfoSection({
-  // orderInfo,
+  setOrderInfo,
 }: BillingShippingInfoSectionProps) {
   // -------------------------- STATE --------------------------
   const [firstName, setFirstName] = useState("");
@@ -41,41 +32,38 @@ export default function BillingShippingInfoSection({
   const [region, setRegion] = useState("");
   const [country, setCountry] = useState("");
 
-  // -------------------------- FUNCTION --------------------------
-  const FormGrid = styled(Grid)(() => ({
-    display: "flex",
-    flexDirection: "column",
-  }));
+  const [submit, setSubmit] = useState(false);
 
-  // -------------------------- EFFECT --------------------------
-  // useEffect(() => {
-  // if (
-  //   firstName &&
-  //   lastName &&
-  //   phoneNumber &&
-  //   apartment &&
-  //   addressLine1 &&
-  //   addressLine2 &&
-  //   suburb &&
-  //   city &&
-  //   region &&
-  //   country
-  // ) {
-  //   orderInfo = {
-  //     firstName,
-  //     lastName,
-  //     phoneNumber,
-  //     apartment,
-  //     addressLine1,
-  //     addressLine2,
-  //     suburb,
-  //     city,
-  //     region,
-  //     country,
-  //   };
-  //   console.log(orderInfo);
-  // }
-  // }, []);
+  // -------------------------- VAR --------------------------
+  const labelColorSX = { color: "rgba(0, 0, 0, 0.6)" };
+
+  // -------------------------- FUNCTION --------------------------
+  const submitHandler = () => {
+    setSubmit(true);
+    if (
+      firstName &&
+      lastName &&
+      phoneNumber &&
+      addressLine1 &&
+      suburb &&
+      city &&
+      region &&
+      country
+    ) {
+      setOrderInfo({
+        firstName,
+        lastName,
+        phoneNumber,
+        apartment,
+        addressLine1,
+        addressLine2,
+        suburb,
+        city,
+        region,
+        country,
+      });
+    }
+  };
 
   // -------------------------- MAIN --------------------------
   return (
@@ -85,20 +73,18 @@ export default function BillingShippingInfoSection({
         borderColor: "primary.dark",
         borderRadius: 1,
       }}
-      // component="form"
-      // id="billing-and-shipping-info-form"
+      component="form"
+      id="billing-and-shipping-info-form"
     >
-      <Grid container spacing={3} mb={10} px={5} pt={4}>
-        <FormGrid item xs={12} md={12}>
+      <Grid container spacing={3} mb={7} px={5} pt={4}>
+        <Grid item xs={12} md={12}>
           <Typography fontWeight={500} fontSize={20} mb={2}>
             Billing & Shipping Information
           </Typography>
-        </FormGrid>
+        </Grid>
 
-        <FormGrid item xs={12} md={6}>
-          <FormLabel htmlFor="first-name" required>
-            First name
-          </FormLabel>
+        <Grid item xs={12} md={6}>
+          <Typography sx={labelColorSX}>First name*</Typography>
           <OutlinedInput
             id="first-name"
             name="first-name"
@@ -106,15 +92,13 @@ export default function BillingShippingInfoSection({
             placeholder="Lysa (Thao)"
             autoComplete="first name"
             required
+            fullWidth
             value={firstName}
             onChange={(e) => setFirstName(e.target.value)}
-            autoFocus
           />
-        </FormGrid>
-        <FormGrid item xs={12} md={6}>
-          <FormLabel htmlFor="last-name" required>
-            Last name
-          </FormLabel>
+        </Grid>
+        <Grid item xs={12} md={6}>
+          <Typography sx={labelColorSX}>Last name*</Typography>
           <OutlinedInput
             id="last-name"
             name="last-name"
@@ -122,44 +106,41 @@ export default function BillingShippingInfoSection({
             placeholder="Phan"
             autoComplete="last name"
             required
+            fullWidth
             value={lastName}
             onChange={(e) => setLastName(e.target.value)}
-            autoFocus
           />
-        </FormGrid>
-        <FormGrid item xs={12} md={6}>
-          <FormLabel htmlFor="apartmemt-name" required>
-            Phone Number
-          </FormLabel>
+        </Grid>
+
+        <Grid item xs={12} md={6}>
+          <Typography sx={labelColorSX}>Phone number*</Typography>
           <OutlinedInput
             id="phone-number"
             name="phone-number"
             type="phone-number"
-            placeholder="0909#####"
+            placeholder="09090909"
             autoComplete="phone number"
             required
+            fullWidth
             value={phoneNumber}
             onChange={(e) => setPhoneNumber(e.target.value)}
-            autoFocus
           />
-        </FormGrid>
-        <FormGrid item xs={12} md={6}>
-          <FormLabel htmlFor="apartmemt-name">Apartment / Company</FormLabel>
+        </Grid>
+        <Grid item xs={12} md={6}>
+          <Typography sx={labelColorSX}>Apartment / Company</Typography>
           <OutlinedInput
             id="apartment-company"
             name="apartment-company"
             type="apartment-company"
             placeholder="Unit number, name (optional)"
             autoComplete="apartment company"
+            fullWidth
             value={apartment}
             onChange={(e) => setAppartment(e.target.value)}
-            autoFocus
           />
-        </FormGrid>
-        <FormGrid item xs={12}>
-          <FormLabel htmlFor="address1" required>
-            Address line 1
-          </FormLabel>
+        </Grid>
+        <Grid item xs={12}>
+          <Typography sx={labelColorSX}>Address line 1*</Typography>
           <OutlinedInput
             id="address1"
             name="address1"
@@ -167,44 +148,40 @@ export default function BillingShippingInfoSection({
             placeholder="Street name and number"
             autoComplete="shipping address-line1"
             required
+            fullWidth
             value={addressLine1}
             onChange={(e) => setAddressLine1(e.target.value)}
-            autoFocus
           />
-        </FormGrid>
-        <FormGrid item xs={12}>
-          <FormLabel htmlFor="address2">Address line 2</FormLabel>
+        </Grid>
+        <Grid item xs={12}>
+          <Typography sx={labelColorSX}>Address line 2</Typography>
           <OutlinedInput
             id="address2"
             name="address2"
             type="address2"
             placeholder="Ward, suite, etc. (optional)"
             autoComplete="shipping address-line2"
+            fullWidth
             value={addressLine2}
             onChange={(e) => setAddressLine2(e.target.value)}
-            autoFocus
           />
-        </FormGrid>
-        <FormGrid item xs={6}>
-          <FormLabel htmlFor="suburb" required>
-            Suburb / District
-          </FormLabel>
+        </Grid>
+        <Grid item xs={6}>
+          <Typography sx={labelColorSX}>Suburb / District*</Typography>
           <OutlinedInput
             id="suburb"
             name="suburb"
             type="suburb"
-            placeholder="Dinsdale"
+            placeholder="Silverdale"
             autoComplete="Suburb"
             required
+            fullWidth
             value={suburb}
             onChange={(e) => setSuburb(e.target.value)}
-            autoFocus
           />
-        </FormGrid>
-        <FormGrid item xs={6}>
-          <FormLabel htmlFor="city" required>
-            City
-          </FormLabel>
+        </Grid>
+        <Grid item xs={6}>
+          <Typography sx={labelColorSX}>City*</Typography>
           <OutlinedInput
             id="city"
             name="city"
@@ -212,16 +189,14 @@ export default function BillingShippingInfoSection({
             placeholder="Hamilton"
             autoComplete="City"
             required
+            fullWidth
             value={city}
             onChange={(e) => setCity(e.target.value)}
-            autoFocus
           />
-        </FormGrid>
+        </Grid>
 
-        <FormGrid item xs={6}>
-          <FormLabel htmlFor="region" required>
-            Region / State
-          </FormLabel>
+        <Grid item xs={6}>
+          <Typography sx={labelColorSX}>Region / State*</Typography>
           <OutlinedInput
             id="region"
             name="region"
@@ -229,15 +204,13 @@ export default function BillingShippingInfoSection({
             placeholder="Waikato"
             autoComplete="region"
             required
+            fullWidth
             value={region}
             onChange={(e) => setRegion(e.target.value)}
-            autoFocus
           />
-        </FormGrid>
-        <FormGrid item xs={6}>
-          <FormLabel htmlFor="country" required>
-            Country
-          </FormLabel>
+        </Grid>
+        <Grid item xs={6}>
+          <Typography sx={labelColorSX}>Country*</Typography>
           <OutlinedInput
             id="country"
             name="country"
@@ -245,17 +218,21 @@ export default function BillingShippingInfoSection({
             placeholder="New Zealand"
             autoComplete="shipping country"
             required
+            fullWidth
             value={country}
             onChange={(e) => setCountry(e.target.value)}
-            autoFocus
           />
-        </FormGrid>
-        <FormGrid item xs={12}>
-          <FormControlLabel
-            control={<Checkbox name="saveAddress" value="yes" />}
-            label="Save this address for faster checkout next time"
-          />
-        </FormGrid>
+        </Grid>
+        <Grid item xs={12}>
+          <Stack direction="row" alignItems="center" mt={1} ml={-1} mb={-1}>
+            <Checkbox
+              name="saveAddress"
+              value={submit}
+              onChange={submit ? () => {} : submitHandler}
+            />
+            <Typography>Use this address for billing and shipping.</Typography>
+          </Stack>
+        </Grid>
       </Grid>
     </Box>
   );

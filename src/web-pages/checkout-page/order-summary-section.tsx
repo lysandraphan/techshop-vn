@@ -1,10 +1,14 @@
 "use client";
-import { useEffect, useState } from "react";
+import { Fragment, useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
+import axios from "axios";
 
 // internal
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import { CartItemData, fetchCart } from "@/redux/features/cart-slice";
+import { OrderBillingInfo } from "@/interface";
+import { createOrderApi, getOrderApi } from "@/api";
+import { displayPrice, getToken } from "@/utils/functions";
 
 // mui
 import Stack from "@mui/material/Stack";
@@ -17,12 +21,14 @@ import LoadingButton from "@mui/lab/LoadingButton";
 // component
 import ProductCartSummary from "./components/product-cart-summary";
 import LoadingFallback from "@/components/loading-fallback/loading-fallback.component";
-import { displayPrice, getToken } from "@/utils/functions";
-import { createOrderApi, getOrderApi } from "@/api";
-import axios from "axios";
+
+// interface
+interface OrderSummaryProps {
+  orderInfo: OrderBillingInfo | undefined;
+}
 
 // EXPORT DEFAULT
-export default function OrderSummary() {
+export default function OrderSummary({ orderInfo }: OrderSummaryProps) {
   const [isLoadingOrder, setIsLoadingOrder] = useState(false);
 
   // -------------------------- VAR --------------------------
@@ -83,24 +89,24 @@ export default function OrderSummary() {
     //   country,
     // };
 
-    const orderInfo = {
-      firstName: "Thao",
-      lastName: "Phan",
-      phoneNumber: "090912345",
-      apartment: "Unit 3",
-      addressLine1: "123 Street",
-      addressLine2: "Ward ABC",
-      suburb: "Silverdale",
-      city: "Hamilton",
-      region: "Waikato",
-      country: "New Zealand",
-      currency: "VND",
-      paymentType: "CREDIT_CARD",
-      status: 0,
-      description: "string",
-      couponId: 0,
-      orderDetailRequests: getOrderSummaryDetail(),
-    };
+    // const orderInfo = {
+    //   firstName: "Thao",
+    //   lastName: "Phan",
+    //   phoneNumber: "090912345",
+    //   apartment: "Unit 3",
+    //   addressLine1: "123 Street",
+    //   addressLine2: "Ward ABC",
+    //   suburb: "Silverdale",
+    //   city: "Hamilton",
+    //   region: "Waikato",
+    //   country: "New Zealand",
+    //   currency: "VND",
+    //   paymentType: "CREDIT_CARD",
+    //   status: 0,
+    //   description: "string",
+    //   couponId: 0,
+    //   orderDetailRequests: getOrderSummaryDetail(),
+    // };
 
     console.log(orderInfo);
 
@@ -178,8 +184,13 @@ export default function OrderSummary() {
     // };
   }, []);
 
+  
+
+  useEffect(() => {
+    console.log(orderInfo);
+  }, [orderInfo]);
+
   // -------------------------- MAIN --------------------------
-  if (isLoading) return <LoadingFallback />;
   return (
     <Stack
       mb={10}
@@ -195,63 +206,69 @@ export default function OrderSummary() {
         Order Summary
       </Typography>
 
-      {cartItems &&
-        cartItems.length !== 0 &&
-        cartItems.map((cartItem: CartItemData) => (
-          <ProductCartSummary
-            key={cartItem.cartId}
-            cartProduct={cartItem.product}
-          />
-        ))}
+      {isLoading || !cartItems || cartItems.length === 0 ? (
+        <LoadingFallback />
+      ) : (
+        <Fragment>
+          {cartItems.map((cartItem: CartItemData) => (
+            <ProductCartSummary
+              key={cartItem.cartId}
+              cartProduct={cartItem.product}
+            />
+          ))}
 
-      <Stack spacing={2}>
-        <Stack direction="row" justifyContent="space-between">
-          <Typography fontSize={fz}>Subtotal</Typography>
-          <Typography fontSize={fz}>{displayPrice(subTotal)}</Typography>
-        </Stack>
-        <Stack direction="row" justifyContent="space-between">
-          <Typography fontSize={fz}>Shipping</Typography>
-          <Typography fontSize={fz}>Free</Typography>
-        </Stack>
-        <Stack direction="row" justifyContent="space-between">
-          <Typography fontSize={fz}>Discount</Typography>
-          <Typography fontSize={fz}>{displayPrice(discountPrice)}</Typography>
-        </Stack>
-        <Divider />
-        <Stack direction="row" justifyContent="space-between">
-          <Typography fontSize={16} fontWeight={600}>
-            Total
-          </Typography>
-          <Typography fontSize={16} fontWeight={600}>
-            {displayPrice(totalFinalPrice)}
-          </Typography>
-        </Stack>
-      </Stack>
-      <Stack direction="row" justifyContent="center">
-        {isLoadingOrder ? (
-          <LoadingButton
-            loading
-            loadingPosition="start"
-            variant="outlined"
-            startIcon={<SaveIcon />}
-            sx={{ py: 2, wordSpacing: 5, letterSpacing: 0.7, fontSize: 16 }}
-          >
-            <span>Placing Order</span>
-          </LoadingButton>
-        ) : (
-          <Button
-            form="billing-and-shipping-info-form"
-            type="submit"
-            variant="contained"
-            color="secondary"
-            fullWidth
-            sx={{ py: 2, wordSpacing: 5, letterSpacing: 0.7, fontSize: 16 }}
-            onClick={placeOrderSubmit}
-          >
-            Place Order
-          </Button>
-        )}
-      </Stack>
+          <Stack spacing={2}>
+            <Stack direction="row" justifyContent="space-between">
+              <Typography fontSize={fz}>Subtotal</Typography>
+              <Typography fontSize={fz}>{displayPrice(subTotal)}</Typography>
+            </Stack>
+            <Stack direction="row" justifyContent="space-between">
+              <Typography fontSize={fz}>Shipping</Typography>
+              <Typography fontSize={fz}>Free</Typography>
+            </Stack>
+            <Stack direction="row" justifyContent="space-between">
+              <Typography fontSize={fz}>Discount</Typography>
+              <Typography fontSize={fz}>
+                {discountPrice === 0 ? "N/A" : displayPrice(discountPrice)}
+              </Typography>
+            </Stack>
+            <Divider />
+            <Stack direction="row" justifyContent="space-between">
+              <Typography fontSize={16} fontWeight={600}>
+                Total
+              </Typography>
+              <Typography fontSize={16} fontWeight={600}>
+                {displayPrice(totalFinalPrice)}
+              </Typography>
+            </Stack>
+          </Stack>
+          <Stack direction="row" justifyContent="center">
+            {isLoadingOrder ? (
+              <LoadingButton
+                loading
+                loadingPosition="start"
+                variant="outlined"
+                startIcon={<SaveIcon />}
+                sx={{ py: 2, wordSpacing: 5, letterSpacing: 0.7, fontSize: 16 }}
+              >
+                <span>Placing Order</span>
+              </LoadingButton>
+            ) : (
+              <Button
+                form="billing-and-shipping-info-form"
+                type="submit"
+                variant="contained"
+                color="secondary"
+                fullWidth
+                sx={{ py: 2, wordSpacing: 5, letterSpacing: 0.7, fontSize: 16 }}
+                onClick={placeOrderSubmit}
+              >
+                Place Order
+              </Button>
+            )}
+          </Stack>
+        </Fragment>
+      )}
     </Stack>
   );
 }

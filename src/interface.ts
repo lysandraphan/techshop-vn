@@ -39,3 +39,36 @@ export interface ReviewData {
 export interface ReviewSummaryData {
   [props: string]: number;
 }
+
+export interface OrderInfo {
+  firstName: string;
+  lastName: string;
+  phoneNumber: string;
+  apartment: string;
+  addressLine1: string;
+  addressLine2: string;
+  suburb: string;
+  city: string;
+  region: string;
+  country: string;
+  orderDetailResponses: OrderSummary[];
+}
+
+export interface OrderSummary {
+  productId: number[];
+  quantity: number[];
+  price: number[];
+}
+
+export interface OrderBillingInfo {
+  firstName: string;
+  lastName: string;
+  phoneNumber: string;
+  apartment: string;
+  addressLine1: string;
+  addressLine2: string;
+  suburb: string;
+  city: string;
+  region: string;
+  country: string;
+}
