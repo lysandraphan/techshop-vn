@@ -75,7 +75,7 @@ export default function OrderSummary({ orderBillingInfo }: OrderSummaryProps) {
       ...orderBillingInfo,
       orderDetailRequests: orderSummaryInfo,
       totalPrice: totalFinalPrice,
-      currency: "NZD",
+      currency: "USD",
     };
     console.log(orderInfo);
 

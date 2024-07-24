@@ -44,7 +44,7 @@ export default function Payment() {
         {
           method: "paypal",
           amount: `${totalFinalPrice}`,
-          currency: "NZD",
+          currency: "USD",
           description,
         },
         {
@@ -100,7 +100,7 @@ export default function Payment() {
               <Stack direction="row" spacing={2}>
                 <Typography sx={labelColorSX}>Amount:</Typography>
                 <Typography fontWeight={500}>
-                  {displayPrice(totalFinalPrice)} NZD
+                  {displayPrice(totalFinalPrice)} USD
                 </Typography>
               </Stack>
             </Grid>

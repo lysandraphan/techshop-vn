@@ -39,7 +39,7 @@ export default function PaymentSection() {
         {
           method: "paypal",
           amount: `${totalFinalPrice}`,
-          currency: "NZD",
+          currency: "USD",
           description,
         },
         {
@@ -99,7 +99,7 @@ export default function PaymentSection() {
           <OutlinedInput
             id="method"
             name="method"
-            value="NZD"
+            value="USD"
             required
             fullWidth
             disabled
