@@ -109,7 +109,7 @@ export default function Header() {
             >
               {user ? (
                 <Badge
-                  badgeContent={100}
+                  badgeContent={3}
                   max={99}
                   color="secondary"
                   onClick={() => router.push("/wishlist")}

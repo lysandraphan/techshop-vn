@@ -51,7 +51,9 @@ export interface OrderInfoData {
   city: string;
   region: string;
   country: string;
-  orderDetailResponses: OrderSummaryData[];
+  orderDetailRequests: OrderSummaryData[];
+  totalPrice: number;
+  currency: string;
 }
 
 export interface OrderSummaryData {

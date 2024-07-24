@@ -173,7 +173,7 @@ export default function BillingShippingInfoSection({
             name="suburb"
             type="suburb"
             placeholder="Silverdale"
-            autoComplete="Suburb"
+            autoComplete="shipping suburb"
             required
             fullWidth
             value={suburb}
@@ -187,7 +187,7 @@ export default function BillingShippingInfoSection({
             name="city"
             type="city"
             placeholder="Hamilton"
-            autoComplete="City"
+            autoComplete="shipping city"
             required
             fullWidth
             value={city}

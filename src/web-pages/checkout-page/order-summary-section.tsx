@@ -33,6 +33,7 @@ interface OrderSummaryProps {
 
 // EXPORT DEFAULT
 export default function OrderSummary({ orderBillingInfo }: OrderSummaryProps) {
+  // -------------------------- STATE --------------------------
   const [isLoadingOrder, setIsLoadingOrder] = useState(false);
 
   // -------------------------- VAR --------------------------
@@ -66,30 +67,38 @@ export default function OrderSummary({ orderBillingInfo }: OrderSummaryProps) {
   };
 
   const placeOrderSubmit = async () => {
-    const orderSummaryInfo: OrderSummaryData = getOrderSummaryInfo();
+    const orderSummaryInfo: OrderSummaryData[] = getOrderSummaryInfo();
 
     if (!orderBillingInfo || !orderSummaryInfo) return;
 
     const orderInfo: OrderInfoData = {
       ...orderBillingInfo,
-      orderDetailResponses: [orderSummaryInfo],
+      orderDetailRequests: orderSummaryInfo,
+      totalPrice: totalFinalPrice,
+      currency: "NZD",
     };
     console.log(orderInfo);
+
+    const abortController = new AbortController();
 
     // post order
     try {
       setIsLoadingOrder(true);
       const response = await axios.post(createOrderApi, orderInfo, {
+        signal: abortController.signal,
         headers: {
           Authorization: `Bearer ${getToken}`,
         },
       });
       setIsLoadingOrder(false);
-      console.log(response);
-      // router.push("/cart/checkout/success");
+      if (response.status === 201) {
+        router.push("/cart/checkout/payment");
+      }
     } catch (error: any) {
       setIsLoadingOrder(false);
-      console.log(error.message);
+      if (!abortController.signal.aborted) {
+        console.log(error.message);
+      }
     }
   };
 
@@ -125,9 +134,10 @@ export default function OrderSummary({ orderBillingInfo }: OrderSummaryProps) {
   //   }
   // // }, []);
 
-  // useEffect(() => {
-  //   console.log(orderInfo);
-  // }, [orderInfo]);
+  useEffect(() => {
+    console.log("Order Info");
+    console.log(orderBillingInfo);
+  }, [orderBillingInfo]);
 
   // -------------------------- MAIN --------------------------
   return (
@@ -181,7 +191,7 @@ export default function OrderSummary({ orderBillingInfo }: OrderSummaryProps) {
               </Typography>
             </Stack>
           </Stack>
-          <Stack direction="row" justifyContent="center">
+          <Stack direction="row" justifyContent="center" pb={2}>
             {isLoadingOrder ? (
               <LoadingButton
                 loading

@@ -30,6 +30,7 @@ export interface UserData {
   apartment: string;
   suburb: string;
   city: string;
+  country: string;
   userId: number;
 }
 
@@ -65,7 +66,9 @@ export const signIn = createAsyncThunk(
       console.log(result);
       return result;
     } catch (error: any) {
-      console.log(error.message);
+      if (!abortController.signal.aborted) {
+        console.log(error.message);
+      }
     }
   }
 );

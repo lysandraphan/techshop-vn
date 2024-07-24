@@ -416,6 +416,11 @@ export const cart = createSlice({
         state.cart = updateCartItem(state.cart, action.payload, "decrement");
       }
     },
+    resetCart: (state) => {
+      state.totalCartItems = 0;
+      state.totalPrice = 0;
+      state.totalFinalPrice = 0;
+    },
   },
   extraReducers(builder) {
     // ---------- Fetch Cart ----------
@@ -555,6 +560,6 @@ export const cart = createSlice({
   },
 });
 
-export const { incrementCartItem, decrementCartItem } = cart.actions;
+export const { incrementCartItem, decrementCartItem, resetCart } = cart.actions;
 
 export default cart.reducer;
