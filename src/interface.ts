@@ -40,7 +40,7 @@ export interface ReviewSummaryData {
   [props: string]: number;
 }
 
-export interface OrderInfo {
+export interface OrderInfoData {
   firstName: string;
   lastName: string;
   phoneNumber: string;
@@ -51,16 +51,16 @@ export interface OrderInfo {
   city: string;
   region: string;
   country: string;
-  orderDetailResponses: OrderSummary[];
+  orderDetailResponses: OrderSummaryData[];
 }
 
-export interface OrderSummary {
-  productId: number[];
-  quantity: number[];
-  price: number[];
+export interface OrderSummaryData {
+  productId: number;
+  quantity: number;
+  price: number;
 }
 
-export interface OrderBillingInfo {
+export interface OrderBillingInfoData {
   firstName: string;
   lastName: string;
   phoneNumber: string;

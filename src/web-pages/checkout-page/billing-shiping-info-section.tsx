@@ -1,7 +1,7 @@
 import { Dispatch, SetStateAction, useState } from "react";
 
 // internal
-import { OrderBillingInfo } from "@/interface";
+import { OrderBillingInfoData } from "@/interface";
 
 // mui
 import Grid from "@mui/material/Grid";
@@ -13,12 +13,12 @@ import Stack from "@mui/material/Stack";
 
 // interface
 interface BillingShippingInfoSectionProps {
-  setOrderInfo: Dispatch<SetStateAction<OrderBillingInfo | undefined>>;
+  setOrderBillingInfo: Dispatch<SetStateAction<OrderBillingInfoData | undefined>>;
 }
 
 // EXPORT DEFAULT
 export default function BillingShippingInfoSection({
-  setOrderInfo,
+  setOrderBillingInfo,
 }: BillingShippingInfoSectionProps) {
   // -------------------------- STATE --------------------------
   const [firstName, setFirstName] = useState("");
@@ -50,7 +50,7 @@ export default function BillingShippingInfoSection({
       region &&
       country
     ) {
-      setOrderInfo({
+      setOrderBillingInfo({
         firstName,
         lastName,
         phoneNumber,
@@ -84,7 +84,7 @@ export default function BillingShippingInfoSection({
         </Grid>
 
         <Grid item xs={12} md={6}>
-          <Typography sx={labelColorSX}>First name*</Typography>
+          <Typography sx={labelColorSX}>First name *</Typography>
           <OutlinedInput
             id="first-name"
             name="first-name"
@@ -98,7 +98,7 @@ export default function BillingShippingInfoSection({
           />
         </Grid>
         <Grid item xs={12} md={6}>
-          <Typography sx={labelColorSX}>Last name*</Typography>
+          <Typography sx={labelColorSX}>Last name *</Typography>
           <OutlinedInput
             id="last-name"
             name="last-name"
@@ -113,7 +113,7 @@ export default function BillingShippingInfoSection({
         </Grid>
 
         <Grid item xs={12} md={6}>
-          <Typography sx={labelColorSX}>Phone number*</Typography>
+          <Typography sx={labelColorSX}>Phone number *</Typography>
           <OutlinedInput
             id="phone-number"
             name="phone-number"
@@ -140,7 +140,7 @@ export default function BillingShippingInfoSection({
           />
         </Grid>
         <Grid item xs={12}>
-          <Typography sx={labelColorSX}>Address line 1*</Typography>
+          <Typography sx={labelColorSX}>Address line 1 *</Typography>
           <OutlinedInput
             id="address1"
             name="address1"
@@ -167,7 +167,7 @@ export default function BillingShippingInfoSection({
           />
         </Grid>
         <Grid item xs={6}>
-          <Typography sx={labelColorSX}>Suburb / District*</Typography>
+          <Typography sx={labelColorSX}>Suburb / District *</Typography>
           <OutlinedInput
             id="suburb"
             name="suburb"
@@ -181,7 +181,7 @@ export default function BillingShippingInfoSection({
           />
         </Grid>
         <Grid item xs={6}>
-          <Typography sx={labelColorSX}>City*</Typography>
+          <Typography sx={labelColorSX}>City *</Typography>
           <OutlinedInput
             id="city"
             name="city"
@@ -196,7 +196,7 @@ export default function BillingShippingInfoSection({
         </Grid>
 
         <Grid item xs={6}>
-          <Typography sx={labelColorSX}>Region / State*</Typography>
+          <Typography sx={labelColorSX}>Region / State *</Typography>
           <OutlinedInput
             id="region"
             name="region"
@@ -210,7 +210,7 @@ export default function BillingShippingInfoSection({
           />
         </Grid>
         <Grid item xs={6}>
-          <Typography sx={labelColorSX}>Country*</Typography>
+          <Typography sx={labelColorSX}>Country *</Typography>
           <OutlinedInput
             id="country"
             name="country"

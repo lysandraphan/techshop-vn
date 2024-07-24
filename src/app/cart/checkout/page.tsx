@@ -3,7 +3,7 @@ import NextLink from "next/link";
 import { useState } from "react";
 
 // internal
-import { OrderBillingInfo } from "@/interface";
+import { OrderBillingInfoData } from "@/interface";
 
 // mui
 import Container from "@mui/material/Container";
@@ -16,7 +16,9 @@ import OrderSummary from "@/web-pages/checkout-page/order-summary-section";
 import BillingShippingInfoSection from "@/web-pages/checkout-page/billing-shiping-info-section";
 
 export default function Checkout() {
-  const [orderInfo, setOderInfo] = useState<OrderBillingInfo | undefined>();
+  const [orderBillingInfo, setOderBillingInfo] = useState<
+    OrderBillingInfoData | undefined
+  >();
 
   return (
     <Container>
@@ -44,10 +46,12 @@ export default function Checkout() {
       </Breadcrumbs>
       <Grid container spacing={5}>
         <Grid item xs={12} md={7} mb={7}>
-          <BillingShippingInfoSection setOrderInfo={setOderInfo} />
+          <BillingShippingInfoSection
+            setOrderBillingInfo={setOderBillingInfo}
+          />
         </Grid>
         <Grid item xs={12} md={5}>
-          <OrderSummary orderInfo={orderInfo} />
+          <OrderSummary orderBillingInfo={orderBillingInfo} />
         </Grid>
       </Grid>
     </Container>
